@@ -1,0 +1,95 @@
+unit RoundButton;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, Vcl.Controls, Vcl.Graphics, System.Types;
+
+type
+  TRoundButton = class(TCustomControl)
+  private
+    FColor: TColor;
+    FBorderColor: TColor;
+    procedure SetColor(const Value: TColor);
+    procedure SetBorderColor(const Value: TColor);
+  protected
+    procedure Paint; override;
+    procedure Resize; override;
+  public
+    constructor Create(AOwner: TComponent); override;
+  published
+    property Color: TColor read FColor write SetColor;
+    property BorderColor: TColor read FBorderColor write SetBorderColor;
+    property Align;
+    property Anchors;
+    property Caption;
+    property Font;
+    property Height;
+    property Width;
+    property Visible;
+  end;
+
+procedure Register;
+
+implementation
+
+procedure Register;
+begin
+  RegisterComponents('Samples', [TRoundButton]);
+end;
+
+{ TRoundButton }
+
+constructor TRoundButton.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  FColor := clBtnFace;
+  FBorderColor := clBlack;
+  Width := 100;
+  Height := 40;
+  ControlStyle := [csClickEvents, csCaptureMouse, csDoubleClicks, csOpaque];
+end;
+
+procedure TRoundButton.Paint;
+var
+  R: TRect;
+  Radius: Integer;
+begin
+  inherited Paint;
+
+  R := ClientRect;
+  Radius := Height div 4; // Define o raio dos cantos arredondados
+
+  Canvas.Brush.Color := FColor;
+  Canvas.Pen.Color := FBorderColor;
+  Canvas.Pen.Width := 2;
+
+  Canvas.RoundRect(R.Left, R.Top, R.Right, R.Bottom, Radius, Radius);
+end;
+
+procedure TRoundButton.Resize;
+begin
+  inherited Resize;
+  Invalidate; // Redesenha o botão quando seu tamanho muda
+end;
+
+procedure TRoundButton.SetColor(const Value: TColor);
+begin
+  if FColor <> Value then
+  begin
+    FColor := Value;
+    Invalidate;
+  end;
+end;
+
+procedure TRoundButton.SetBorderColor(const Value: TColor);
+begin
+  if FBorderColor <> Value then
+  begin
+    FBorderColor := Value;
+    Invalidate;
+  end;
+end;
+
+end.
+

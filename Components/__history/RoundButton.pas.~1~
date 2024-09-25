@@ -1,0 +1,115 @@
+unit RoundButton;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, Vcl.Controls, Vcl.Graphics, Vcl.ExtCtrls;
+
+type
+  TRoundButton = class(TCustomControl)
+  private
+    FColor: TColor;
+    FBorderColor: TColor;
+    procedure SetColor(const Value: TColor);
+    procedure SetBorderColor(const Value: TColor);
+  protected
+    procedure Paint; override;
+    procedure Resize; override;
+  public
+    constructor Create(AOwner: TComponent); override;
+  published
+    property Color: TColor read FColor write SetColor;
+    property BorderColor: TColor read FBorderColor write SetBorderColor;
+    property Align;
+    property Anchors;
+    property Caption;
+    property Font;
+    property Height;
+    property Width;
+    property Visible;
+  end;
+
+procedure Register;
+
+implementation
+
+procedure Register;
+begin
+  RegisterComponents('Samples', [TRoundButton]);
+end;
+
+{ TRoundButton }
+
+constructor TRoundButton.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  FColor := clBtnFace;
+  FBorderColor := clBlack;
+  Width := 100;
+  Height := 40;
+  ControlStyle := [csClickEvents, csCaptureMouse, csDoubleClicks, csOpaque];
+end;
+
+procedure TRoundButton.Paint;
+var
+  R: TRect;
+  Path: TGPGraphicsPath;
+  Brush: TGPBrush;
+  Pen: TGPPen;
+  Graphics: TGPGraphics;
+begin
+  inherited Paint;
+  Graphics := TGPGraphics.Create(Canvas.Handle);
+  try
+    R := ClientRect;
+    Path := TGPGraphicsPath.Create;
+    try
+      Path.AddArc(R.Left, R.Top, Height, Height, 180, 90);
+      Path.AddArc(R.Right - Height, R.Top, Height, Height, 270, 90);
+      Path.AddArc(R.Right - Height, R.Bottom - Height, Height, Height, 0, 90);
+      Path.AddArc(R.Left, R.Bottom - Height, Height, Height, 90, 90);
+      Path.CloseFigure;
+
+      Brush := TGPSolidBrush.Create(GPColor(FColor));
+      Pen := TGPPen.Create(GPColor(FBorderColor), 1);
+      try
+        Graphics.FillPath(Brush, Path);
+        Graphics.DrawPath(Pen, Path);
+      finally
+        Brush.Free;
+        Pen.Free;
+      end;
+    finally
+      Path.Free;
+    end;
+  finally
+    Graphics.Free;
+  end;
+end;
+
+procedure TRoundButton.Resize;
+begin
+  inherited Resize;
+  Invalidate; // Redraw the button when its size changes
+end;
+
+procedure TRoundButton.SetColor(const Value: TColor);
+begin
+  if FColor <> Value then
+  begin
+    FColor := Value;
+    Invalidate;
+  end;
+end;
+
+procedure TRoundButton.SetBorderColor(const Value: TColor);
+begin
+  if FBorderColor <> Value then
+  begin
+    FBorderColor := Value;
+    Invalidate;
+  end;
+end;
+
+end.
+

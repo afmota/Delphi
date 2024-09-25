@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{69206334-69A4-49C0-A403-9B94D776828A}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="RoundedButton.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="TRoundButton\Delphi 2007\TRoundButton.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="RoundedButton">
+        <MSBuild Projects="RoundedButton.dproj"/>
+    </Target>
+    <Target Name="RoundedButton:Clean">
+        <MSBuild Projects="RoundedButton.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="RoundedButton:Make">
+        <MSBuild Projects="RoundedButton.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="TRoundButton">
+        <MSBuild Projects="TRoundButton\Delphi 2007\TRoundButton.dproj"/>
+    </Target>
+    <Target Name="TRoundButton:Clean">
+        <MSBuild Projects="TRoundButton\Delphi 2007\TRoundButton.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="TRoundButton:Make">
+        <MSBuild Projects="TRoundButton\Delphi 2007\TRoundButton.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="RoundedButton;TRoundButton"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="RoundedButton:Clean;TRoundButton:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="RoundedButton:Make;TRoundButton:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

@@ -1,0 +1,151 @@
+unit principal;
+
+interface
+
+uses
+  Vcl.Forms, System.Win.Registry, System.Actions, Vcl.ActnList, IdBaseComponent,
+  IdComponent, IdIPWatch, Data.DB, Data.Win.ADODB, System.ImageList,
+  Vcl.ImgList, Vcl.Controls, Vcl.Menus, Vcl.StdCtrls, Vcl.ComCtrls, Vcl.ToolWin,
+  Vcl.Imaging.pngimage, Vcl.ExtCtrls, System.Classes;
+
+type
+  TFrmPrincipal = class(TForm)
+    MainMenu: TMainMenu;
+    StatusBar: TStatusBar;
+    Cadastro1: TMenuItem;
+    Sair1: TMenuItem;
+    ArquivoDigital1: TMenuItem;
+    CategoriasAD1: TMenuItem;
+    Departamentos1: TMenuItem;
+    ransferirarq1: TMenuItem;
+    Consultas2: TMenuItem;
+    Recepo1: TMenuItem;
+    Empresas1: TMenuItem;
+    Funcionrios1: TMenuItem;
+    Despesas1: TMenuItem;
+    Cadcontas1: TMenuItem;
+    Bancos1: TMenuItem;
+    Movimento1: TMenuItem;
+    PessoasFsicas2: TMenuItem;
+    DeptoFiscal1: TMenuItem;
+    NFEntrada1: TMenuItem;
+    Produtos1: TMenuItem;
+    Informtica1: TMenuItem;
+    Softwares1: TMenuItem;
+    ImageList1: TImageList;
+    abelas1: TMenuItem;
+    ControlAces1: TMenuItem;
+    DeptoContbil1: TMenuItem;
+    Grupos1: TMenuItem;
+    Desbloquearumaconta1: TMenuItem;
+    Encerrarsistema1: TMenuItem;
+    rocarusurio1: TMenuItem;
+    N1: TMenuItem;
+    N2: TMenuItem;
+    rocarsenha1: TMenuItem;
+    Equipamentos1: TMenuItem;
+    Conexao: TADOConnection;
+    ClasFiscal1: TMenuItem;
+    IdIPWatch: TIdIPWatch;
+    ImpSintegra1: TMenuItem;
+    Clientes1: TMenuItem;
+    Ferramentas1: TMenuItem;
+    Atualiza1: TMenuItem;
+    DeptoLegal1: TMenuItem;
+    ContrAb1: TMenuItem;
+    ImageList: TImageList;
+    ImageListDis: TImageList;
+    ActionList: TActionList;
+    ActionListDis: TActionList;
+    pnlLogin: TPanel;
+    imgLogin: TImage;
+    Panel2: TPanel;
+    Image1: TImage;
+    Panel1: TPanel;
+    ToolBar1: TToolBar;
+    btnLogin: TToolButton;
+    btnCancel: TToolButton;
+    ToolBar: TToolBar;
+    btnPrimeiro: TToolButton;
+    btnAnterior: TToolButton;
+    btnProximo: TToolButton;
+    btnUltimo: TToolButton;
+    ToolButton3: TToolButton;
+    btnNovo: TToolButton;
+    btnAlterar: TToolButton;
+    btnCancelar: TToolButton;
+    btnSalvar: TToolButton;
+    btnExcluir: TToolButton;
+    ToolButton8: TToolButton;
+    btnPesquisar: TToolButton;
+    ToolButton4: TToolButton;
+    btnSair: TToolButton;
+    edtUsuario: TEdit;
+    edtServidor: TEdit;
+    edtSenha: TEdit;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Endereos1: TMenuItem;
+    Estados1: TMenuItem;
+    Localidades1: TMenuItem;
+    Bairros1: TMenuItem;
+    Logradouros1: TMenuItem;
+    procedure FormCreate(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FrmPrincipal: TFrmPrincipal;
+  Sair: boolean;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFrmPrincipal.FormCreate(Sender: TObject);
+var
+   Reg: TRegistry;
+   //Caminho: string;
+ begin
+   Sair := false;
+   Conexao.Connected := false;
+
+   Reg := TRegistry.Create;
+
+   with Reg do
+   begin
+     RootKey := HKEY_CURRENT_USER;
+     if (KeyExists('Software\CST')) then
+     begin
+       OpenKey('Software\CST\Avalon\Server', false);
+       edtServidor.Text := ReadString('NumeroIP');
+       CloseKey;
+
+       OpenKey('Software\CST\Avalon\User', false);
+       edtUsuario.Text := ReadString('UserName');
+       CloseKey;
+
+       { Para uso caso haja papel de parede no form principal
+       OpenKey('Software\Velani\ArquivoDigital\Wallpaper', false);
+       Caminho := ReadString('Imagem');
+       CloseKey;
+       Wallpaper.Picture.LoadFromFile(Caminho);}
+
+       {Será usado para o repositório de imagens da aplicação
+       OpenKey('Software\Velani\ArquivoDigital\Repositorio', false);
+       Repositorio := ReadString('Endereco');
+       CloseKey;}
+
+       Free;
+     end;
+   end;
+
+   StatusBar.Panels[0].Text := 'Número IP: ' + IdIPWatch.LocalIP;
+   StatusBar.Panels[1].Text := 'Nome do host: ' + NomeComputador;
+ end;
+
+end.
