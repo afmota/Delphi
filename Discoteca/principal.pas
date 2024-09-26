@@ -77,7 +77,6 @@ type
     Localidades1: TMenuItem;
     Bairros1: TMenuItem;
     Logradouros1: TMenuItem;
-    Shape1: TShape;
     procedure FormCreate(Sender: TObject);
     procedure FormResize(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -123,11 +122,11 @@ var
      RootKey := HKEY_CURRENT_USER;
      if (KeyExists('Software\CST')) then
      begin
-       OpenKey('Software\CST\Avalon\Server', false);
+       OpenKey('Software\CST\SoundHaven\Server', false);
        edtServidor.Text := ReadString('NumeroIP');
        CloseKey;
 
-       OpenKey('Software\CST\Avalon\User', false);
+       OpenKey('Software\CST\SoundHaven\User', false);
        edtUsuario.Text := ReadString('UserName');
        CloseKey;}
 
@@ -175,14 +174,14 @@ procedure TFrmPrincipal.btnSairClick(Sender: TObject);
 var
    x: integer;
  begin
-   {if (MDIChildCount > 0) then
+   if (MDIChildCount > 0) then
    begin
-     case Active of
+     {case Active of
        1: frmEstados.Exit;
        2: frmLocalidades.Exit;
        3: frmBairros.Exit;
        4: frmLogradouros.Exit;
-     end;
+     end; }
    end
    else
      if (Mensagem('Deseja encerrar o sistema?', 1) = 6) then
@@ -192,7 +191,7 @@ var
          for x := 0 to Pred(MDIChildCount) do
            MDIChildren[x].Close;
        Close;
-     end;}
+     end;
  end;
 
 procedure TFrmPrincipal.edtUsuarioKeyPress(Sender: TObject; var Key: Char);

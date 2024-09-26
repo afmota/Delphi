@@ -3,9 +3,10 @@ unit Login;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls,
-  Vcl.Imaging.jpeg, Vcl.ButtonStylesAttributes, Vcl.StyledButton;
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
+  Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.Imaging.jpeg, Vcl.ButtonStylesAttributes,
+  Vcl.StyledButton;
 
 type
   TFrmLogin = class(TForm)
@@ -22,6 +23,9 @@ type
     procedure FormPaint(Sender: TObject);
     procedure FormResize(Sender: TObject);
     procedure btnLoginClick(Sender: TObject);
+    procedure SetControlDimensions(Control: TControl; AWidth, AHeight, ALeft,
+      ATop: Integer; AFontHeight: Integer = -1);
+    procedure ConfigureLayout;
   private
     { Private declarations }
   public
@@ -37,13 +41,6 @@ implementation
 
 uses principal;
 
-procedure TFrmLogin.btnLoginClick(Sender: TObject);
-begin
-  Application.CreateForm(TfrmPrincipal, frmPrincipal);
-  frmPrincipal.Show;
-  frmLogin.Hide;
-end;
-
 procedure TFrmLogin.FormPaint(Sender: TObject);
 var
   altura, coluna: Word;
@@ -52,12 +49,41 @@ begin
   for coluna := 0 to 255 do
     with Canvas do
       begin
-        Brush.Color := RGB(coluna, 0, 23); { Modifique para obter cores diferentes }
+        Brush.Color := RGB(coluna, 0, 24); { Modifique para obter cores diferentes }
         FillRect(Rect(0, coluna * altura, ClientWidth, (coluna + 1) * altura));
       end;
 end;
 
 procedure TFrmLogin.FormResize(Sender: TObject);
+begin
+  ConfigureLayout;
+end;
+
+procedure TFrmLogin.btnLoginClick(Sender: TObject);
+begin
+  Application.CreateForm(TfrmPrincipal, frmPrincipal);
+  frmPrincipal.Show;
+  frmLogin.Hide;
+end;
+
+procedure TFrmLogin.SetControlDimensions(Control: TControl; AWidth, AHeight,
+  ALeft, ATop, AFontHeight: Integer);
+begin
+  Control.Width := AWidth;
+  Control.Height := AHeight;
+  Control.Left := ALeft;
+  Control.Top := ATop;
+
+  if AFontHeight > 0 then
+  begin
+    if Control is TLabel then
+      (Control as TLabel).Font.Height := AFontHeight
+    else if Control is TEdit then
+      (Control as TEdit).Font.Height := AFontHeight; // Ajuste para TEdit
+  end;
+end;
+
+procedure TFrmLogin.ConfigureLayout;
 var
   FormWidth: integer;
 begin
@@ -67,100 +93,38 @@ begin
   case FormWidth of
     1367..MaxInt:  // Se o formulário for maior que 1367
     begin
-      pnlLogin.Width        := 960;
-      pnlLogin.Height       := 380;
+      SetControlDimensions(pnlLogin, 960, 380, 480, 350);
+      SetControlDimensions(pnlCampos, 480, 0, 0, 0);
+      SetControlDimensions(imglogin, 480, 0, 0, 0);
 
-      pnlCampos.Width       := 480;
-      imglogin.Width        := 480;
-
-      lblTitulo.Left        := 200;
-      lblTitulo.Top         := 16;
-      lblTitulo.Font.Height := 36;
-
-      lblMensa.Left         := 40;
-      lblMensa.Top          := 59;
-      lblMensa.Width        := 385;
-      lblMensa.Font.Height  := 30;
-
-      Shape1.Width          := 441;
-      Shape1.Height         := 41;
-      Shape1.Left           := 16;
-      Shape1.Top            := 182;
-
-      edtUser.Left          := 76;
-      edtUser.Top           := 186;
-      edtUser.Font.Height   := 27;
-      edtUser.Width         := 377;
-      edtUser.Height        := 33;
-
-      Shape2.Width          := 441;
-      Shape2.Height         := 41;
-      Shape2.Left           := 16;
-      Shape2.Top            := 239;
-
-      edtPass.Left          := 76;
-      edtPass.Top           := 243;
-      edtPass.Font.Height   := 27;
-      edtPass.Width         := 377;
-      edtPass.Height        := 33;
-
-      btnLogin.Font.Height  := 31;
-      btnLogin.Width        := 441;
-      btnLogin.Height       := 42;
-      btnLogin.Left         := 16;
-      btnLogin.Top          := 294;
+      SetControlDimensions(lblTitulo, 0, 0, 200, 16, 36);
+      SetControlDimensions(lblMensa, 385, 0, 40, 59, 30);
+      SetControlDimensions(Shape1, 441, 41, 16, 182);
+      SetControlDimensions(edtUser, 377, 33, 76, 186, 27);
+      SetControlDimensions(Shape2, 441, 41, 16, 239);
+      SetControlDimensions(edtPass, 377, 33, 76, 243, 27);
+      SetControlDimensions(btnLogin, 441, 42, 16, 294, 31);
     end;
-    1025..1366:    // Se o formulário for maior que 1024 e menor ou igual a 1367
+
+    1025..1366:  // Se o formulário for maior que 1024 e menor ou igual a 1367
     begin
-      pnlLogin.Width        := 684;
-      pnlLogin.Height       := 270;
+      SetControlDimensions(pnlLogin, 684, 270, 341, 249);
+      SetControlDimensions(pnlCampos, 342, 0, 0, 0);
+      SetControlDimensions(imglogin, 342, 0, 0, 0);
 
-      pnlCampos.Width       := 342;
-      imglogin.Width        := 342;
-
-      lblTitulo.Font.Height := 26;
-      lblTitulo.Left        := 136;
-      lblTitulo.Top         := 16;
-
-      lblMensa.Width        := 289;
-      lblMensa.Font.Height  := 22;
-      lblMensa.Left         := 16;
-      lblMensa.Top          := 50;
-
-      Shape1.Width          := 305;
-      Shape1.Height         := 32;
-      Shape1.Left           := 16;
-      Shape1.Top            := 132;
-
-      edtUser.Left          := 64;
-      edtUser.Top           := 135;
-      edtUser.Font.Height   := 22;
-      edtUser.Width         := 253;
-      edtUser.Height        := 26;
-
-      Shape2.Width          := 305;
-      Shape2.Height         := 32;
-      Shape2.Left           := 16;
-      Shape2.Top            := 170;
-
-      edtPass.Left          := 64;
-      edtPass.Top           := 173;
-      edtPass.Font.Height   := 22;
-      edtPass.Width         := 253;
-      edtPass.Height        := 26;
-
-      btnLogin.Font.Height  := 20;
-      btnLogin.Width        := 305;
-      btnLogin.Height       := 32;
-      btnLogin.Left         := 16;
-      btnLogin.Top          := 208;
+      SetControlDimensions(lblTitulo, 0, 0, 136, 16, 26);
+      SetControlDimensions(lblMensa, 289, 0, 16, 50, 22);
+      SetControlDimensions(Shape1, 305, 32, 16, 132);
+      SetControlDimensions(edtUser, 253, 26, 64, 135, 22);
+      SetControlDimensions(Shape2, 305, 32, 16, 170);
+      SetControlDimensions(edtPass, 253, 26, 64, 173, 22);
+      SetControlDimensions(btnLogin, 305, 32, 16, 208, 20);
     end
-    else           // Se o formulário for menor ou igual a 1024
-      pnlLogin.Width := 640;
+    else  // Se o formulário for menor ou igual a 1024
+    begin
+      // em desenvolvimento
+    end;
   end;
-
-  pnlLogin.Left := (Self.ClientWidth - pnlLogin.Width) div 2;
-  pnlLogin.Top  := (Self.ClientHeight - pnlLogin.Height) div 2;
 end;
 
 end.

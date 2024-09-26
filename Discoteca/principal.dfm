@@ -22,12 +22,6 @@ object frmPrincipal: TfrmPrincipal
   OnResize = FormResize
   OnShow = FormShow
   TextHeight = 13
-  object Shape1: TShape
-    Left = 326
-    Top = 220
-    Width = 89
-    Height = 65
-  end
   object StatusBar: TStatusBar
     Left = 0
     Top = 552
@@ -299,6 +293,7 @@ object frmPrincipal: TfrmPrincipal
       end
       object Encerrarsistema1: TMenuItem
         Caption = 'Encerrar sistema'
+        OnClick = btnSairClick
       end
     end
   end
