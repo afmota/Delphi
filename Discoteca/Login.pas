@@ -3,9 +3,10 @@ unit Login;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls,
-  Vcl.Imaging.jpeg, Vcl.ButtonStylesAttributes, Vcl.StyledButton;
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
+  Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.Imaging.jpeg, Vcl.ButtonStylesAttributes,
+  Vcl.StyledButton, System.Win.Registry;
 
 type
   TFrmLogin = class(TForm)
@@ -25,6 +26,8 @@ type
     procedure SetControlDimensions(Control: TControl; AWidth, AHeight, ALeft,
       ATop: Integer; AFontHeight: Integer = -1);
     procedure ConfigureLayout;
+    procedure FormCreate(Sender: TObject);
+    procedure edtUserKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
   public
@@ -40,6 +43,25 @@ implementation
 
 uses principal;
 
+procedure TFrmLogin.FormCreate(Sender: TObject);
+var
+  Reg: TRegistry;
+begin
+  // Busca no registro do Windows o último usuário que usou o sistema
+  Reg := TRegistry.Create;
+  with Reg do
+  begin
+    RootKey := HKEY_CURRENT_USER;
+    if KeyExists('Software\WWI') then
+    begin
+      OpenKey('Software\WWI\SoundHaven\User', false);
+      edtUser.Text := ReadString('UserName');
+      CloseKey;
+    end;
+    Free;
+  end;
+end;
+
 procedure TFrmLogin.FormPaint(Sender: TObject);
 var
   altura, coluna: Word;
@@ -48,7 +70,7 @@ begin
   for coluna := 0 to 255 do
     with Canvas do
       begin
-        Brush.Color := RGB(coluna, 0, 24); { Modifique para obter cores diferentes }
+        Brush.Color := RGB(coluna, 0, 26); { Modifique para obter cores diferentes }
         FillRect(Rect(0, coluna * altura, ClientWidth, (coluna + 1) * altura));
       end;
 end;
@@ -59,10 +81,41 @@ begin
 end;
 
 procedure TFrmLogin.btnLoginClick(Sender: TObject);
+var
+  Reg: TRegistry;
 begin
-  Application.CreateForm(TfrmPrincipal, frmPrincipal);
-  frmPrincipal.Show;
-  frmLogin.Hide;
+  if not(DirectoryExists('C:\SoundHaven')) then
+    CreateDir('C:\Soundhaven');
+
+  if (edtUser.Text <> '') and (edtPass.Text <> '') then
+  begin
+    Reg := TRegistry.Create;
+    // se não existir, cria as chaves no Registro
+    if not Reg.KeyExists('Software\WWI') then
+    begin
+      with Reg do
+      begin
+        CreateKey('Software\WWI');
+        CreateKey('Software\WWI\SoundHaven');
+        CreateKey('Software\WWI\SoundHaven\User');
+
+        // grava o último usuário a fazer login, no registro
+        OpenKey('Software\WWI\Soundhaven\User', false);
+        WriteString('UserName', edtUser.Text);
+        CloseKey;
+      end;
+    end;
+
+    Application.CreateForm(TfrmPrincipal, frmPrincipal);
+    frmPrincipal.Show;
+    frmLogin.Hide;
+  end
+  else
+  begin
+    MessageDlg('Os campos Usuário e Senha não podem estar vazios.',
+      mtInformation, [mbOk], 0);
+    edtUser.SetFocus;
+  end;
 end;
 
 procedure TFrmLogin.SetControlDimensions(Control: TControl; AWidth, AHeight,
@@ -107,7 +160,7 @@ begin
 
     1025..1366:  // Se o formulário for maior que 1024 e menor ou igual a 1367
     begin
-      SetControlDimensions(pnlLogin, 684, 270, 0, 0);
+      SetControlDimensions(pnlLogin, 684, 270, 341, 249);
       SetControlDimensions(pnlCampos, 342, 0, 0, 0);
       SetControlDimensions(imglogin, 342, 0, 0, 0);
 
@@ -124,6 +177,12 @@ begin
       // em desenvolvimento
     end;
   end;
+end;
+
+procedure TFrmLogin.edtUserKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = #13 then
+    btnLogin.Click;
 end;
 
 end.

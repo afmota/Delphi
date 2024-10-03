@@ -78,11 +78,8 @@ type
     Bairros1: TMenuItem;
     Logradouros1: TMenuItem;
     procedure FormCreate(Sender: TObject);
-    procedure FormResize(Sender: TObject);
-    procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btnSairClick(Sender: TObject);
-    procedure edtUsuarioKeyPress(Sender: TObject; var Key: Char);
     procedure btnLoginClick(Sender: TObject);
     procedure btnCancelClick(Sender: TObject);
     procedure Estados1Click(Sender: TObject);
@@ -126,10 +123,6 @@ var
        edtServidor.Text := ReadString('NumeroIP');
        CloseKey;
 
-       OpenKey('Software\CST\SoundHaven\User', false);
-       edtUsuario.Text := ReadString('UserName');
-       CloseKey;}
-
        { Para uso caso haja papel de parede no form principal
        OpenKey('Software\Velani\ArquivoDigital\Wallpaper', false);
        Caminho := ReadString('Imagem');
@@ -149,25 +142,11 @@ var
    StatusBar.Panels[1].Text := 'Nome do host: ' + NomeComputador;}
  end;
 
-procedure TFrmPrincipal.FormResize(Sender: TObject);
-begin
-   {if not(Sair) then
-   begin
-     pnlLogin.Top  := Round((frmPrincipal.Height - pnlLogin.Height) / 2);
-     pnlLogin.Left := Round((frmPrincipal.Width - pnlLogin.Width) / 2);
-   end;}
-end;
-
-procedure TFrmPrincipal.FormShow(Sender: TObject);
-begin
-  {frmPrincipal.Menu := nil;}
-end;
-
 procedure TFrmPrincipal.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-   {Conexao.Connected := false;
+   Conexao.Connected := false;
    Action := caFree;
-   frmPrincipal := nil;}
+   frmPrincipal := nil;
 end;
 
 procedure TFrmPrincipal.btnSairClick(Sender: TObject);
@@ -193,12 +172,6 @@ var
        Close;
      end;
  end;
-
-procedure TFrmPrincipal.edtUsuarioKeyPress(Sender: TObject; var Key: Char);
-begin
-  {if Key = #13 then
-     btnLogin.Click;}
-end;
 
 procedure TFrmPrincipal.btnLoginClick(Sender: TObject);
 var

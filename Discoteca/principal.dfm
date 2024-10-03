@@ -19,8 +19,6 @@ object frmPrincipal: TfrmPrincipal
   WindowState = wsMaximized
   OnClose = FormClose
   OnCreate = FormCreate
-  OnResize = FormResize
-  OnShow = FormShow
   TextHeight = 13
   object StatusBar: TStatusBar
     Left = 0

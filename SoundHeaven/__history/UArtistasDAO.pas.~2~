@@ -1,0 +1,20 @@
+unit UArtistasDAO;
+
+interface
+
+uses UArtistas, FireDAC.Comp.Client, System.SysUtils;
+
+type
+  TArtistasDAO = class
+  private
+    FConn: TFDConnection; // Conexão com o SQL Server
+  public
+    constructor Create(AConn: TFDConnection);
+
+    // Métodos CRUD
+    procedure Inserir(Artista: TArtista);
+  end;
+
+implementation
+
+end.

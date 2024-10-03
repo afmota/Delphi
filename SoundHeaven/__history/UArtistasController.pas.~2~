@@ -1,0 +1,18 @@
+unit UArtistasController;
+
+interface
+
+uses UArtistas, UArtistasDAO, FireDAC.Comp.Client;
+
+type
+  TArtistasController = class
+  private
+    FDAO: TArtistasDAO;
+  public
+    constructor Create(AConn: TFDConnection);
+    procedure AdicionarArtista(
+  end;
+
+implementation
+
+end.

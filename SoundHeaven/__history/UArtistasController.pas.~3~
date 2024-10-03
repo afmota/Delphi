@@ -1,0 +1,42 @@
+unit UArtistasController;
+
+interface
+
+uses UArtistas, UArtistasDAO, FireDAC.Comp.Client;
+
+type
+  TArtistasController = class
+  private
+    FDAO: TArtistasDAO;
+  public
+    constructor Create(AConn: TFDConnection);
+    procedure AdicionarArtista(NomeArtista: string);
+    procedure AtualizarArtista(ID: Integer; NomeArtista: string; Status: Integer);
+    procedure AlterarStatusArtista(ID: Integer; NovoStatus: Integer);
+    function BuscarArtista(ID: Integer): TArtistas;
+    function ListarArtistasAtivos: TFDQuery;
+  end;
+
+implementation
+
+constructor TArtistasController.Create(AConn: TFDConnection);
+begin
+  FDAO := TArtistasDAO.Create(AConn);
+end;
+
+procedure TArtistasController.AdicionarArtista(NomeArtista: string);
+var
+  Artista: TArtista;
+begin
+  Artista := TArtista.Create(NomeArtista);
+  FDAO.Inserir(Artista);
+end;
+
+procedure TArtistasController.AtualizarArtista(ID: Integer; NomeArtista: string; Status: Integer);
+var
+  Artista: TArtista;
+begin
+  Artista := FDAO.BurcarPorId(ID);
+end;
+
+end.

@@ -13,6 +13,7 @@ object FrmLogin: TFrmLogin
   Font.Name = 'Segoe UI'
   Font.Style = []
   WindowState = wsMaximized
+  OnCreate = FormCreate
   OnPaint = FormPaint
   OnResize = FormResize
   TextHeight = 15
@@ -7580,6 +7581,7 @@ object FrmLogin: TFrmLogin
         PasswordChar = '*'
         TabOrder = 1
         TextHint = 'senha'
+        OnKeyPress = edtUserKeyPress
       end
       object edtUser: TEdit
         Left = 64
@@ -7597,6 +7599,7 @@ object FrmLogin: TFrmLogin
         ParentFont = False
         TabOrder = 2
         TextHint = 'usu'#225'rio'
+        OnKeyPress = edtUserKeyPress
       end
     end
   end
