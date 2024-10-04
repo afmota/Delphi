@@ -10,16 +10,17 @@ uses
 type
   TOperacao = (opShow, opNovo, opAtualizar, opSalvar, opBuscar, opCancelar, opProcurar);
 type
-  TForm1 = class(TForm)
+  TfrmArtistas = class(TForm)
     PnlCampos: TPanel;
     EdtID: TEdit;
     EdtNome: TEdit;
     ChkStatus: TCheckBox;
     LblID: TLabel;
     LblNome: TLabel;
+    btnEncontrar: TSpeedButton;
+    Panel1: TPanel;
     btnNovo: TButton;
     btnBuscar: TButton;
-    btnEncontrar: TSpeedButton;
     btnAtualizar: TButton;
     btnCancel: TButton;
     btnSave: TButton;
@@ -33,6 +34,8 @@ type
     procedure btnAtualizarClick(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
     procedure LigaDesliga(Operacao: TOperacao);
+    procedure EdtNomeChange(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
   public
@@ -40,7 +43,7 @@ type
   end;
 
 var
-  Form1: TForm1;
+  frmArtistas: TfrmArtistas;
   OpBD: Integer;
 
 implementation
@@ -49,37 +52,42 @@ implementation
 
 uses UArtistas, UArtistasDAO, UArtistasController;
 
-procedure TForm1.FormCreate(Sender: TObject);
+procedure TfrmArtistas.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  Action := caFree;
+end;
+
+procedure TfrmArtistas.FormCreate(Sender: TObject);
 begin
   LigaDesliga(opShow);
 end;
 
-procedure TForm1.btnAtualizarClick(Sender: TObject);
+procedure TfrmArtistas.btnAtualizarClick(Sender: TObject);
 begin
   LigaDesliga(opAtualizar);
   OpBD := 2;
   edtNome.SetFocus
 end;
 
-procedure TForm1.btnNovoClick(Sender: TObject);
+procedure TfrmArtistas.btnNovoClick(Sender: TObject);
 begin
   LigaDesliga(opNovo);
   OpBD := 1;
   EdtNome.SetFocus;
 end;
 
-procedure TForm1.btnCancelClick(Sender: TObject);
+procedure TfrmArtistas.btnCancelClick(Sender: TObject);
 begin
   LigaDesliga(opShow);
 end;
 
-procedure TForm1.btnBuscarClick(Sender: TObject);
+procedure TfrmArtistas.btnBuscarClick(Sender: TObject);
 begin
    LigaDesliga(opBuscar);
    edtID.SetFocus;
 end;
 
-procedure TForm1.btnEncontrarClick(Sender: TObject);
+procedure TfrmArtistas.btnEncontrarClick(Sender: TObject);
 var
   Artista: TArtista;
   ArtistaController: TArtistasController;
@@ -117,13 +125,12 @@ begin
   end;
 end;
 
-procedure TForm1.btnSairClick(Sender: TObject);
+procedure TfrmArtistas.btnSairClick(Sender: TObject);
 begin
-  // Self.Release;
-  Application.Terminate;
+  Close;
 end;
 
-procedure TForm1.btnSaveClick(Sender: TObject);
+procedure TfrmArtistas.btnSaveClick(Sender: TObject);
 var
   Artista: TArtista;
   DAO: TArtistasDAO;
@@ -132,6 +139,7 @@ begin
   if ChkStatus.Checked then Estado := 1 else Estado := 0;
 
   Artista := TArtista.Create(edtNome.Text, Estado);
+  Artista.ID := StrToInt(edtID.Text);
   DAO := TArtistasDAO.Create;
 
   case OpBD of
@@ -152,10 +160,15 @@ begin
   end;
 
 
-  //LigaDesliga(0);
+  LigaDesliga(opShow);
 end;
 
-procedure TForm1.LigaDesliga(Operacao: TOperacao);
+procedure TfrmArtistas.EdtNomeChange(Sender: TObject);
+begin
+btnSave.Enabled := True;
+end;
+
+procedure TfrmArtistas.LigaDesliga(Operacao: TOperacao);
 begin
   case Operacao of
     opShow: begin // create, save, cancel
@@ -206,7 +219,7 @@ begin
     opAtualizar: begin
       btnNovo.Enabled      := False;
       btnAtualizar.Enabled := False;
-      btnSave.Enabled      := True;
+      btnSave.Enabled      := False;
       btnBuscar.Enabled    := False;
       btnCancel.Enabled    := True;
       btnSair.Enabled      := False;

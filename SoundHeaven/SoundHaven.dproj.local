@@ -3,16 +3,19 @@
 	<Transactions>
     <Transaction>2024/10/02 09:48:54.000.876,=C:\Users\Agnaldo Mota\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
     <Transaction>2024/10/02 12:29:23.000.824,=C:\Users\Agnaldo Mota\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
-    <Transaction>2024/10/02 12:39:57.000.655,C:\Users\Agnaldo Mota\OneDrive\Documentos\Meus Projetos\Delphi\SoundHeaven\UArtistas.pas=C:\Users\Agnaldo Mota\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
-    <Transaction>2024/10/02 12:40:25.000.278,C:\Users\Agnaldo Mota\OneDrive\Documentos\Meus Projetos\Delphi\SoundHeaven\Artistas.dfm=C:\Users\Agnaldo Mota\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
-    <Transaction>2024/10/02 12:40:25.000.278,C:\Users\Agnaldo Mota\OneDrive\Documentos\Meus Projetos\Delphi\SoundHeaven\Artistas.pas=C:\Users\Agnaldo Mota\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
-    <Transaction>2024/10/02 12:40:41.000.903,C:\Users\Agnaldo Mota\OneDrive\Documentos\Meus Projetos\Delphi\SoundHeaven\SoundHaven.dproj=C:\Users\Agnaldo Mota\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+    <Transaction>2024/10/02 12:39:57.000.655,C:\Users\Agnaldo Mota\Documents\Embarcadero\Studio\Projects\Unit2.pas=C:\Users\Agnaldo Mota\OneDrive\Documentos\Meus Projetos\Delphi\SoundHeaven\UArtistas.pas</Transaction>
+    <Transaction>2024/10/02 12:40:25.000.278,C:\Users\Agnaldo Mota\Documents\Embarcadero\Studio\Projects\Unit1.dfm=C:\Users\Agnaldo Mota\OneDrive\Documentos\Meus Projetos\Delphi\SoundHeaven\Artistas.dfm</Transaction>
+    <Transaction>2024/10/02 12:40:25.000.278,C:\Users\Agnaldo Mota\Documents\Embarcadero\Studio\Projects\Unit1.pas=C:\Users\Agnaldo Mota\OneDrive\Documentos\Meus Projetos\Delphi\SoundHeaven\Artistas.pas</Transaction>
+    <Transaction>2024/10/02 12:40:41.000.903,C:\Users\Agnaldo Mota\Documents\Embarcadero\Studio\Projects\Project1.dproj=C:\Users\Agnaldo Mota\OneDrive\Documentos\Meus Projetos\Delphi\SoundHeaven\SoundHaven.dproj</Transaction>
     <Transaction>2024/10/02 12:44:17.000.263,=C:\Users\Agnaldo Mota\OneDrive\Documentos\Meus Projetos\Delphi\SoundHeaven\Unit1.pas</Transaction>
-    <Transaction>2024/10/02 12:45:40.000.606,C:\Users\Agnaldo Mota\OneDrive\Documentos\Meus Projetos\Delphi\SoundHeaven\UArtistasDAO.pas=C:\Users\Agnaldo Mota\OneDrive\Documentos\Meus Projetos\Delphi\SoundHeaven\Unit1.pas</Transaction>
+    <Transaction>2024/10/02 12:45:40.000.606,C:\Users\Agnaldo Mota\OneDrive\Documentos\Meus Projetos\Delphi\SoundHeaven\Unit1.pas=C:\Users\Agnaldo Mota\OneDrive\Documentos\Meus Projetos\Delphi\SoundHeaven\UArtistasDAO.pas</Transaction>
     <Transaction>2024/10/02 13:35:56.000.457,=C:\Users\Agnaldo Mota\OneDrive\Documentos\Meus Projetos\Delphi\SoundHeaven\Unit1.pas</Transaction>
-    <Transaction>2024/10/02 13:36:14.000.021,C:\Users\Agnaldo Mota\OneDrive\Documentos\Meus Projetos\Delphi\SoundHeaven\UArtitasController.pas=C:\Users\Agnaldo Mota\OneDrive\Documentos\Meus Projetos\Delphi\SoundHeaven\Unit1.pas</Transaction>
-    <Transaction>2024/10/02 13:36:44.000.193,C:\Users\Agnaldo Mota\OneDrive\Documentos\Meus Projetos\Delphi\SoundHeaven\UArtistasController.pas=C:\Users\Agnaldo Mota\OneDrive\Documentos\Meus Projetos\Delphi\SoundHeaven\UArtitasController.pas</Transaction>
+    <Transaction>2024/10/02 13:36:14.000.021,C:\Users\Agnaldo Mota\OneDrive\Documentos\Meus Projetos\Delphi\SoundHeaven\Unit1.pas=C:\Users\Agnaldo Mota\OneDrive\Documentos\Meus Projetos\Delphi\SoundHeaven\UArtitasController.pas</Transaction>
+    <Transaction>2024/10/02 13:36:44.000.193,C:\Users\Agnaldo Mota\OneDrive\Documentos\Meus Projetos\Delphi\SoundHeaven\UArtitasController.pas=C:\Users\Agnaldo Mota\OneDrive\Documentos\Meus Projetos\Delphi\SoundHeaven\UArtistasController.pas</Transaction>
     <Transaction>2024/10/02 16:36:37.000.125,=C:\Users\Agnaldo Mota\OneDrive\Documentos\Meus Projetos\Delphi\SoundHeaven\Unit1.pas</Transaction>
-    <Transaction>2024/10/02 16:37:15.000.672,C:\Users\Agnaldo Mota\OneDrive\Documentos\Meus Projetos\Delphi\SoundHeaven\Unit1.pas=C:\Users\Agnaldo Mota\OneDrive\Documentos\Meus Projetos\Delphi\SoundHeaven\UConexao.pas</Transaction>
+    <Transaction>2024/10/02 16:37:15.000.672,C:\Users\Agnaldo Mota\OneDrive\Documentos\Meus Projetos\Delphi\SoundHeaven\UConexao.pas=C:\Users\Agnaldo Mota\OneDrive\Documentos\Meus Projetos\Delphi\SoundHeaven\Unit1.pas</Transaction>
+    <Transaction>2024/10/04 15:34:45.612,=C:\Users\Agnaldo Mota\OneDrive\Documentos\Meus Projetos\Delphi\SoundHeaven\Unit1.pas</Transaction>
+    <Transaction>2024/10/04 15:41:19.300,C:\Users\Agnaldo Mota\OneDrive\Documentos\Meus Projetos\Delphi\SoundHeaven\Principal.dfm=C:\Users\Agnaldo Mota\OneDrive\Documentos\Meus Projetos\Delphi\SoundHeaven\Unit1.dfm</Transaction>
+    <Transaction>2024/10/04 15:41:19.300,C:\Users\Agnaldo Mota\OneDrive\Documentos\Meus Projetos\Delphi\SoundHeaven\Principal.pas=C:\Users\Agnaldo Mota\OneDrive\Documentos\Meus Projetos\Delphi\SoundHeaven\Unit1.pas</Transaction>
   </Transactions>
 </BorlandProject>

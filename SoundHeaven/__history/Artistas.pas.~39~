@@ -17,9 +17,10 @@ type
     ChkStatus: TCheckBox;
     LblID: TLabel;
     LblNome: TLabel;
+    btnEncontrar: TSpeedButton;
+    Panel1: TPanel;
     btnNovo: TButton;
     btnBuscar: TButton;
-    btnEncontrar: TSpeedButton;
     btnAtualizar: TButton;
     btnCancel: TButton;
     btnSave: TButton;
@@ -56,7 +57,7 @@ end;
 
 procedure TForm1.btnAtualizarClick(Sender: TObject);
 begin
-  //LigaDesliga(2);
+  LigaDesliga(opAtualizar);
   OpBD := 2;
   edtNome.SetFocus
 end;
@@ -75,7 +76,7 @@ end;
 
 procedure TForm1.btnBuscarClick(Sender: TObject);
 begin
-   //LigaDesliga(1);
+   LigaDesliga(opBuscar);
    edtID.SetFocus;
 end;
 
@@ -143,7 +144,11 @@ begin
       end;
     end;
     2: begin
-
+      try
+        DAO.Atualizar(Artista);
+      finally
+        DAO.Free;
+      end;
     end;
   end;
 
@@ -184,7 +189,33 @@ begin
       edtId.Enabled        := False;
       btnEncontrar.Enabled := False;
       edtNome.Enabled      := True;
+      chkStatus.Enabled    := True;
+    end;
+    opBuscar: begin
+      btnNovo.Enabled      := False;
+      btnAtualizar.Enabled := False;
+      btnSave.Enabled      := True;
+      btnBuscar.Enabled    := False;
+      btnCancel.Enabled    := True;
+      btnSair.Enabled      := False;
+      pnlCampos.Enabled    := True;
+      edtId.Enabled        := True;
+      btnEncontrar.Enabled := True;
+      edtNome.Enabled      := False;
       chkStatus.Enabled    := False;
+    end;
+    opAtualizar: begin
+      btnNovo.Enabled      := False;
+      btnAtualizar.Enabled := False;
+      btnSave.Enabled      := True;
+      btnBuscar.Enabled    := False;
+      btnCancel.Enabled    := True;
+      btnSair.Enabled      := False;
+      pnlCampos.Enabled    := True;
+      edtId.Enabled        := False;
+      btnEncontrar.Enabled := False;
+      edtNome.Enabled      := True;
+      chkStatus.Enabled    := True;
     end;
   end;
 end;

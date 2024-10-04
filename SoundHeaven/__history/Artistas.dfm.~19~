@@ -1,7 +1,7 @@
-object frmArtistas: TfrmArtistas
+object Form1: TForm1
   Left = 0
   Top = 0
-  Caption = 'Artistas'
+  Caption = 'Form1'
   ClientHeight = 271
   ClientWidth = 624
   Color = clBtnFace
@@ -10,7 +10,6 @@ object frmArtistas: TfrmArtistas
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
-  OnClose = FormClose
   OnCreate = FormCreate
   TextHeight = 15
   object PnlCampos: TPanel
@@ -64,7 +63,6 @@ object frmArtistas: TfrmArtistas
       Height = 23
       TabOrder = 1
       Text = 'EdtNome'
-      OnChange = EdtNomeChange
     end
     object ChkStatus: TCheckBox
       Left = 291

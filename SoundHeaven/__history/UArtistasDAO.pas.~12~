@@ -43,7 +43,7 @@ begin
   Query := TADOQuery.Create(nil);
   try
     Query.Connection := FConn.GetConnection;
-    Query.SQL.Text := 'INSERT INTO TB_Artistas (Artista_Nome, Artista_Status, Data_Inclusao) ' +
+    Query.SQL.Text := 'INSERT INTO TB_Artistas (Artista_Nome, Artista_Status, Data_Inclusao)' +
                       'VALUES (:Artista, :Status, :DataInclusao)';
     Query.Parameters.ParamByName('Artista').Value := Artista.Artista;
     Query.Parameters.ParamByName('Status').Value := Artista.Status;
@@ -62,8 +62,8 @@ begin
   Query := TADOQuery.Create(nil);
   try
     Query.Connection := FConn.GetConnection;
-    Query.SQL.Text := 'UPDATE TB_Artistas SET Artista_Nome = :Artista, Artista_Status = :Status ' +
-                      'WHERE Artista_ID = :ID';
+    Query.SQL.Text := 'UPDATE TB_Artistas SET Artista_Nome = :Artista, Artista_Status = :Status' +
+                      'WHERE ArtistaID = :ID';
     Query.Parameters.ParamByName('Artista').Value := Artista.Artista;
     Query.Parameters.ParamByName('Status').Value := Artista.Status;
     Query.Parameters.ParamByName('ID').Value := Artista.ID;

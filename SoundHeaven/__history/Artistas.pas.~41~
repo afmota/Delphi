@@ -17,22 +17,23 @@ type
     ChkStatus: TCheckBox;
     LblID: TLabel;
     LblNome: TLabel;
+    btnEncontrar: TSpeedButton;
+    Panel1: TPanel;
     btnNovo: TButton;
     btnBuscar: TButton;
-    btnEncontrar: TSpeedButton;
     btnAtualizar: TButton;
     btnCancel: TButton;
     btnSave: TButton;
     btnSair: TButton;
     procedure FormCreate(Sender: TObject);
     procedure btnNovoClick(Sender: TObject);
-    procedure LigaDesliga(Operacao: TOperacao);
     procedure btnCancelClick(Sender: TObject);
     procedure btnSaveClick(Sender: TObject);
     procedure btnBuscarClick(Sender: TObject);
     procedure btnEncontrarClick(Sender: TObject);
     procedure btnAtualizarClick(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
+    procedure LigaDesliga(Operacao: TOperacao);
   private
     { Private declarations }
   public
@@ -56,7 +57,7 @@ end;
 
 procedure TForm1.btnAtualizarClick(Sender: TObject);
 begin
-  //LigaDesliga(2);
+  LigaDesliga(opAtualizar);
   OpBD := 2;
   edtNome.SetFocus
 end;
@@ -68,15 +69,15 @@ begin
   EdtNome.SetFocus;
 end;
 
-procedure TForm1.btnBuscarClick(Sender: TObject);
-begin
-   //LigaDesliga(1);
-   edtID.SetFocus;
-end;
-
 procedure TForm1.btnCancelClick(Sender: TObject);
 begin
-  //LigaDesliga(0);
+  LigaDesliga(opShow);
+end;
+
+procedure TForm1.btnBuscarClick(Sender: TObject);
+begin
+   LigaDesliga(opBuscar);
+   edtID.SetFocus;
 end;
 
 procedure TForm1.btnEncontrarClick(Sender: TObject);
@@ -119,7 +120,8 @@ end;
 
 procedure TForm1.btnSairClick(Sender: TObject);
 begin
-  Self.Release;
+  // Self.Release;
+  Application.Terminate;
 end;
 
 procedure TForm1.btnSaveClick(Sender: TObject);
@@ -131,6 +133,7 @@ begin
   if ChkStatus.Checked then Estado := 1 else Estado := 0;
 
   Artista := TArtista.Create(edtNome.Text, Estado);
+  Artista.ID := StrToInt(edtID.Text);
   DAO := TArtistasDAO.Create;
 
   case OpBD of
@@ -142,12 +145,16 @@ begin
       end;
     end;
     2: begin
-
+      try
+        DAO.Atualizar(Artista);
+      finally
+        DAO.Free;
+      end;
     end;
   end;
 
 
-  //LigaDesliga(0);
+  LigaDesliga(opShow);
 end;
 
 procedure TForm1.LigaDesliga(Operacao: TOperacao);
@@ -181,9 +188,35 @@ begin
       btnSair.Enabled      := False;
       pnlCampos.Enabled    := True;
       edtId.Enabled        := False;
-      btnEncontrar.Enabled := True;
+      btnEncontrar.Enabled := False;
       edtNome.Enabled      := True;
+      chkStatus.Enabled    := True;
+    end;
+    opBuscar: begin
+      btnNovo.Enabled      := False;
+      btnAtualizar.Enabled := False;
+      btnSave.Enabled      := True;
+      btnBuscar.Enabled    := False;
+      btnCancel.Enabled    := True;
+      btnSair.Enabled      := False;
+      pnlCampos.Enabled    := True;
+      edtId.Enabled        := True;
+      btnEncontrar.Enabled := True;
+      edtNome.Enabled      := False;
       chkStatus.Enabled    := False;
+    end;
+    opAtualizar: begin
+      btnNovo.Enabled      := False;
+      btnAtualizar.Enabled := False;
+      btnSave.Enabled      := True;
+      btnBuscar.Enabled    := False;
+      btnCancel.Enabled    := True;
+      btnSair.Enabled      := False;
+      pnlCampos.Enabled    := True;
+      edtId.Enabled        := False;
+      btnEncontrar.Enabled := False;
+      edtNome.Enabled      := True;
+      chkStatus.Enabled    := True;
     end;
   end;
 end;

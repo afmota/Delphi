@@ -1,9 +1,0 @@
-unit UArtistasDAO;
-
-interface
-
-uses UArtistas, FireDAC.Comp.Client, System.SysUtils;
-
-implementation
-
-end.
