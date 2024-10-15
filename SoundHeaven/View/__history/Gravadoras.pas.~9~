@@ -1,0 +1,83 @@
+unit Gravadoras;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Model, Vcl.StdCtrls, Vcl.ExtCtrls;
+
+type
+  TfrmGravadoras = class(TfrmModel)
+    Label1: TLabel;
+    edtID: TEdit;
+    Label2: TLabel;
+    edtNome: TEdit;
+    chkStatus: TCheckBox;
+    procedure btnNovoClick(Sender: TObject);
+    procedure btnPesquisarClick(Sender: TObject);
+    procedure edtNomeChange(Sender: TObject);
+    procedure edtIDKeyPress(Sender: TObject; var Key: Char);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmGravadoras: TfrmGravadoras;
+
+implementation
+
+{$R *.dfm}
+
+uses ComponentHelper, FuncoesDivs, UGravadoraController;
+
+procedure TfrmGravadoras.btnNovoClick(Sender: TObject);
+begin
+  inherited;
+  EnableComponentsByTag(Self, '011');
+  edtNome.SetFocus;
+end;
+
+procedure TfrmGravadoras.btnPesquisarClick(Sender: TObject);
+begin
+  inherited;
+  EnableComponentsByTag(Self, '100');
+  edtId.SetFocus;
+end;
+
+procedure TfrmGravadoras.edtNomeChange(Sender: TObject);
+begin
+  inherited;
+  if edtID.Text <> '' then
+    btnAtualizar.Enabled := True;
+end;
+
+procedure TfrmGravadoras.edtIDKeyPress(Sender: TObject; var Key: Char);
+var
+  GravadoraID: Integer;
+  GravadoraController: TGravadoraController;
+  Gravadora: TGravadora;
+begin
+  inherited;
+  if Key = #13 then
+  begin
+    // Valida se o número digitado no campo é válido
+    if not TryStrToInt(edtId.Text, GravadoraID) then
+    begin
+      Mensagem('O ID informado é inválido. Tente novamente.', 0);
+      Exit;
+    end;
+
+    // Cria o controller
+    GravadoraController := TGravadoraController.Create;
+    try
+      // Buscar a gravadora pelo ID
+
+    finally
+
+    end;
+  end;
+end;
+
+end.

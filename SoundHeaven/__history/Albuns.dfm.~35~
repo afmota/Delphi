@@ -1,0 +1,209 @@
+object frmAlbuns: TfrmAlbuns
+  Left = 0
+  Top = 0
+  BorderIcons = []
+  Caption = #193'lbuns'
+  ClientHeight = 305
+  ClientWidth = 662
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -12
+  Font.Name = 'Segoe UI'
+  Font.Style = []
+  FormStyle = fsMDIChild
+  Visible = True
+  OnClose = FormClose
+  OnShow = FormShow
+  TextHeight = 15
+  object pnlBotoes: TPanel
+    Left = 0
+    Top = 0
+    Width = 662
+    Height = 41
+    Align = alTop
+    TabOrder = 0
+    object btnNovo: TButton
+      Left = 88
+      Top = 10
+      Width = 75
+      Height = 25
+      Caption = 'Novo'
+      TabOrder = 0
+      OnClick = btnNovoClick
+    end
+    object btnBuscar: TButton
+      Left = 169
+      Top = 10
+      Width = 75
+      Height = 25
+      Caption = 'Buscar'
+      TabOrder = 1
+      OnClick = btnBuscarClick
+    end
+    object btnAtualizar: TButton
+      Left = 250
+      Top = 10
+      Width = 75
+      Height = 25
+      Caption = 'Atualizar'
+      TabOrder = 2
+    end
+    object btnSair: TButton
+      Left = 493
+      Top = 10
+      Width = 75
+      Height = 25
+      Caption = 'Sair'
+      TabOrder = 5
+      OnClick = btnSairClick
+    end
+    object btnSalvar: TButton
+      Left = 412
+      Top = 10
+      Width = 75
+      Height = 25
+      Caption = 'Salvar'
+      TabOrder = 4
+    end
+    object btnCancelar: TButton
+      Left = 331
+      Top = 10
+      Width = 75
+      Height = 25
+      Caption = 'Cancelar'
+      TabOrder = 3
+      OnClick = btnCancelarClick
+    end
+  end
+  object pnlCampos: TPanel
+    Left = 0
+    Top = 41
+    Width = 662
+    Height = 264
+    Align = alClient
+    TabOrder = 1
+    object Label1: TLabel
+      Left = 206
+      Top = 35
+      Width = 11
+      Height = 15
+      Caption = 'ID'
+    end
+    object Label2: TLabel
+      Left = 187
+      Top = 64
+      Width = 30
+      Height = 15
+      Caption = 'T'#237'tulo'
+    end
+    object Label3: TLabel
+      Left = 183
+      Top = 93
+      Width = 34
+      Height = 15
+      Caption = 'Artista'
+    end
+    object Label4: TLabel
+      Left = 108
+      Top = 123
+      Width = 109
+      Height = 15
+      Caption = 'Data de Lan'#231'amento'
+    end
+    object Label5: TLabel
+      Left = 122
+      Top = 152
+      Width = 95
+      Height = 15
+      Caption = 'Data de Aquisi'#231#227'o'
+    end
+    object Label6: TLabel
+      Left = 129
+      Top = 180
+      Width = 88
+      Height = 15
+      Caption = 'N'#250'mero de S'#233'rie'
+    end
+    object btnEncontrar: TSpeedButton
+      Tag = 2
+      Left = 274
+      Top = 33
+      Width = 23
+      Height = 22
+      Caption = '...'
+      OnClick = btnEncontrarClick
+    end
+    object edtID: TEdit
+      Tag = 1
+      Left = 223
+      Top = 32
+      Width = 45
+      Height = 23
+      NumbersOnly = True
+      TabOrder = 0
+      Text = 'edtID'
+    end
+    object edtTitulo: TEdit
+      Tag = 3
+      Left = 223
+      Top = 61
+      Width = 345
+      Height = 23
+      CharCase = ecUpperCase
+      TabOrder = 1
+      Text = 'EDTTITULO'
+      OnChange = edtTituloChange
+    end
+    object edtArtista: TEdit
+      Tag = 4
+      Left = 223
+      Top = 90
+      Width = 185
+      Height = 23
+      CharCase = ecUpperCase
+      TabOrder = 2
+      Text = 'EDTARTISTA'
+    end
+    object datLancamento: TDateTimePicker
+      Tag = 5
+      Left = 223
+      Top = 119
+      Width = 89
+      Height = 23
+      Date = 45572.000000000000000000
+      Time = 0.680827129632234600
+      TabOrder = 3
+    end
+    object datAquisicao: TDateTimePicker
+      Tag = 6
+      Left = 223
+      Top = 148
+      Width = 89
+      Height = 23
+      Date = 45572.000000000000000000
+      Time = 0.680974884257011600
+      TabOrder = 4
+    end
+    object edtNumSerie: TEdit
+      Tag = 7
+      Left = 223
+      Top = 177
+      Width = 121
+      Height = 23
+      Enabled = False
+      ReadOnly = True
+      TabOrder = 5
+      Text = 'edtNumSerie'
+    end
+    object chkStatus: TCheckBox
+      Tag = 8
+      Left = 223
+      Top = 206
+      Width = 97
+      Height = 17
+      Caption = 'Ativo'
+      TabOrder = 6
+    end
+  end
+end

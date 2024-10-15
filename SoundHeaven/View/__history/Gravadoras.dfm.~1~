@@ -1,0 +1,11 @@
+inherited frmGravadoras: TfrmGravadoras
+  Caption = 'Cadastro de Gravadoras'
+  StyleElements = [seFont, seClient, seBorder]
+  TextHeight = 15
+  inherited pnlBotoes: TPanel
+    StyleElements = [seFont, seClient, seBorder]
+  end
+  inherited pnlCampos: TPanel
+    StyleElements = [seFont, seClient, seBorder]
+  end
+end

@@ -1,0 +1,36 @@
+unit UAlbunsDAO;
+
+interface
+
+uses System.SysUtils, Data.Win.ADODB, UConexao, UAlbuns;
+
+type
+  TAlbunsDAO = class
+  private
+    FConn: TConexaoDB;
+  public
+    constructor Create;
+    destructor Destroy; override;
+
+    procedure Inserir(Album: TAlbum);
+  end;
+
+implementation
+
+constructor TAlbunsDAO.Create;
+begin
+  FConn := TConexaoDB.Create  // Instanciar a conexão ADO
+end;
+
+destructor TAlbunsDAO.Destroy;
+begin
+  FConn.Free;
+  inherited;
+end;
+
+procedure TAlbunsDAO.Inserir(Album: TAlbum);
+begin
+
+end;
+
+end.

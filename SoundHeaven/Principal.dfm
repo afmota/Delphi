@@ -1,6 +1,7 @@
 object frmPrincipal: TfrmPrincipal
   Left = 0
   Top = 0
+  BorderStyle = bsSingle
   Caption = 'Soundhaven'
   ClientHeight = 561
   ClientWidth = 864
@@ -12,16 +13,23 @@ object frmPrincipal: TfrmPrincipal
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
+  FormStyle = fsMDIForm
   Menu = MainMenu1
   TextHeight = 15
   object MainMenu1: TMainMenu
-    Left = 360
-    Top = 320
+    Left = 808
+    Top = 8
     object Cadastros1: TMenuItem
       Caption = 'Cadastros'
       object Artistas1: TMenuItem
+        Tag = 1
         Caption = 'Artistas'
-        OnClick = Artistas1Click
+        OnClick = MenuClick
+      end
+      object lbuns1: TMenuItem
+        Tag = 2
+        Caption = #193'lbuns'
+        OnClick = MenuClick
       end
     end
     object Sair1: TMenuItem

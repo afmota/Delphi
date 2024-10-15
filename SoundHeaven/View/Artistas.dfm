@@ -1,0 +1,94 @@
+inherited frmArtistas: TfrmArtistas
+  Caption = 'Cadastro de Artistas'
+  ClientHeight = 305
+  StyleElements = [seFont, seClient, seBorder]
+  ExplicitHeight = 344
+  TextHeight = 15
+  inherited pnlBotoes: TPanel
+    StyleElements = [seFont, seClient, seBorder]
+  end
+  inherited pnlCampos: TPanel
+    Height = 256
+    StyleElements = [seFont, seClient, seBorder]
+    ExplicitHeight = 256
+    object Label1: TLabel
+      Left = 124
+      Top = 64
+      Width = 17
+      Height = 21
+      Caption = 'ID'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label2: TLabel
+      Left = 91
+      Top = 93
+      Width = 50
+      Height = 21
+      Caption = 'Artista'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object edtID: TEdit
+      Tag = 1
+      Left = 147
+      Top = 64
+      Width = 44
+      Height = 23
+      BorderStyle = bsNone
+      Color = 14869218
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      NumbersOnly = True
+      ParentFont = False
+      TabOrder = 0
+      Text = 'edtID'
+      OnKeyPress = edtIDKeyPress
+    end
+    object edtNome: TEdit
+      Tag = 2
+      Left = 147
+      Top = 93
+      Width = 421
+      Height = 23
+      BorderStyle = bsNone
+      CharCase = ecUpperCase
+      Color = 14869218
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 1
+      Text = 'EDTNOME'
+      OnChange = edtNomeChange
+    end
+    object chkStatus: TCheckBox
+      Tag = 3
+      Left = 147
+      Top = 122
+      Width = 97
+      Height = 17
+      Caption = 'Ativo'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 2
+    end
+  end
+end

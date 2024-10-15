@@ -1,0 +1,13 @@
+unit UGravadoraController;
+
+interface
+
+type
+  TGravadoraController = class
+  private
+    FDAO: TGravadoraDAO;
+  end;
+
+implementation
+
+end.

@@ -1,0 +1,42 @@
+unit UAlbunsController;
+
+interface
+
+uses UAlbuns, UAlbunsDAO, System.SysUtils, Data.Win.ADODB;
+
+type
+  AlbumController = class
+    private
+      FDAO: TAlbunsDAO;
+    public
+    constructor Create;
+    destructor Destroy; override;
+    procedure AdicionarAlbum(Titulo: string; Artista: string; DataLancamento: TDateTime;
+      DataAquisicao: TDateTime; Status: Integer = 1);
+  end;
+
+implementation
+
+{ AlbumController }
+
+constructor AlbumController.Create;
+begin
+  FDAO := TAlbunsDAO.Create;
+end;
+
+destructor AlbumController.Destroy;
+begin
+  FDAO.Free;
+  inherited;
+end;
+
+procedure AlbumController.AdicionarAlbum(Titulo: string; Artista: string;
+  DataLancamento: TDatetime; DataAquisicao: TDateTime; Status: Integer = 1);
+var
+  Album: TAlbum;
+begin
+  Album := TAlbum.Create(Titulo, Artista, DataLancamento, DataAquisicao, Status);
+  FDAO.Inserir(Album);
+end;
+
+end.

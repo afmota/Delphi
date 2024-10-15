@@ -1,0 +1,83 @@
+unit UArtistaController;
+
+interface
+
+uses UArtistas, UArtistasDAO, SysUtils, ADODB;
+
+type
+  TArtistasController = class
+  private
+    FDAO: TArtistasDAO;
+  public
+    constructor Create;
+    destructor Destroy; override;
+    procedure AdicionarArtista(NomeArtista: string);
+    procedure AtualizarArtista(ID: Integer; NomeArtista: string; Status: Integer);
+    procedure AlterarStatusArtista(ID: Integer; NovoStatus: Integer);
+    function BuscarArtista(ID: Integer): TArtista; overload;
+    function BuscarArtista(ArtistaNome: string): TArtista; overload;
+    function ListarArtistasAtivos: TADOQuery;
+  end;
+
+implementation
+
+constructor TArtistasController.Create;
+begin
+  FDAO := TArtistasDAO.Create;
+end;
+
+destructor TArtistasController.Destroy;
+begin
+  FDAO.Free;
+  inherited;
+end;
+
+procedure TArtistasController.AdicionarArtista(NomeArtista: string);
+var
+  Artista: TArtista;
+begin
+  Artista := TArtista.Create(NomeArtista);
+  FDAO.Inserir(Artista);
+end;
+
+procedure TArtistasController.AtualizarArtista(ID: Integer; NomeArtista: string; Status: Integer);
+var
+  Artista: TArtista;
+begin
+  Artista := FDAO.BuscarPorId(ID);
+  if Artista <> nil then
+  begin
+    Artista.Nome := NomeArtista;
+    Artista.Status := Status;
+    FDAO.Atualizar(Artista);
+  end;
+end;
+
+function TArtistasController.BuscarArtista(ArtistaNome: string): TArtista;
+begin
+  Result := FDAO.BuscarPorNome(ArtistaNome);
+end;
+
+procedure TArtistasController.AlterarStatusArtista(ID: Integer; NovoStatus: Integer);
+var
+  Artista: TArtista;
+begin
+  Artista := FDAO.BuscarPorId(ID);
+  if Artista <> nil then
+  begin
+    Artista.AlterarStatus(NovoStatus);
+    FDAO.Atualizar(Artista);
+  end;
+end;
+
+function TArtistasController.BuscarArtista(ID: Integer): TArtista;
+begin
+  Result := FDAO.BuscarPorId(ID);
+end;
+
+function TArtistasController.ListarArtistasAtivos: TADOQuery;
+begin
+  Result := FDAO.ListarAtivos;
+end;
+
+end.

@@ -1,0 +1,49 @@
+unit UGravadoraDAO;
+
+interface
+
+uses UConexao, UGravadora, Data.Win.ADODB;
+
+type
+  TGravadoraDAO = class
+  private
+    FConn: TConexaoDB; // Conexão com o SQL Server
+  public
+    constructor Create;
+    destructor Destroy;
+    procedure Inserir(Gravadora: TGravadora);
+    procedure Atualizar(Gravadora: TGravadora);
+  end;
+
+implementation
+
+constructor TGravadoraDAO.Create;
+begin
+  FConn := TConexaoDB.Create; //Instancia a conexão ADO
+end;
+
+destructor TGravadoraDAO.Destroy;
+begin
+  FConn.Free; // Liberar a conexão ao destruir
+  inherited;
+end;
+
+procedure TGravadoraDAO.Inserir(Gravadora: TGravadora);
+var
+  Query: TADOQuery;
+begin
+  try
+    Query := TADOQuery.Create(nil);
+    Query.Connection := FConn.GetConnection;
+    Query.SQL.Text := 'INSERT INTO TB_Gravadoras (Gravadora_Nome, Gravadora_Status, DataInclusao) ' +
+                      'VALUES (:Nome, :Status, :DataInclusao)';
+    Query.Parameters.ParamByName('Nome').Value := Gravadora.Nome;
+    Query.Parameters.ParamByName('Status').Value := Gravadora.Status;
+    Query.Parameters.ParamByName('DataInclusao').Value := Gravadora.DataInclusao;
+    Query.ExecSQL;
+  finally
+    Query.Free;
+  end;
+end;
+
+end.

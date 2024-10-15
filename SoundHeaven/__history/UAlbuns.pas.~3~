@@ -1,0 +1,47 @@
+unit UAlbuns;
+
+interface
+
+uses System.SysUtils, UArtistas;
+
+type
+  TAlbum = class
+  private
+    FID: Integer;
+    FTitulo: string;
+    FArtista: string;
+    FDataLancamento: TDateTime;
+    FDataAquisicao: TDateTime;
+    FNumeroSerie: string;
+    FStatus: Integer;
+    FDataInclusao: TDateTime;
+  public
+    property ID: Integer read FID write FID;
+    property Titulo: string read FTitulo write FTitulo;
+    property Artista: string read FArtista write FArtista;
+    property DataLancamento: TDateTime read FDataLancamento write FDataLancamento;
+    property DataAquisicao: TDateTime read FDataAquisicao write FDataAquisicao;
+    property NumeroSerie: string read FNumeroSerie write FNumeroSerie;
+    property Status: Integer read FStatus write FStatus;
+    property DataInclusao: TDateTime read FDataInclusao write FDataInclusao;
+    constructor Create(ATitulo: string; AArtista: string; ADataLancamento: TDateTime;
+      ADataAquisicao: TDateTime; ANumeroSerie: string; AStatus: Integer = 1);
+  end;
+
+implementation
+
+{ TAlbum }
+
+constructor TAlbum.Create(ATitulo, AArtista: string; ADataLancamento,
+  ADataAquisicao: TDateTime; ANumeroSerie: string; AStatus: Integer = 1);
+begin
+  FTitulo := ATitulo;
+  FArtista := AArtista;
+  FDataLancamento := ADataLancamento;
+  FDataAquisicao := ADataAquisicao;
+  FNumeroSerie := ANumeroSerie;
+  FStatus := AStatus;
+  FDataInclusao := Now;
+end;
+
+end.

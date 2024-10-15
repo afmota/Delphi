@@ -11,21 +11,20 @@ type
   TOperacao = (opShow, opNovo, opAtualizar, opSalvar, opBuscar, opCancelar, opProcurar);
 type
   TfrmArtistas = class(TForm)
-    PnlCampos: TPanel;
+    pnlCampos: TPanel;
     EdtID: TEdit;
     EdtNome: TEdit;
     ChkStatus: TCheckBox;
     LblID: TLabel;
     LblNome: TLabel;
     btnEncontrar: TSpeedButton;
-    Panel1: TPanel;
+    pnlBotoes: TPanel;
     btnNovo: TButton;
     btnBuscar: TButton;
     btnAtualizar: TButton;
     btnCancel: TButton;
     btnSave: TButton;
     btnSair: TButton;
-    procedure FormCreate(Sender: TObject);
     procedure btnNovoClick(Sender: TObject);
     procedure btnCancelClick(Sender: TObject);
     procedure btnSaveClick(Sender: TObject);
@@ -36,6 +35,7 @@ type
     procedure LigaDesliga(Operacao: TOperacao);
     procedure EdtNomeChange(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
   public
@@ -50,14 +50,14 @@ implementation
 
 {$R *.dfm}
 
-uses UArtistas, UArtistasDAO, UArtistasController;
+uses UArtistas, UArtistasDAO, UArtistasController, ComponentHelper;
 
 procedure TfrmArtistas.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   Action := caFree;
 end;
 
-procedure TfrmArtistas.FormCreate(Sender: TObject);
+procedure TfrmArtistas.FormShow(Sender: TObject);
 begin
   LigaDesliga(opShow);
 end;
@@ -66,7 +66,7 @@ procedure TfrmArtistas.btnAtualizarClick(Sender: TObject);
 begin
   LigaDesliga(opAtualizar);
   OpBD := 2;
-  edtNome.SetFocus
+  edtNome.SetFocus;
 end;
 
 procedure TfrmArtistas.btnNovoClick(Sender: TObject);
@@ -110,15 +110,13 @@ begin
     // Preencher os campos visuais se o artista for encontrado
     if Assigned(Artista) then
     begin
-      edtNome.Text := Artista.Artista;
+      edtNome.Text := Artista.Nome;
       Estado := Artista.Status;
       If Estado = 1 then ChkStatus.Checked := True else ChkStatus.Checked := False;
       btnAtualizar.Enabled := True;
     end
     else
-    begin
       MessageDlg('Artista não encontrado', mtInformation, [mbOk], 0);
-    end;
   finally
     Artista.Free;
     ArtistaController.Free;
@@ -139,7 +137,7 @@ begin
   if ChkStatus.Checked then Estado := 1 else Estado := 0;
 
   Artista := TArtista.Create(edtNome.Text, Estado);
-  Artista.ID := StrToInt(edtID.Text);
+  if edtId.Text <> '' then Artista.ID := StrToInt(edtID.Text);
   DAO := TArtistasDAO.Create;
 
   case OpBD of
@@ -159,21 +157,19 @@ begin
     end;
   end;
 
-
   LigaDesliga(opShow);
 end;
 
 procedure TfrmArtistas.EdtNomeChange(Sender: TObject);
 begin
-btnSave.Enabled := True;
+  btnSave.Enabled := True;
 end;
 
 procedure TfrmArtistas.LigaDesliga(Operacao: TOperacao);
 begin
   case Operacao of
     opShow: begin // create, save, cancel
-      edtId.Text := '';
-      edtNome.Text := '';
+      CleanFields(Self);
 
       btnNovo.Enabled      := True;
       btnAtualizar.Enabled := False;
@@ -188,8 +184,7 @@ begin
       chkStatus.Enabled    := False;
     end;
     opNovo: begin
-      edtId.Text := '';
-      edtNome.Text := '';
+      CleanFields(Self);
 
       btnNovo.Enabled      := False;
       btnAtualizar.Enabled := False;

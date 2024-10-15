@@ -1,0 +1,54 @@
+unit UGravadoraController;
+
+interface
+
+uses UGravadoraDAO;
+
+type
+  TGravadoraController = class
+  private
+    FDAO: TGravadoraDAO;
+  public
+    constructor Create;
+    destructor Destroy; override;
+    procedure InserirGravadora(Nome: string);
+    procedure AtualizarGravadora(ID: Integer; Nome: string; Status: Integer);
+  end;
+
+implementation
+
+uses UGravadora;
+
+constructor TGravadoraController.Create;
+begin
+  FDAO := TGravadoraDAO.Create;
+end;
+
+destructor TGravadoraController.Destroy;
+begin
+  FDAO.Free;
+  inherited;
+end;
+
+procedure TGravadoraController.InserirGravadora(Nome: string);
+var
+  Gravadora: TGravadora;
+begin
+  Gravadora := TGravadora.Create(Nome);
+  FDAO.Inserir(Gravadora);
+end;
+
+procedure TGravadoraController.AtualizarGravadora(ID: Integer; Nome: string; Status: Integer);
+var
+  Gravadora: TGravadora;
+begin
+  Gravadora := FDAO.BuscarGravadora(ID);
+  if Gravadora <> nil then
+  begin
+    Gravadora.Nome := Nome;
+    Gravadora.Status := Status;
+    FDAO.Atualizar(Gravadora);
+  end;
+end;
+
+end.

@@ -10,10 +10,12 @@ object frmArtistas: TfrmArtistas
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
+  FormStyle = fsMDIChild
+  Visible = True
   OnClose = FormClose
-  OnCreate = FormCreate
+  OnShow = FormShow
   TextHeight = 15
-  object PnlCampos: TPanel
+  object pnlCampos: TPanel
     Left = 0
     Top = 41
     Width = 624
@@ -21,10 +23,6 @@ object frmArtistas: TfrmArtistas
     Align = alClient
     Enabled = False
     TabOrder = 0
-    ExplicitLeft = 72
-    ExplicitTop = 47
-    ExplicitWidth = 480
-    ExplicitHeight = 233
     object LblID: TLabel
       Left = 274
       Top = 78
@@ -62,8 +60,9 @@ object frmArtistas: TfrmArtistas
       Top = 104
       Width = 121
       Height = 23
+      CharCase = ecUpperCase
       TabOrder = 1
-      Text = 'EdtNome'
+      Text = 'EDTNOME'
       OnChange = EdtNomeChange
     end
     object ChkStatus: TCheckBox
@@ -77,7 +76,7 @@ object frmArtistas: TfrmArtistas
       TabOrder = 2
     end
   end
-  object Panel1: TPanel
+  object pnlBotoes: TPanel
     Left = 0
     Top = 0
     Width = 624

@@ -1,0 +1,19 @@
+program SoundHaven;
+
+uses
+  Vcl.Forms,
+  Principal in 'Principal.pas' {frmPrincipal},
+  Model in 'Model.pas' {frmModel},
+  Artistas in 'View\Artistas.pas' {frmArtistas},
+  ComponentHelper in 'Functions\ComponentHelper.pas',
+  FuncoesDivs in 'Functions\FuncoesDivs.pas',
+  UArtistaController in 'Controller\UArtistaController.pas';
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TfrmPrincipal, frmPrincipal);
+  Application.Run;
+end.

@@ -1,0 +1,29 @@
+unit UGravadoraDAO;
+
+interface
+
+uses UConexao;
+
+type
+  TGravadoraDAO = class
+  private
+    FConn: TConexaoDB; // Conexão com o SQL Server
+  public
+    constructor Create;
+    destructor Destroy;
+  end;
+
+implementation
+
+constructor TGravadoraDAO.Create;
+begin
+  FConn := TConexaoDB.Create; //Instancia a conexão ADO
+end;
+
+destructor TGravadoraDAO.Destroy;
+begin
+  FConn.Free; // Liberar a conexão ao destruir
+  inherited;
+end;
+
+end.

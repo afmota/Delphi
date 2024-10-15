@@ -1,0 +1,51 @@
+unit UAlbunsDAO;
+
+interface
+
+uses System.SysUtils, Data.Win.ADODB, UConexao, UAlbuns;
+
+type
+  TAlbunsDAO = class
+  private
+    FConn: TConexaoDB;
+  public
+    constructor Create;
+    destructor Destroy; override;
+
+    procedure Inserir(Album: TAlbum);
+  end;
+
+implementation
+
+constructor TAlbunsDAO.Create;
+begin
+  FConn := TConexaoDB.Create  // Instanciar a conexão ADO
+end;
+
+destructor TAlbunsDAO.Destroy;
+begin
+  FConn.Free;
+  inherited;
+end;
+
+procedure TAlbunsDAO.Inserir(Album: TAlbum);
+var
+  Query: TADOQuery;
+begin
+  Query := TADOQuery.Create(nil);
+  try
+    Query.Connection := FConn.GetConnection;
+    Query.SQL.Text := 'INSERT INTO TB_Albuns (Album_Titulo, Album_ArtistaID, ' +
+                      'Album_DataLancamento, Album_DataAquisicao) VALUES (:Titulo, ' +
+                      ':ArtistaID, :DataLancamento, :DataAquisicao)';
+    Query.Parameters.ParamByName('Titulo').Value := Album.Titulo;
+    Query.Parameters.ParamByName('ArtistaId').Value := Album.Artista;
+    Query.Parameters.ParamByName('DataLancamento').Value := Album.DataLancamento;
+    Query.Parameters.ParamByName('DataAquisicao').Value := Album.DataAquisicao;
+    Query.ExecSQL;
+  finally
+    Query.Free;
+  end;
+end;
+
+end.

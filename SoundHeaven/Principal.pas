@@ -2,9 +2,7 @@ unit Principal;
 
 interface
 
-uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus;
+uses System.SysUtils, System.Classes, Vcl.Forms, Vcl.Menus;
 
 type
   TfrmPrincipal = class(TForm)
@@ -12,7 +10,9 @@ type
     Cadastros1: TMenuItem;
     Artistas1: TMenuItem;
     Sair1: TMenuItem;
-    procedure Artistas1Click(Sender: TObject);
+    lbuns1: TMenuItem;
+    procedure OpenMDIChild(AFormClass: TFormClass);
+    procedure MenuClick(Sender: TObject);
     procedure Sair1Click(Sender: TObject);
   private
     { Private declarations }
@@ -29,13 +29,34 @@ implementation
 
 uses Artistas;
 
-procedure TfrmPrincipal.Artistas1Click(Sender: TObject);
+procedure TfrmPrincipal.OpenMDIChild(AFormClass: TFormClass);
+var
+  ChildForm: TForm;
 begin
-// Verifica se o formulário frmArtistas já está criado
-  if not Assigned(frmArtistas) then
-    frmArtistas := TfrmArtistas.Create(Self);  // Cria o formulário, se não existir
+  // Verifica se o formulário já está aberto
+  ChildForm := nil;
+  for var i := 0 to MDIChildCount - 1 do
+    if MDIChildren[i].ClassType = AFormClass then
+    begin
+      ChildForm := MDIChildren[i];
+      Break;
+    end;
 
-  frmArtistas.ShowModal;  // Exibe o formulário
+  // Se não estiver aberto, cria uma nova instância
+  if not Assigned(ChildForm) then
+    ChildForm := AFormClass.Create(Self);
+
+  // Exibe o formulário MDI Child
+  ChildForm.Show;
+end;
+
+procedure TfrmPrincipal.MenuClick(Sender: TObject);
+begin
+case (Sender as TMenuItem).Tag of
+    1: OpenMDIChild(TfrmArtistas);   // Tag 1 corresponde a frmArtistas
+    //2: OpenMDIChild(TfrmAlbuns); // Tag 2 corresponde a frmArtistas
+    // Adicione mais casos para outros formulários
+  end;
 end;
 
 procedure TfrmPrincipal.Sair1Click(Sender: TObject);

@@ -1,0 +1,131 @@
+unit Artistas;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Model, Vcl.StdCtrls, Vcl.ExtCtrls;
+
+type
+  TfrmArtistas = class(TfrmModel)
+    Label1: TLabel;
+    Label2: TLabel;
+    edtID: TEdit;
+    edtNome: TEdit;
+    chkStatus: TCheckBox;
+    procedure btnNovoClick(Sender: TObject);
+    procedure btnPesquisarClick(Sender: TObject);
+    procedure edtNomeChange(Sender: TObject);
+    procedure edtIDKeyPress(Sender: TObject; var Key: Char);
+    procedure btnAtualizarClick(Sender: TObject);
+    procedure btnSalvarClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmArtistas: TfrmArtistas;
+
+implementation
+
+{$R *.dfm}
+
+uses ComponentHelper, FuncoesDivs, UArtistaController, UArtistas;
+
+procedure TfrmArtistas.btnNovoClick(Sender: TObject);
+begin
+  inherited;
+  EnableComponentsByTag(Self, '011');
+  edtNome.SetFocus;
+end;
+
+procedure TfrmArtistas.btnPesquisarClick(Sender: TObject);
+begin
+  inherited;
+  EnableComponentsByTag(Self, '100');
+  edtId.SetFocus;
+end;
+
+procedure TfrmArtistas.edtNomeChange(Sender: TObject);
+begin
+  inherited;
+  if edtId.Text <> '' then
+    btnAtualizar.Enabled := True;
+end;
+
+procedure TfrmArtistas.edtIDKeyPress(Sender: TObject; var Key: Char);
+var
+  ArtistaID: Integer;
+  ArtistaController: TArtistaController;
+  Artista: TArtista;
+begin
+  inherited;
+  if Key = #13 then
+  begin
+    // Valida se o número digita no campo edtID é válido
+    if not TryStrToInt(edtID.Text, ArtistaID) then
+    begin
+      Mensagem('O ID informado é inválido. Tente novamente', 0);
+      edtId.SetFocus;
+      Exit;
+    end;
+
+    // Cria o controller
+    ArtistaController := TArtistaController.Create;
+    try
+      // Buscar o artista pelo ID
+      Artista :=  ArtistaController.BuscarArtista(ArtistaID);
+
+      // Preencher os campos visuais se o artista for encontrado
+      if Assigned(Artista) then
+      begin
+        edtNome.Text := Artista.Nome;
+        ChkStatus.Checked := Estado(Artista.Status);
+      end
+      else
+        Mensagem('Artista não encontrado.', 0);
+    finally
+      Artista.Free;
+      ArtistaController.Free;
+    end;
+  end;
+end;
+
+procedure TfrmArtistas.btnAtualizarClick(Sender: TObject);
+begin
+  inherited;
+  EnableComponentsByTag(Self, '011');
+  edtNome.SetFocus;
+end;
+
+procedure TfrmArtistas.btnSalvarClick(Sender: TObject);
+var
+  Artista: TArtista;
+  DAO: TArtistaDAO;
+begin
+  inherited;
+  Artista := TArtista.Create(edtNome.Text, Estado(chkStatus.Checked));
+  if edtId.Text <> '' then Artista.ID := StrToInt(edtId.Text);
+  DAO := TArtistaDAO.Create;
+
+  case OpBD of
+    1: begin
+      try
+        DAO.Inserir(Artista);
+      finally
+        DAO.Free;
+      end;
+    end;
+    2: begin
+      try
+        DAO.Atualizar(Artista);
+      finally
+        DAO.Free;
+      end;
+    end;
+  end;
+end;
+
+end.

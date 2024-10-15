@@ -1,0 +1,31 @@
+unit UAlbuns;
+
+interface
+
+uses System.SysUtils, UArtistas;
+
+type
+  TAlbum = class
+  private
+    FID: Integer;
+    FTitulo: string;
+    FArtista: TArtista;
+    FDataLancamento: TDateTime;
+    FDataAquisicao: TDateTime;
+    FNumeroSerie: string;
+    FStatus: Integer;
+    FDataInclusao: TDateTime;
+  public
+    property ID: Integer read FID write FID;
+    property Titulo: string read FTitulo write FTitulo;
+    property Artista: TArtista read FArtista write FArtista;
+    property DataLancamento: TDateTime read FDataLancamento write FDataLancamento;
+    property DataAquisicao: TDateTime read FDataAquisicao write FDataAquisicao;
+    property NumeroSerie: string read FNumeroSerie write FNumeroSerie;
+    property Status: Integer read FStatus write FStatus;
+    property DataInclusao: TDateTime read FDataInclusao write FDataInclusao;
+  end;
+
+implementation
+
+end.

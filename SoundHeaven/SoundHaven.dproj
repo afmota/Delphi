@@ -105,6 +105,10 @@
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
+        <VerInfo_MajorVer>0</VerInfo_MajorVer>
+        <VerInfo_AutoIncVersion>true</VerInfo_AutoIncVersion>
+        <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=0.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <DCC_UnitSearchPath>C:\Users\Agnaldo Mota\OneDrive\Documentos\Meus Projetos\Delphi\SoundHeaven\View;C:\Users\Agnaldo Mota\OneDrive\Documentos\Meus Projetos\Delphi\SoundHeaven\Functions;C:\Users\Agnaldo Mota\OneDrive\Documentos\Meus Projetos\Delphi\SoundHeaven\Controller;C:\Users\Agnaldo Mota\OneDrive\Documentos\Meus Projetos\Delphi\SoundHeaven\DAO;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
@@ -125,18 +129,35 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="Artistas.pas">
-            <Form>frmArtistas</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="UArtistas.pas"/>
-        <DCCReference Include="UArtistasDAO.pas"/>
-        <DCCReference Include="UArtistasController.pas"/>
-        <DCCReference Include="UConexao.pas"/>
         <DCCReference Include="Principal.pas">
             <Form>frmPrincipal</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Model.pas">
+            <Form>frmModel</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="View\Artistas.pas">
+            <Form>frmArtistas</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Functions\ComponentHelper.pas"/>
+        <DCCReference Include="Functions\FuncoesDivs.pas"/>
+        <DCCReference Include="Controller\UArtistaController.pas"/>
+        <DCCReference Include="Model\UArtistas.pas"/>
+        <DCCReference Include="DAO\UArtistaDAO.pas"/>
+        <DCCReference Include="View\Albuns.pas">
+            <Form>frmAlbuns</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Model\UAlbuns.pas"/>
+        <DCCReference Include="View\Gravadoras.pas">
+            <Form>frmGravadoras</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Controller\UGravadoraController.pas"/>
+        <DCCReference Include="DAO\UGravadoraDAO.pas"/>
+        <DCCReference Include="Model\UGravadora.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
