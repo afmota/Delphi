@@ -13,8 +13,8 @@ type
     destructor Destroy; override;
     function InserirArtista(const Artista: TArtista): Boolean;
     function AtualizarArtista(const Artista: TArtista): Boolean;
-    function LocalizarArtista(const ID: Integer): TArtista; overload;
-    {function BuscarArtista(ArtistaNome: string): TArtista; overload;
+    {function BuscarArtista(ID: Integer): TArtista; overload;
+    function BuscarArtista(ArtistaNome: string): TArtista; overload;
     procedure ExcluirArtista(ID: Integer; NovoStatus: Integer = 0);
     function ListarArtistasAtivos: TADOQuery;}
   end;
@@ -56,12 +56,12 @@ begin
         Result := FDAO.Atualizar(Artista);
 end;
 
-function TArtistaController.LocalizarArtista(const ID: Integer): TArtista;
+{function TArtistaController.BuscarArtista(ID: Integer): TArtista;
 begin
-  Result := FDAO.LocalizarId(ID);
+  Result := FDAO.BuscarPorId(ID);
 end;
 
-{function TArtistaController.BuscarArtista(ArtistaNome: string): TArtista;
+function TArtistaController.BuscarArtista(ArtistaNome: string): TArtista;
 begin
   Result := FDAO.BuscarPorNome(ArtistaNome);
 end;

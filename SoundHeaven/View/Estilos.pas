@@ -119,7 +119,7 @@ begin
     // Valida se o número digitado em edtID é valido
     if not TryStrToInt(edtID.Text, EstiloID) then
     begin
-      MessageDlg('O número informado é inválido. Tente novamente.', mtInformation, [mbOk], 0);
+      MessageDlg('O ID informado é inválido. Tente novamente.', mtInformation, [mbOk], 0);
       edtId.SetFocus;
       Exit;
     end;

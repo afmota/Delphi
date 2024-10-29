@@ -13,10 +13,10 @@ type
     destructor Destroy; override;
 
     // Métodos CRUD
-    function Inserir(Artista: TArtista): Boolean;
-    function Atualizar(Artista: TArtista): Boolean;
-    {function BuscarPorId(ID: Integer): TArtista;
-    function BuscarPorNome(ArtistaNome: string): TArtista;
+    function Inserir(const Artista: TArtista): Boolean;
+    function Atualizar(const Artista: TArtista): Boolean;
+    function LocalizarId(const ID: Integer): TArtista;
+    {function BuscarPorNome(ArtistaNome: string): TArtista;
     function ListarAtivos: TADOQuery;}
   end;
 
@@ -36,7 +36,7 @@ begin
 end;
 
 // Método para inserir novo artista no banco
-function TArtistaDAO.Inserir(Artista: TArtista): Boolean;
+function TArtistaDAO.Inserir(const Artista: TArtista): Boolean;
 var
   StoredProc: TADOStoredProc;
 begin
@@ -70,7 +70,7 @@ begin
 end;
 
 // Método para atualizar artista existente
-function TArtistaDAO.Atualizar(Artista: TArtista): Boolean;
+function TArtistaDAO.Atualizar(const Artista: TArtista): Boolean;
 var
   StoredProc: TADOStoredProc;
 begin
@@ -102,34 +102,44 @@ begin
 end;
 
 // Método para buscar artista por ID
-{function TArtistaDAO.BuscarPorId(ID: Integer): TArtista;
+function TArtistaDAO.LocalizarId(const ID: Integer): TArtista;
 var
-  Query: TADOQuery;
+  StoredProc: TADOStoredProc;
   Artista: TArtista;
 begin
-  Query := TADOQuery.Create(nil);
   try
-    Query.Connection := FConn.GetConnection;
-    Query.SQL.Text := 'SELECT * FROM TB_Artistas WHERE Artista_ID = :ID';
-    Query.Parameters.ParamByName('ID').Value := ID;
-    Query.Open;
+    StoredProc := TADOStoredProc.Create(nil);
+    try
+      with StoredProc do
+      begin
+        Connection := FConn.GetConnection;
+        ProcedureName := 'sp_ObterArtistaAtivoPorID';
+        Parameters.ParamByName('ID').Value := ID;
+        Open;
 
-    if not Query.IsEmpty then
-    begin
-      Artista := TArtista.Create(Query.FieldByName('Artista_Nome').AsString,
-                                 Query.FieldByName('Artista_Status').AsInteger);
-      Artista.ID := Query.FieldByName('Artista_ID').AsInteger;
-      Artista.DataInclusão := Query.FieldByName('Data_Inclusao').AsDateTime;
-      Result := Artista;
-    end
-    else
-      Result := nil;
+        if not IsEmpty then
+        begin
+          Artista := TArtista.Create(FieldByName('Artista_Nome').AsString,
+                                     FieldByName('Artista_Estilo').AsString,
+                                     FieldByName('Artista_Ativo').AsString[1],
+                                     FieldByName('Data_Inclusao').AsDateTime,
+                                     FieldByName('Data_Alteracao').AsDateTime);
+          Artista.ID := FieldByName('Artista_ID').AsInteger;
+          Result := Artista;
+        end
+        else
+          Result := nil;
+      end;
+    except
+      on E: Exception do
+        raise Exception.Create('Artista não encontrado.');
+    end;
   finally
-    Query.Free;
+    StoredProc.Free;
   end;
 end;
 
-function TArtistaDAO.BuscarPorNome(ArtistaNome: string): TArtista;
+{function TArtistaDAO.BuscarPorNome(ArtistaNome: string): TArtista;
 var
   Query: TADOQuery;
   Artista: TArtista;

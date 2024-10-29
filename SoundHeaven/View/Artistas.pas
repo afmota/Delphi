@@ -17,7 +17,7 @@ type
     procedure btnExcluirClick(Sender: TObject);
     procedure btnLocalizarClick(Sender: TObject);
     procedure btnAtualizarClick(Sender: TObject);
-    //procedure edtIDKeyPress(Sender: TObject; var Key: Char);
+    procedure edtIDKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
   public
@@ -149,19 +149,20 @@ begin
   edtNome.SetFocus;
 end;
 
-{procedure TfrmArtistas.edtIDKeyPress(Sender: TObject; var Key: Char);
+procedure TfrmArtistas.edtIDKeyPress(Sender: TObject; var Key: Char);
 var
   ArtistaID: Integer;
   ArtistaController: TArtistaController;
   Artista: TArtista;
 begin
   inherited;
+
   if Key = #13 then
   begin
     // Valida se o número digitado no campo edtID é válido
     if not TryStrToInt(edtID.Text, ArtistaID) then
     begin
-      Mensagem('O ID informado é inválido. Tente novamente', 0);
+      MessageDlg('O ID informado é inválido. Tente novamente', mtInformation, [mbOk], 0);
       edtId.SetFocus;
       Exit;
     end;
@@ -170,7 +171,7 @@ begin
     ArtistaController := TArtistaController.Create;
     try
       // Buscar o artista pelo ID
-      Artista :=  ArtistaController.BuscarArtista(ArtistaID);
+      Artista :=  ArtistaController.
 
       // Preencher os campos visuais se o artista for encontrado
       if Assigned(Artista) then
@@ -187,6 +188,6 @@ begin
       ArtistaController.Free;
     end;
   end;
-end;}
+end;
 
 end.
