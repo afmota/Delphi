@@ -57,7 +57,6 @@ begin
   case (Sender as TMenuItem).Tag of
     1: OpenMDIChild(TfrmEstilos);
     2: OpenMDIChild(TfrmArtistas);
-    // Adicione mais casos para outros formulários
   end;
 end;
 

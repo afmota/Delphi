@@ -15,9 +15,9 @@ type
     procedure btnIncluirClick(Sender: TObject);
     procedure btnSalvarClick(Sender: TObject);
     procedure btnExcluirClick(Sender: TObject);
-    procedure btnPesquisarClick(Sender: TObject);
+    procedure btnLocalizarClick(Sender: TObject);
+    procedure btnAtualizarClick(Sender: TObject);
     //procedure edtIDKeyPress(Sender: TObject; var Key: Char);
-    //procedure btnAtualizarClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -134,12 +134,19 @@ begin
   end;
 end;
 
-procedure TfrmArtistas.btnPesquisarClick(Sender: TObject);
+procedure TfrmArtistas.btnLocalizarClick(Sender: TObject);
 begin
   inherited;
 
   EnableComponentsByTag(Self, '100');
   edtId.SetFocus;
+end;
+
+procedure TfrmArtistas.btnAtualizarClick(Sender: TObject);
+begin
+  inherited;
+  EnableComponentsByTag(Self, '011');
+  edtNome.SetFocus;
 end;
 
 {procedure TfrmArtistas.edtIDKeyPress(Sender: TObject; var Key: Char);
@@ -180,13 +187,6 @@ begin
       ArtistaController.Free;
     end;
   end;
-end;
-
-procedure TfrmArtistas.btnAtualizarClick(Sender: TObject);
-begin
-  inherited;
-  {EnableComponentsByTag(Self, '011');
-  edtNome.SetFocus;
 end;}
 
 end.
