@@ -11,8 +11,8 @@ type
   public
     constructor Create;
     destructor Destroy; override;
-    function Inserir(Estilo: TEstilo): Boolean;
-    function Atualizar(Estilo: TEstilo): Boolean;
+    function Inserir(const Estilo: TEstilo): Boolean;
+    function Atualizar(const Estilo: TEstilo): Boolean;
     function Localizar(const ID: Integer): TEstilo; overload;
     function Localizar(const Nome: string): TEstilo; overload;
     function ListarEstilos: TList<TEstilo>;
@@ -31,7 +31,7 @@ begin
   inherited;
 end;
 
-function TEstiloDAO.Inserir(Estilo: TEstilo): Boolean;
+function TEstiloDAO.Inserir(const Estilo: TEstilo): Boolean;
 var
   StoredProc: TADOStoredProc;
 begin
@@ -42,6 +42,7 @@ begin
       begin
         Connection := FConn.GetConnection;  // Conectar ao banco de dados
         ProcedureName := 'sp_InserirEstilo';  // Nome da stored procedure
+        Parameters.Refresh;
 
         // Definir os parâmetros da stored procedure
         Parameters.ParamByName('@Nome').Value := Estilo.Nome;
@@ -65,7 +66,7 @@ begin
   end;
 end;
 
-function TEstiloDAO.Atualizar(Estilo: TEstilo): Boolean;
+function TEstiloDAO.Atualizar(const Estilo: TEstilo): Boolean;
 var
   StoredProc: TADOStoredProc;
 begin
@@ -77,6 +78,7 @@ begin
       begin
         Connection := FConn.GetConnection;
         ProcedureName := 'sp_AtualizarEstilo';
+        Parameters.Refresh;
 
         Parameters.ParamByName('@Estilo_ID').Value := Estilo.ID;
         Parameters.ParamByName('@Nome').Value := Estilo.Nome;
@@ -111,6 +113,7 @@ begin
       begin
         Connection := FConn.GetConnection;
         ProcedureName := 'sp_ObterEstiloAtivoPorID';
+        Parameters.Refresh;
 
         Parameters.ParamByName('@Estilo_ID').Value := ID;
         Open;
@@ -147,6 +150,7 @@ begin
       begin
         Connection := FConn.GetConnection;
         ProcedureName := 'sp_ObterEstiloAtivoPorNome';
+        Parameters.Refresh;
 
         Parameters.ParamByName('@Nome').Value := Nome;
         Open;
@@ -177,29 +181,33 @@ var
   StoredProc: TADOStoredProc;
   Estilo: TEstilo;
 begin
+  Result := TList<TEstilo>.Create;
+
   StoredProc := TADOStoredProc.Create(nil);
 
   try
     with StoredProc do
     begin
       Connection := FConn.GetConnection;
-      ProcedureName := '';
+      ProcedureName := 'sp_ListarEstilosAtivos';
       Open;
       First;
 
-      while not Eof do
-      begin
-        Estilo := TEstilo.Create(FieldByName('Estilo_Nome').AsString,
-                                 FieldByName('Estilo_Ativo').AsString[1],
-                                 FieldByName('Data_Inclusao').AsDateTime,
-                                 FieldByName('Data_Alteracao').AsDateTime);
-        Estilo.ID := FieldByName('Estilo_ID').AsInteger;
-        Result.Add(Estilo);
-        Next;
-      end;
+      if not IsEmpty then
+        while not Eof do
+        begin
+          Estilo := TEstilo.Create(FieldByName('Estilo_Nome').AsString,
+                                   FieldByName('Estilo_Ativo').AsString[1],
+                                   FieldByName('Data_Inclusao').AsDateTime,
+                                   FieldByName('Data_Alteracao').AsDateTime);
+          Estilo.ID := FieldByName('Estilo_ID').AsInteger;
+          Result.Add(Estilo);
+          Next;
+        end
+      else
+        Result := nil;
     end;
   finally
-    Estilo.Free;
     StoredProc.Free;
   end;
 end;

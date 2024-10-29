@@ -45,9 +45,12 @@ begin
         Parameters.Refresh;
 
         // Definir os parâmetros da stored procedure
-        Parameters.ParamByName('@Nome').Value := Estilo.Nome;
-        Parameters.ParamByName('@Ativo').Value := Estilo.Ativo;
-        Parameters.ParamByName('@DataInclusao').Value := Estilo.DataInclusao;
+        with Parameters do
+        begin
+          ParamByName('@Nome').Value := Estilo.Nome;
+          ParamByName('@Ativo').Value := Estilo.Ativo;
+          ParamByName('@DataInclusao').Value := Estilo.DataInclusao;
+        end;
 
         // Executar a stored procedure
         ExecProc;
@@ -80,10 +83,13 @@ begin
         ProcedureName := 'sp_AtualizarEstilo';
         Parameters.Refresh;
 
-        Parameters.ParamByName('@Estilo_ID').Value := Estilo.ID;
-        Parameters.ParamByName('@Nome').Value := Estilo.Nome;
-        Parameters.ParamByName('@Ativo').Value := Estilo.Ativo;
-        Parameters.ParamByName('@DataAlteracao').Value := Estilo.DataAlteracao;
+        with Parameters do
+        begin
+          ParamByName('@Estilo_ID').Value := Estilo.ID;
+          ParamByName('@Nome').Value := Estilo.Nome;
+          ParamByName('@Ativo').Value := Estilo.Ativo;
+          ParamByName('@DataAlteracao').Value := Estilo.DataAlteracao;
+        end;
 
         // Executar a stored procedure
         ExecProc;
