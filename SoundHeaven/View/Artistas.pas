@@ -15,7 +15,7 @@ type
     procedure btnIncluirClick(Sender: TObject);
     procedure btnSalvarClick(Sender: TObject);
     procedure btnExcluirClick(Sender: TObject);
-    //procedure btnPesquisarClick(Sender: TObject);
+    procedure btnPesquisarClick(Sender: TObject);
     //procedure edtIDKeyPress(Sender: TObject; var Key: Char);
     //procedure btnAtualizarClick(Sender: TObject);
   private
@@ -134,14 +134,15 @@ begin
   end;
 end;
 
-{procedure TfrmArtistas.btnPesquisarClick(Sender: TObject);
+procedure TfrmArtistas.btnPesquisarClick(Sender: TObject);
 begin
   inherited;
-  //EnableComponentsByTag(Self, '100');
-  //edtId.SetFocus;
+
+  EnableComponentsByTag(Self, '100');
+  edtId.SetFocus;
 end;
 
-procedure TfrmArtistas.edtIDKeyPress(Sender: TObject; var Key: Char);
+{procedure TfrmArtistas.edtIDKeyPress(Sender: TObject; var Key: Char);
 var
   ArtistaID: Integer;
   ArtistaController: TArtistaController;

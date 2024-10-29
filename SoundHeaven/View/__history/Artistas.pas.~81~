@@ -3,9 +3,9 @@ unit Artistas;
 interface
 
 uses
-  Winapi.Windows, Model, Vcl.StdCtrls, Generics.Collections,
-  Vcl.ButtonStylesAttributes, Vcl.Controls, Vcl.StyledButton, System.Classes,
-  Vcl.ExtCtrls, Dialogs;
+  Winapi.Windows, Model, Vcl.StdCtrls, Generics.Collections, Vcl.Controls,
+  Vcl.ButtonStylesAttributes, Dialogs,Vcl.StyledButton, System.Classes,
+  Vcl.ExtCtrls, System.SysUtils;
 
 type
   TfrmArtistas = class(TfrmModel)
@@ -13,11 +13,11 @@ type
     Label3: TLabel;
     procedure FormShow(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
-    //procedure btnExcluirClick(Sender: TObject);
+    procedure btnSalvarClick(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
     //procedure btnPesquisarClick(Sender: TObject);
     //procedure edtIDKeyPress(Sender: TObject; var Key: Char);
     //procedure btnAtualizarClick(Sender: TObject);
-    //procedure btnSalvarClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -31,7 +31,7 @@ implementation
 
 {$R *.dfm}
 
-uses ComponentHelper, UEstiloController, UEstilo;
+uses ComponentHelper, UEstiloController, UEstilo, UArtista, UArtistaController;
 
 procedure TfrmArtistas.FormShow(Sender: TObject);
 var
@@ -63,8 +63,8 @@ begin
       begin
         Estilo := ListaEstilos[i];
         cbEstilo.Items.Add(Estilo.Nome); // Preenche com o nome do estilo
-        cbEstilo.ItemIndex := -1;
       end;
+      cbEstilo.ItemIndex := -1;
     end;
   finally
     if Assigned(ListaEstilos) then
@@ -83,24 +83,58 @@ begin
   edtNome.SetFocus;
 end;
 
-{procedure TfrmArtistas.btnExcluirClick(Sender: TObject);
+procedure TfrmArtistas.btnSalvarClick(Sender: TObject);
 var
+  ArtistaController: TArtistaController;
+  Artista: TArtista;
+begin
+  ArtistaController := TArtistaController.Create;
+
+  case OpBD of
+    1: begin
+      try
+        Artista := TArtista.Create(edtNome.Text, cbEstilo.Text, 'T', Now, 0);
+        if ArtistaController.InserirArtista(Artista) then
+          MessageDlg('Registro gravado com sucesso.', mtInformation, [mbOk], 0);
+      finally
+        ArtistaController.Free;
+      end;
+    end;
+    2: begin
+      try
+        Artista := TArtista.Create(edtNome.Text, cbEstilo.Text, 'T', 0, Now);
+        Artista.Id := StrToInt(edtId.Text);
+         if ArtistaController.AtualizarArtista(Artista) then
+           MessageDlg('Registro atualizado com sucesso.', mtInformation, [mbOk], 0);
+      finally
+        ArtistaController.Free;
+      end;
+    end;
+  end;
+  inherited;
+end;
+
+procedure TfrmArtistas.btnExcluirClick(Sender: TObject);
+var
+  Artista: TArtista;
   ArtistaController: TArtistaController;
 begin
   inherited;
+
+  Artista := TArtista.Create(edtNome.Text, cbEstilo.Text, 'F', 0, Now);
+  Artista.ID := StrToInt(edtId.Text);
   ArtistaController := TArtistaController.Create;
 
   try
-    ArtistaController.ExcluirArtista(StrToInt(edtId.Text));
-    MessageDlg('Registro excluído com sucesso.', mtInformation, [mbOk], 0);
+    if ArtistaController.AtualizarArtista(Artista) then
+      MessageDlg('Registro excluído com sucesso.', mtInformation, [mbOk], 0);
   finally
     ArtistaController.Free;
+    Artista.Free;
   end;
-
-
 end;
 
-procedure TfrmArtistas.btnPesquisarClick(Sender: TObject);
+{procedure TfrmArtistas.btnPesquisarClick(Sender: TObject);
 begin
   inherited;
   //EnableComponentsByTag(Self, '100');
@@ -111,9 +145,9 @@ procedure TfrmArtistas.edtIDKeyPress(Sender: TObject; var Key: Char);
 var
   ArtistaID: Integer;
   ArtistaController: TArtistaController;
-  Artista: TArtista;}
+  Artista: TArtista;
 begin
-  {inherited;
+  inherited;
   if Key = #13 then
   begin
     // Valida se o número digitado no campo edtID é válido
@@ -152,44 +186,6 @@ begin
   inherited;
   {EnableComponentsByTag(Self, '011');
   edtNome.SetFocus;
-end;
-
-procedure TfrmArtistas.btnSalvarClick(Sender: TObject);
-//var
-  //Artista: TArtista;
-  //ArtistaController: TArtistaController;
-begin
-  {if edtNome.Text <> '' then
-  begin
-    Artista := TArtista.Create(edtNome.Text, Estado(chkStatus.Checked));
-    if edtId.Text <> '' then Artista.ID := StrToInt(edtId.Text);
-    ArtistaController := TArtistaController.Create;
-
-    case OpBD of
-      1: begin
-        try
-          ArtistaController.AdicionarArtista(Artista.Nome);
-          Mensagem('Registro gravado com sucesso.', 0);
-        finally
-          ArtistaController.Free;
-        end;
-      end;
-      2: begin
-        try
-          ArtistaController.AtualizarArtista(Artista.ID, Artista.Nome, Artista.Status);
-          Mensagem('Registro atualizado com sucesso.', 0);
-        finally
-          ArtistaController.Free;
-        end;
-      end;
-    end;
-    inherited;
-  end
-  else
-  begin
-    Mensagem('Nome do artista deve ser preenchido.', 0);
-    edtNome.SetFocus;
-  end;
 end;}
 
 end.
