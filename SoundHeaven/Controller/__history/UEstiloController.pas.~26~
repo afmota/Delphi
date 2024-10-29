@@ -1,0 +1,94 @@
+unit UEstiloController;
+
+interface
+
+uses UEstilo, UEstiloDAO, System.Generics.Collections, System.SysUtils;
+
+type
+  TEstiloController = class
+    private
+      FDAO: TEstiloDAO;
+    public
+      constructor Create;
+      destructor Destroy; override;
+      function InserirEstilo(const Nome: string; const Ativo: Char): Boolean;
+      function AtualizarEstilo(const ID: Integer; const Nome: string;
+        const Ativo: Char): Boolean;
+      //procedure ExcluirEstilo
+      //function LocalizarEstilo(ID: Integer): TEstilo; overload;
+      //function LocalizarEstilo(Nome: string): TEstilo; overload;
+      //function ListarEstilos: TList<TEstilo>;
+  end;
+
+implementation
+
+constructor TEstiloController.Create;
+begin
+  FDAO := TEstiloDAO.Create;
+end;
+
+destructor TEstiloController.Destroy;
+begin
+  FDAO.Free;
+  inherited;
+end;
+
+function TEstiloController.InserirEstilo(const Nome: string;
+  const Ativo: Char): Boolean;
+var
+  Estilo: TEstilo;
+begin
+  try
+    // Cria a instância de TEstilo e define os valores recebidos
+    Estilo := TEstilo.Create(Nome, Ativo, Now);
+
+    try
+      // Chama o DAO para incluir o novo estilo no banco de dados
+      Result := FDAO.Inserir(Estilo);
+    finally
+      Estilo.Free;
+    end;
+  finally
+
+  end;
+  FDAO.Inserir(Estilo);
+end;
+
+function TEstiloController.AtualizarEstilo(const ID: Integer; const Nome: string;
+  const Ativo: Char): Boolean;
+var
+  Estilo: TEstilo;
+begin
+  try
+    // Cria a instância de TEstilo com ID existente e atualiza
+    Estilo := FDAO.Localizar(ID);
+    Estilo.Nome := Nome;
+    Estilo.Ativo := Ativo;
+    Estilo.DataAlteracao := Now;
+
+    // Chama o DAO para atualizar o estilo no banco de dados
+    Result := FDAO.Atualizar(Estilo);
+  finally
+
+  end;
+  Estilo := TEstilo.Create(Nome, Ativo, Now, 0);
+  Estilo.ID := ID;
+  FDAO.Atualizar(Estilo);
+end;
+
+{function TEstiloController.LocalizarEstilo(ID: Integer): TEstilo;
+begin
+  Result := FDAO.Localizar(ID);
+end;
+
+function TEstiloController.LocalizarEstilo(Nome: string): TEstilo;
+begin
+  Result := FDAO.Localizar(Nome);
+end;
+
+function TEstiloController.ListarEstilos: TList<TEstilo>;
+begin
+  Result := FDAO.ListarEstilos;
+end;}
+
+end.

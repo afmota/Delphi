@@ -14,21 +14,31 @@ object frmPrincipal: TfrmPrincipal
   Font.Name = 'Segoe UI'
   Font.Style = []
   FormStyle = fsMDIForm
-  Menu = MainMenu1
+  Menu = MainMenu
+  WindowState = wsMaximized
   TextHeight = 15
-  object MainMenu1: TMainMenu
+  object StatusBar1: TStatusBar
+    Left = 0
+    Top = 542
+    Width = 864
+    Height = 19
+    Panels = <>
+  end
+  object MainMenu: TMainMenu
+    Tag = 2
     Left = 808
     Top = 8
     object Cadastros1: TMenuItem
       Caption = 'Cadastros'
-      object Artistas1: TMenuItem
+      OnClick = MenuClick
+      object Estilos1: TMenuItem
         Tag = 1
-        Caption = 'Artistas'
+        Caption = 'Estilos'
         OnClick = MenuClick
       end
-      object lbuns1: TMenuItem
+      object Artistas1: TMenuItem
         Tag = 2
-        Caption = #193'lbuns'
+        Caption = 'Artistas'
         OnClick = MenuClick
       end
     end

@@ -1,0 +1,35 @@
+unit UEstilo;
+
+interface
+
+uses System.SysUtils;
+
+type
+  TEstilo = class
+  private
+    FID: Integer;
+    FNome: string;
+    FStatus: Integer;
+    FDataInclusao: TDateTime;
+    FDataAlteracao: TDateTime;
+  public
+    property ID: Integer read FID write FID;
+    property Nome: string read FNome write FNome;
+    property Status: Integer read FStatus write FStatus;
+    property DataInclusao: TDateTime read FDataInclusao write FDataInclusao;
+    property DataAlteracao: TDateTime read FDataAlteracao write FDataAlteracao;
+
+    constructor Create(ANome: string; AStatus: Integer = 1);
+  end;
+
+implementation
+
+constructor TEstilo.Create(ANome: string; AStatus: Integer = 1);
+begin
+  FNome := ANome;
+  FStatus := AStatus;
+  FDataInclusao := Now;
+  FDataAlteracao := Now;
+end;
+
+end.

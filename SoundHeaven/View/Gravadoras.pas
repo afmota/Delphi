@@ -4,14 +4,11 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Model, Vcl.StdCtrls, Vcl.ExtCtrls;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Model, Vcl.StdCtrls, Vcl.ExtCtrls,
+  Vcl.ButtonStylesAttributes, System.ImageList, Vcl.ImgList, Vcl.StyledButton;
 
 type
   TfrmGravadoras = class(TfrmModel)
-    Label1: TLabel;
-    edtID: TEdit;
-    Label2: TLabel;
-    edtNome: TEdit;
     chkStatus: TCheckBox;
     procedure btnNovoClick(Sender: TObject);
     procedure btnPesquisarClick(Sender: TObject);

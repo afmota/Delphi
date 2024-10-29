@@ -1,0 +1,148 @@
+unit Estilos;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Model, Vcl.ButtonStylesAttributes,
+  Vcl.StdCtrls, Vcl.StyledButton, Vcl.ExtCtrls;
+
+type
+  TfrmEstilos = class(TfrmModel)
+    procedure btnIncluirClick(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
+    procedure btnAtualizarClick(Sender: TObject);
+    procedure btnSalvarClick(Sender: TObject);
+    procedure btnLocalizarClick(Sender: TObject);
+    procedure edtIDKeyPress(Sender: TObject; var Key: Char);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmEstilos: TfrmEstilos;
+
+implementation
+
+{$R *.dfm}
+
+uses ComponentHelper, UEstilo, UEstiloController;
+
+procedure TfrmEstilos.btnIncluirClick(Sender: TObject);
+begin
+  inherited;
+  EnableComponentsByTag(Self, '01');
+  edtNome.SetFocus;
+end;
+
+procedure TfrmEstilos.btnExcluirClick(Sender: TObject);
+var
+  Estilo: TEstilo;
+  EstiloController: TEstiloController;
+begin
+  inherited;
+
+  Estilo := TEstilo.Create(edtNome.Text, 'F', 0, Now);
+  Estilo.ID := StrToInt(edtId.Text);
+  EstiloController := TEstiloController.Create;
+
+  try
+    if EstiloController.AtualizarEstilo(Estilo) then
+      MessageDlg('Registro excluído com sucesso.', mtInformation, [mbOk], 0);
+  finally
+    EstiloController.Free;
+    Estilo.Free;
+  end;
+
+  EnableButtons(Self, '1000011');
+  pnlCampos.Enabled := False;
+  CleanFields(Self);
+end;
+
+procedure TfrmEstilos.btnAtualizarClick(Sender: TObject);
+begin
+  inherited;
+  EnableComponentsByTag(Self, '01');
+  edtNome.SetFocus;
+end;
+
+procedure TfrmEstilos.btnSalvarClick(Sender: TObject);
+var
+  EstiloController: TEstiloController;
+  Estilo: TEstilo;
+  ID: Integer;
+begin
+    EstiloController := TEstiloController.Create;
+
+    case OpBD of
+      1: begin
+        try
+          Estilo := TEstilo.Create(edtNome.Text, 'T', Now, 0);
+          if EstiloController.InserirEstilo(Estilo) then
+            MessageDlg('Registro gravado com sucesso.', mtInformation, [mbOk], 0);
+        finally
+          EstiloController.Free;
+        end;
+      end;
+      2: begin
+        try
+          Estilo := TEstilo.Create(edtNome.Text, 'T', 0, Now);
+          Estilo.ID := ID;
+          if EstiloController.AtualizarEstilo(Estilo) then
+            MessageDlg('Registro atualizado com sucesso.', mtInformation, [mbOk], 0);
+        finally
+          EstiloController.Free;
+          Estilo.Free;
+        end;
+      end;
+    end;
+    inherited;
+end;
+
+procedure TfrmEstilos.btnLocalizarClick(Sender: TObject);
+begin
+  inherited;
+  edtID.SetFocus;
+end;
+
+procedure TfrmEstilos.edtIDKeyPress(Sender: TObject; var Key: Char);
+var
+  EstiloID: Integer;
+  EstiloController: TEstiloController;
+  Estilo: TEstilo;
+begin
+  inherited;
+  if Key = #13 then
+  begin
+    // Valida se o número digitado em edtID é valido
+    if not TryStrToInt(edtID.Text, EstiloID) then
+    begin
+      MessageDlg('O número informado é inválido. Tente novamente.', mtInformation, [mbOk], 0);
+      edtId.SetFocus;
+      Exit;
+    end;
+
+    // Cria o controller
+    EstiloController := TEstiloController.Create;
+    try
+      // Busca o estilo pelo ID
+      Estilo := EstiloController.LocalizarEstilo(EstiloID);
+
+      // Preenche os campos com os dados do objeto
+      if Assigned(Estilo) then
+      begin
+        edtNome.Text := Estilo.Nome;
+        EnableButtons(Self, '0110100');
+      end
+      else
+        MessageDlg('Estilo não localizado.', mtInformation, [mbOk], 0);
+    finally
+      Estilo.Free;
+      EstiloController.Free;
+    end;
+  end;
+end;
+
+end.

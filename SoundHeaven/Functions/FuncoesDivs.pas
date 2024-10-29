@@ -9,8 +9,7 @@ unit FuncoesDivs;
  function PasswordInputBox(const ACaption, APrompt:string): string;
  function NomeMes(Data: TDateTime): string;
  function GreaterDate(Date1: TDateTime; Date2: TDateTime): Boolean;
- function Estado(ObjStatus: Integer): Boolean; overload;
- function Estado(Checked: Boolean): Integer; overload;
+ function ValidaInteiro(Numero: string): Boolean;
 
  implementation
 
@@ -147,20 +146,14 @@ begin
   Result := Date1 > Date2;
 end;
 
-function Estado(ObjStatus:Integer): Boolean;
+function ValidaInteiro(Numero: string): Boolean;
+var
+  i: Integer;
 begin
-  if ObjStatus = 1 then
+  if TryStrToInt(Numero, i) then
     Result := True
   else
     Result := False;
-end;
-
-function Estado(Checked: Boolean): Integer;
-begin
-  if Checked then
-    Result := 1
-  else
-    Result := 0;
 end;
 
 end.

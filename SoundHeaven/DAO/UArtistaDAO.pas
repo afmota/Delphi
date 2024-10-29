@@ -2,7 +2,7 @@ unit UArtistaDAO;
 
 interface
 
-uses System.SysUtils, Data.Win.ADODB, UConexao, UArtistas;
+uses System.SysUtils, Data.Win.ADODB, UConexao, UArtista;
 
 type
   TArtistaDAO = class
@@ -13,12 +13,11 @@ type
     destructor Destroy; override;
 
     // Métodos CRUD
-    procedure Inserir(Artista: TArtista);
-    procedure Atualizar(Artista: TArtista);
-    procedure AlterarStatus(Artista: TArtista; NovoStatus: Integer);
-    function BuscarPorId(ID: Integer): TArtista;
+    function Inserir(Artista: TArtista): Boolean;
+    function Atualizar(Artista: TArtista): Boolean;
+    {function BuscarPorId(ID: Integer): TArtista;
     function BuscarPorNome(ArtistaNome: string): TArtista;
-    function ListarAtivos: TADOQuery;
+    function ListarAtivos: TADOQuery;}
   end;
 
 implementation
@@ -37,63 +36,73 @@ begin
 end;
 
 // Método para inserir novo artista no banco
-procedure TArtistaDAO.Inserir(Artista: TArtista);
+function TArtistaDAO.Inserir(Artista: TArtista): Boolean;
 var
-  Query: TADOQuery;
+  StoredProc: TADOStoredProc;
 begin
-  Query := TADOQuery.Create(nil);
+  StoredProc := TADOStoredProc.Create(nil);
   try
-    Query.Connection := FConn.GetConnection;
-    Query.SQL.Text := 'INSERT INTO TB_Artistas (Artista_Nome, Artista_Status, Data_Inclusao) ' +
-                      'VALUES (:Artista, :Status, :DataInclusao)';
-    Query.Parameters.ParamByName('Artista').Value := Artista.Nome;
-    Query.Parameters.ParamByName('Status').Value := Artista.Status;
-    Query.Parameters.ParamByName('DataInclusao').Value := Artista.DataInclusão;
-    Query.ExecSQL;
+    try
+      with StoredProc do
+      begin
+        Connection := FConn.GetConnection;
+        ProcedureName := 'sp_InserirArtista';
+        Parameters.Refresh;
+
+        Parameters.ParamByName('@Nome').Value := Artista.Nome;
+        Parameters.ParamByName('@Estilo').Value := Artista.Estilo;
+        Parameters.ParamByName('@Ativo').value := Artista.Ativo;
+        Parameters.ParamByName('@DataInclusao').Value := Artista.DataInclusao;
+        ExecProc;
+      end;
+
+      Result := True;
+    except
+      on E: Exception do
+      begin
+        raise Exception.Create('Erro ao incluir Artista: ' + E.Message);
+        Result := False;
+      end;
+    end;
   finally
-    Query.Free;
+    StoredProc.Free;
   end;
 end;
 
 // Método para atualizar artista existente
-procedure TArtistaDAO.Atualizar(Artista: TArtista);
+function TArtistaDAO.Atualizar(Artista: TArtista): Boolean;
 var
-  Query: TADOQuery;
+  StoredProc: TADOStoredProc;
 begin
-  Query := TADOQuery.Create(nil);
+  StoredProc := TADOStoredProc.Create(nil);
   try
-    Query.Connection := FConn.GetConnection;
-    Query.SQL.Text := 'UPDATE TB_Artistas SET Artista_Nome = :Artista, Artista_Status = :Status ' +
-                      'WHERE Artista_ID = :ID';
-    Query.Parameters.ParamByName('Artista').Value := Artista.Nome;
-    Query.Parameters.ParamByName('Status').Value := Artista.Status;
-    Query.Parameters.ParamByName('ID').Value := Artista.ID;
-    Query.ExecSQL;
-  finally
-    Query.Free;
-  end;
-end;
+    try
+      with StoredProc do
+      begin
+        Connection := FConn.GetConnection;
+        ProcedureName := 'sp_AtualizarArtista';
+        Parameters.Refresh;
 
-// Método para alterar status de um artista
-procedure TArtistaDAO.AlterarStatus(Artista: TArtista; NovoStatus: Integer);
-var
-  Query: TADOQuery;
-begin
-  Query := TADOQuery.Create(nil);
-  try
-    Query.Connection := FConn.GetConnection;
-    Query.SQL.Text := 'UPDATE TB_Artistas SET Status = :Status WHERE ID = :ID';
-    Query.Parameters.ParamByName('ID').Value := Artista.ID;
-    Query.Parameters.ParamByName('Status').Value := NovoStatus;
-    Query.ExecSQL;
+        Parameters.ParamByName('@ID').Value := Artista.ID;
+        Parameters.ParamByName('@Nome').Value := Artista.Nome;
+        Parameters.ParamByName('@Estilo').Value := Artista.Estilo;
+        Parameters.ParamByName('@Ativo').Value := Artista.Ativo;
+        Parameters.ParamByName('@DataAlteracao').Value := Artista.DataAlteracao;
+        ExecProc;
+      end;
+    except
+      on E: Exception do
+      begin
+        raise Exception.Create('Erro ao atualizar Artista');
+      end;
+    end;
   finally
-    Query.Free;
+    StoredProc.Free;
   end;
-
 end;
 
 // Método para buscar artista por ID
-function TArtistaDAO.BuscarPorId(ID: Integer): TArtista;
+{function TArtistaDAO.BuscarPorId(ID: Integer): TArtista;
 var
   Query: TADOQuery;
   Artista: TArtista;
@@ -147,7 +156,6 @@ begin
   end;
 end;
 
-
 // Método para listar artistas ativos
 function TArtistaDAO.ListarAtivos: TADOQuery;
 var
@@ -163,6 +171,6 @@ begin
     Query.Free;
     raise;
   end;
-end;
+end;}
 
 end.

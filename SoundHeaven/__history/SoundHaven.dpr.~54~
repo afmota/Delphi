@@ -1,0 +1,24 @@
+program SoundHaven;
+
+uses
+  Vcl.Forms,
+  Principal in 'Principal.pas' {frmPrincipal},
+  Model in 'Model.pas' {frmModel},
+  ComponentHelper in 'Functions\ComponentHelper.pas',
+  Estilos in 'View\Estilos.pas' {frmEstilos},
+  UEstilo in 'Model\UEstilo.pas',
+  UEstiloController in 'Controller\UEstiloController.pas',
+  UEstiloDAO in 'DAO\UEstiloDAO.pas',
+  UConexao in 'DAO\UConexao.pas',
+  UArtistas in 'Model\UArtistas.pas',
+  Artistas in 'View\Artistas.pas' {frmArtistas};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TfrmPrincipal, frmPrincipal);
+  Application.CreateForm(TfrmArtistas, frmArtistas);
+  Application.Run;
+end.

@@ -1,0 +1,60 @@
+unit UEstiloController;
+
+interface
+
+uses UEstilo, UEstiloDAO, System.Generics.Collections, System.SysUtils;
+
+type
+  TEstiloController = class
+    private
+      FDAO: TEstiloDAO;
+    public
+      constructor Create;
+      destructor Destroy; override;
+      function InserirEstilo(const Estilo: TEstilo): Boolean;
+      function AtualizarEstilo(const Estilo: TEstilo): Boolean;
+      //procedure ExcluirEstilo
+      //function LocalizarEstilo(ID: Integer): TEstilo; overload;
+      //function LocalizarEstilo(Nome: string): TEstilo; overload;
+      //function ListarEstilos: TList<TEstilo>;
+  end;
+
+implementation
+
+constructor TEstiloController.Create;
+begin
+  FDAO := TEstiloDAO.Create;
+end;
+
+destructor TEstiloController.Destroy;
+begin
+  FDAO.Free;
+  inherited;
+end;
+
+function TEstiloController.InserirEstilo(const Estilo: TEstilo): Boolean;
+begin
+  Result := FDAO.Inserir(Estilo);
+end;
+
+function TEstiloController.AtualizarEstilo(const Estilo: TEstilo): Boolean;
+begin
+    Result := FDAO.Atualizar(Estilo);
+end;
+
+{function TEstiloController.LocalizarEstilo(ID: Integer): TEstilo;
+begin
+  Result := FDAO.Localizar(ID);
+end;
+
+function TEstiloController.LocalizarEstilo(Nome: string): TEstilo;
+begin
+  Result := FDAO.Localizar(Nome);
+end;
+
+function TEstiloController.ListarEstilos: TList<TEstilo>;
+begin
+  Result := FDAO.ListarEstilos;
+end;}
+
+end.

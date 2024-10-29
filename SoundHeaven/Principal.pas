@@ -2,15 +2,17 @@ unit Principal;
 
 interface
 
-uses System.SysUtils, System.Classes, Vcl.Forms, Vcl.Menus;
+uses System.SysUtils, System.Classes, Vcl.Forms, Vcl.Menus, Vcl.Controls,
+  Vcl.ComCtrls;
 
 type
   TfrmPrincipal = class(TForm)
-    MainMenu1: TMainMenu;
+    MainMenu: TMainMenu;
     Cadastros1: TMenuItem;
-    Artistas1: TMenuItem;
     Sair1: TMenuItem;
-    lbuns1: TMenuItem;
+    StatusBar1: TStatusBar;
+    Estilos1: TMenuItem;
+    Artistas1: TMenuItem;
     procedure OpenMDIChild(AFormClass: TFormClass);
     procedure MenuClick(Sender: TObject);
     procedure Sair1Click(Sender: TObject);
@@ -27,7 +29,7 @@ implementation
 
 {$R *.dfm}
 
-uses Artistas;
+uses Estilos, Artistas;
 
 procedure TfrmPrincipal.OpenMDIChild(AFormClass: TFormClass);
 var
@@ -52,9 +54,9 @@ end;
 
 procedure TfrmPrincipal.MenuClick(Sender: TObject);
 begin
-case (Sender as TMenuItem).Tag of
-    1: OpenMDIChild(TfrmArtistas);   // Tag 1 corresponde a frmArtistas
-    //2: OpenMDIChild(TfrmAlbuns); // Tag 2 corresponde a frmArtistas
+  case (Sender as TMenuItem).Tag of
+    1: OpenMDIChild(TfrmEstilos);
+    2: OpenMDIChild(TfrmArtistas);
     // Adicione mais casos para outros formulários
   end;
 end;

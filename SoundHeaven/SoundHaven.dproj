@@ -5,7 +5,7 @@
         <FrameworkType>VCL</FrameworkType>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
-        <Platform Condition="'$(Platform)'==''">Win32</Platform>
+        <Platform Condition="'$(Platform)'==''">Win64</Platform>
         <ProjectName Condition="'$(ProjectName)'==''">SoundHaven</ProjectName>
         <TargetedPlatforms>3</TargetedPlatforms>
         <AppType>Application</AppType>
@@ -112,6 +112,8 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Locale>1033</VerInfo_Locale>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -133,31 +135,27 @@
             <Form>frmPrincipal</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="Model.pas">
+        <DCCReference Include="Functions\ComponentHelper.pas"/>
+        <DCCReference Include="Model\UEstilo.pas"/>
+        <DCCReference Include="Controller\UEstiloController.pas"/>
+        <DCCReference Include="DAO\UEstiloDAO.pas"/>
+        <DCCReference Include="DAO\UConexao.pas"/>
+        <DCCReference Include="Model\Model.pas">
             <Form>frmModel</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="View\Estilos.pas">
+            <Form>frmEstilos</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="View\Artistas.pas">
             <Form>frmArtistas</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="Functions\ComponentHelper.pas"/>
         <DCCReference Include="Functions\FuncoesDivs.pas"/>
+        <DCCReference Include="Model\UArtista.pas"/>
         <DCCReference Include="Controller\UArtistaController.pas"/>
-        <DCCReference Include="Model\UArtistas.pas"/>
         <DCCReference Include="DAO\UArtistaDAO.pas"/>
-        <DCCReference Include="View\Albuns.pas">
-            <Form>frmAlbuns</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="Model\UAlbuns.pas"/>
-        <DCCReference Include="View\Gravadoras.pas">
-            <Form>frmGravadoras</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="Controller\UGravadoraController.pas"/>
-        <DCCReference Include="DAO\UGravadoraDAO.pas"/>
-        <DCCReference Include="Model\UGravadora.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -187,6 +185,18 @@
                 <DeployFile LocalName="Win32\Debug\SoundHaven.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>SoundHaven.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="Win64\Debug\SoundHaven.exe" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win64">
+                        <RemoteName>SoundHaven.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="Win64\Debug\SoundHaven.rsm" Configuration="Debug" Class="DebugSymbols">
+                    <Platform Name="Win64">
+                        <RemoteName>SoundHaven.rsm</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

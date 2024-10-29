@@ -4,7 +4,7 @@ interface
 
 uses
   System.Classes, Vcl.Controls, Vcl.Forms, Vcl.ComCtrls, System.SysUtils,
-    Vcl.StdCtrls, Vcl.Mask; // Importa as unidades necessárias
+    Vcl.StdCtrls, Vcl.Mask, Vcl.StyledButton; // Importa as unidades necessárias
 
 // Declara o procedimento para ativar/desativar componentes com base em uma string de 0s e 1s
 procedure EnableComponentsByTag(AForm: TForm; const States: string);
@@ -59,27 +59,30 @@ end;
 
 procedure EnableButtons(Form: TForm; States: string);
 var
-  Buttons: array [1..6] of TButton;
+  Buttons: array [1..7] of TStyledButton;
   i: Integer;
   state: Boolean;
 begin
   // Busca os botões pelo nome no formulário passado como parâmetro
-  Buttons[1] := Form.FindComponent('btnNovo') as TButton;
-  Buttons[2] := Form.FindComponent('btnPesquisar') as TButton;
-  Buttons[3] := Form.FindComponent('btnAtualizar') as TButton;
-  Buttons[4] := Form.FindComponent('btnCancelar') as TButton;
-  Buttons[5] := Form.FindComponent('btnSalvar') as TButton;
-  Buttons[6] := Form.FindComponent('btnSair') as TButton;
+  Buttons[1] := Form.FindComponent('btnIncluir') as TStyledButton;
+  Buttons[2] := Form.FindComponent('btnExcluir') as TStyledButton;
+  Buttons[3] := Form.FindComponent('btnAtualizar') as TStyledButton;
+  Buttons[4] := Form.FindComponent('btnSalvar') as TStyledButton;
+  Buttons[5] := Form.FindComponent('btnCancelar') as TStyledButton;
+  Buttons[6] := Form.FindComponent('btnLocalizar') as TStyledButton;
+  Buttons[7] := Form.FindComponent('btnSair') as TStyledButton;
 
-  for i := 1 to 6 do
+  for i := 1 to 7 do
   begin
     if (States[i] = '1') then
-      state := true
+      state := True
     else
-      state := false;
+      state := False;
 
     if Assigned(Buttons[i]) then // Verifica se o botão foi encontrado no formulário
+    begin
       Buttons[i].Enabled := state;
+    end;
   end;
 end;
 

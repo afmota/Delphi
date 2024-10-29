@@ -3,22 +3,21 @@ unit Artistas;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
-  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Model, Vcl.StdCtrls, Vcl.ExtCtrls;
+  Winapi.Windows, Model, Vcl.StdCtrls, Generics.Collections, Vcl.Controls,
+  Vcl.ButtonStylesAttributes, Dialogs,Vcl.StyledButton, System.Classes,
+  Vcl.ExtCtrls, System.SysUtils;
 
 type
   TfrmArtistas = class(TfrmModel)
-    Label1: TLabel;
-    Label2: TLabel;
-    edtID: TEdit;
-    edtNome: TEdit;
-    chkStatus: TCheckBox;
-    procedure btnNovoClick(Sender: TObject);
-    procedure btnPesquisarClick(Sender: TObject);
-    procedure edtNomeChange(Sender: TObject);
-    procedure edtIDKeyPress(Sender: TObject; var Key: Char);
-    procedure btnAtualizarClick(Sender: TObject);
+    cbEstilo: TComboBox;
+    Label3: TLabel;
+    procedure FormShow(Sender: TObject);
+    procedure btnIncluirClick(Sender: TObject);
     procedure btnSalvarClick(Sender: TObject);
+    //procedure btnExcluirClick(Sender: TObject);
+    //procedure btnPesquisarClick(Sender: TObject);
+    //procedure edtIDKeyPress(Sender: TObject; var Key: Char);
+    //procedure btnAtualizarClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -32,27 +31,109 @@ implementation
 
 {$R *.dfm}
 
-uses ComponentHelper, FuncoesDivs, UArtistaController, UArtistas;
+uses ComponentHelper, UEstiloController, UEstilo, UArtista, UArtistaController;
 
-procedure TfrmArtistas.btnNovoClick(Sender: TObject);
+procedure TfrmArtistas.FormShow(Sender: TObject);
+var
+  EstiloController: TEstiloController;
+  ListaEstilos: TList<TEstilo>;
+  Estilo: TEstilo;
+  i: Integer;
+begin
+  inherited;
+
+  // Limpa a ComboBox
+  cbEstilo.Items.Clear;
+
+  try
+    // Obtém a lista de estilos via Controller
+    EstiloController := TEstiloController.Create;
+    ListaEstilos := EstiloController.ListarEstilos;
+
+    if not Assigned(ListaEstilos) then
+    begin
+      MessageDlg('Estilos musicais ainda não foram cadastrados no sistema.',
+        mtInformation, [mbOk], 0);
+      EnableButtons(Self, '0000001');
+    end
+    else
+    begin
+      // Adiciona cada estilo ao combobox
+      for i := 0 to ListaEstilos.Count -1 do
+      begin
+        Estilo := ListaEstilos[i];
+        cbEstilo.Items.Add(Estilo.Nome); // Preenche com o nome do estilo
+      end;
+      cbEstilo.ItemIndex := -1;
+    end;
+  finally
+    if Assigned(ListaEstilos) then
+    begin
+      ListaEstilos.Free;
+      EstiloController.Free;
+      Estilo.Free;
+    end;
+  end;
+end;
+
+procedure TfrmArtistas.btnIncluirClick(Sender: TObject);
 begin
   inherited;
   EnableComponentsByTag(Self, '011');
   edtNome.SetFocus;
 end;
 
+procedure TfrmArtistas.btnSalvarClick(Sender: TObject);
+var
+  ArtistaController: TArtistaController;
+  Artista: TArtista;
+begin
+  ArtistaController := TArtistaController.Create;
+
+  case OpBD of
+    1: begin
+      try
+        Artista := TArtista.Create(edtNome.Text, cbEstilo.Text, 'T', Now, 0);
+        if ArtistaController.InserirArtista(Artista) then
+          MessageDlg('Registro gravado com sucesso.', mtInformation, [mbOk], 0);
+      finally
+        ArtistaController.Free;
+      end;
+    end;
+    2: begin
+      try
+        Artista := TArtista.Create(edtNome.Text, cbEstilo.Text, 'T', 0, Now);
+        Artista.Id := StrToInt(edtId.Text);
+         if ArtistaController.AtualizarArtista(Artista) then
+           MessageDlg('Registro atualizado com sucesso.', mtInformation, [mbOk], 0);
+      finally
+        ArtistaController.Free;
+      end;
+    end;
+  end;
+  inherited;
+end;
+
+{procedure TfrmArtistas.btnExcluirClick(Sender: TObject);
+var
+  ArtistaController: TArtistaController;
+begin
+  inherited;
+  ArtistaController := TArtistaController.Create;
+
+  try
+    ArtistaController.ExcluirArtista(StrToInt(edtId.Text));
+    MessageDlg('Registro excluído com sucesso.', mtInformation, [mbOk], 0);
+  finally
+    ArtistaController.Free;
+  end;
+end;
+
 procedure TfrmArtistas.btnPesquisarClick(Sender: TObject);
 begin
   inherited;
-  EnableComponentsByTag(Self, '100');
-  edtId.SetFocus;
-end;
-
-procedure TfrmArtistas.edtNomeChange(Sender: TObject);
-begin
-  inherited;
-  if edtId.Text <> '' then
-    btnAtualizar.Enabled := True;
+  //EnableComponentsByTag(Self, '100');
+  //edtId.SetFocus;
 end;
 
 procedure TfrmArtistas.edtIDKeyPress(Sender: TObject; var Key: Char);
@@ -83,6 +164,8 @@ begin
       begin
         edtNome.Text := Artista.Nome;
         ChkStatus.Checked := Estado(Artista.Status);
+        btnExcluir.Enabled := True;
+        btnAtualizar.Enabled := True;
       end
       else
         Mensagem('Artista não encontrado.', 0);
@@ -96,46 +179,8 @@ end;
 procedure TfrmArtistas.btnAtualizarClick(Sender: TObject);
 begin
   inherited;
-  EnableComponentsByTag(Self, '011');
+  {EnableComponentsByTag(Self, '011');
   edtNome.SetFocus;
-end;
-
-procedure TfrmArtistas.btnSalvarClick(Sender: TObject);
-var
-  Artista: TArtista;
-  ArtistaController: TArtistaController;
-begin
-  if edtNome.Text <> '' then
-  begin
-    Artista := TArtista.Create(edtNome.Text, Estado(chkStatus.Checked));
-    if edtId.Text <> '' then Artista.ID := StrToInt(edtId.Text);
-    ArtistaController := TArtistaController.Create;
-
-    case OpBD of
-      1: begin
-        try
-          ArtistaController.AdicionarArtista(Artista.Nome);
-          Mensagem('Registro gravado com sucesso.', 0);
-        finally
-          ArtistaController.Free;
-        end;
-      end;
-      2: begin
-        try
-          ArtistaController.AtualizarArtista(Artista.ID, Artista.Nome, Artista.Status);
-          Mensagem('Registro atualizado com sucesso.', 0);
-        finally
-          ArtistaController.Free;
-        end;
-      end;
-    end;
-    inherited;
-  end
-  else
-  begin
-    Mensagem('Nome do artista deve ser preenchido.', 0);
-    edtNome.SetFocus;
-  end;
-end;
+end;}
 
 end.

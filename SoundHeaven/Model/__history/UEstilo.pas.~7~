@@ -1,0 +1,74 @@
+unit UEstilo;
+
+interface
+
+uses System.SysUtils, System.Math;
+
+type
+  TEstilo = class
+  private
+    FID: Integer;
+    FNome: string;
+    FAtivo: Char;
+    FDataInclusao: TDateTime;
+    FDataAlteracao: TDateTime;
+    procedure SetNome(const Value: string);
+    procedure SetStatus(const Value: Char);
+    procedure SetDataInclusao(const Value: TDateTime);
+    procedure SetDataAlteracao(const Value: TDateTime);
+  public
+    //constructor Create(ANome: string; AStatus: Integer = 1);
+    constructor Create(const Nome: string; const Status: Char;
+      const DataInclusao: TDateTime = 0; const DataAlteracao: TDateTime = 0); overload;
+    property ID: Integer read FID write FID;
+    property Nome: string read FNome write FNome;
+    property Status: Char read FAtivo write FAtivo;
+    property DataInclusao: TDateTime read FDataInclusao write FDataInclusao;
+    property DataAlteracao: TDateTime read FDataAlteracao write FDataAlteracao;
+  end;
+
+implementation
+
+{ TEstilo }
+
+//constructor TEstilo.Create(ANome: string; AStatus: Integer = 1);
+constructor TEstilo.Create(const Nome: string; const Status: Char;
+  const DataInclusao: TDateTime = 0; const DataAlteracao: TDateTime = 0);
+begin
+  FNome := Nome;
+  FAtivo := Status;
+  if DataInclusao = 0 then FDataInclusao := Now else FDataInclusao := DataInclusao;
+  if DataAlteracao = 0 then FDataAlteracao := Now else FDataAlteracao := DataAlteracao;
+end;
+
+procedure TEstilo.SetNome(const Value: string);
+begin
+  if Length(Value) > 256 then
+    raise Exception.Create('O NOME não pode ter mais que 256 dígitos.');
+  FNome := Value;
+end;
+
+procedure TEstilo.SetStatus(const Value: Char);
+begin
+  if not (Value in ['T', 'F']) then
+    raise Exception.Create('O STATUS deve ser ''T'' ou ''F''.');
+  FAtivo := Value;
+end;
+
+procedure TEstilo.SetDataInclusao(const Value: TDateTime);
+begin
+  if Value > Now then
+    raise Exception.Create('A Data de Inclusão não pode ser maior que a data atual');
+  FDataInclusao := Value;
+end;
+
+procedure TEstilo.SetDataAlteracao(const Value: TDateTime);
+begin
+  if Value < FDataInclusao then
+    raise Exception.Create('A Data de Alteração não pode ser menor que a Data de Inclusão');
+  if Value > Now then
+    raise Exception.Create('A Data de Alteração não pode se maior que a data atual');
+  FDataAlteracao := Value;
+end;
+
+end.

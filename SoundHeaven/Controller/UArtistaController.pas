@@ -2,7 +2,7 @@ unit UArtistaController;
 
 interface
 
-uses UArtistas, UArtistaDAO, SysUtils, ADODB;
+uses UArtista, UArtistaDAO, SysUtils, ADODB;
 
 type
   TArtistaController = class
@@ -11,12 +11,12 @@ type
   public
     constructor Create;
     destructor Destroy; override;
-    procedure AdicionarArtista(NomeArtista: string);
-    procedure AtualizarArtista(ID: Integer; NomeArtista: string; Status: Integer);
-    procedure AlterarStatusArtista(ID: Integer; NovoStatus: Integer);
-    function BuscarArtista(ID: Integer): TArtista; overload;
+    function InserirArtista(const Artista: TArtista): Boolean;
+    function AtualizarArtista(const Artista: TArtista): Boolean;
+    {function BuscarArtista(ID: Integer): TArtista; overload;
     function BuscarArtista(ArtistaNome: string): TArtista; overload;
-    function ListarArtistasAtivos: TADOQuery;
+    procedure ExcluirArtista(ID: Integer; NovoStatus: Integer = 0);
+    function ListarArtistasAtivos: TADOQuery;}
   end;
 
 implementation
@@ -32,25 +32,33 @@ begin
   inherited;
 end;
 
-procedure TArtistaController.AdicionarArtista(NomeArtista: string);
-var
-  Artista: TArtista;
+function TArtistaController.InserirArtista(const Artista: TArtista): Boolean;
 begin
-  Artista := TArtista.Create(NomeArtista);
-  FDAO.Inserir(Artista);
+  if Artista <> nil then
+    if Artista.Nome = '' then
+      raise Exception.Create('O campo NOME deve ser preenchido.')
+    else
+      if Artista.Estilo = '' then
+        raise Exception.Create('O campo ESTILO deve ser preenchido.')
+      else
+        Result := FDAO.Inserir(Artista);
 end;
 
-procedure TArtistaController.AtualizarArtista(ID: Integer; NomeArtista: string; Status: Integer);
-var
-  Artista: TArtista;
+function TArtistaController.AtualizarArtista(const Artista: TArtista): Boolean;
 begin
-  Artista := FDAO.BuscarPorId(ID);
   if Artista <> nil then
-  begin
-    Artista.Nome := NomeArtista;
-    Artista.Status := Status;
-    FDAO.Atualizar(Artista);
-  end;
+    if Artista.Nome = '' then
+      raise Exception.Create('O campo NOME deve ser preenchido.')
+    else
+      if Artista.Estilo = '' then
+        raise Exception.Create('O campo ESTILO deve ser preenchido')
+      else
+        Result := FDAO.Atualizar(Artista);
+end;
+
+{function TArtistaController.BuscarArtista(ID: Integer): TArtista;
+begin
+  Result := FDAO.BuscarPorId(ID);
 end;
 
 function TArtistaController.BuscarArtista(ArtistaNome: string): TArtista;
@@ -58,7 +66,7 @@ begin
   Result := FDAO.BuscarPorNome(ArtistaNome);
 end;
 
-procedure TArtistaController.AlterarStatusArtista(ID: Integer; NovoStatus: Integer);
+procedure TArtistaController.ExcluirArtista(ID: Integer; NovoStatus: Integer = 0);
 var
   Artista: TArtista;
 begin
@@ -70,14 +78,9 @@ begin
   end;
 end;
 
-function TArtistaController.BuscarArtista(ID: Integer): TArtista;
-begin
-  Result := FDAO.BuscarPorId(ID);
-end;
-
 function TArtistaController.ListarArtistasAtivos: TADOQuery;
 begin
   Result := FDAO.ListarAtivos;
-end;
+end;}
 
 end.
