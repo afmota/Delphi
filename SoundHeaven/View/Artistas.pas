@@ -14,7 +14,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure btnSalvarClick(Sender: TObject);
-    //procedure btnExcluirClick(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
     //procedure btnPesquisarClick(Sender: TObject);
     //procedure edtIDKeyPress(Sender: TObject; var Key: Char);
     //procedure btnAtualizarClick(Sender: TObject);
@@ -114,22 +114,27 @@ begin
   inherited;
 end;
 
-{procedure TfrmArtistas.btnExcluirClick(Sender: TObject);
+procedure TfrmArtistas.btnExcluirClick(Sender: TObject);
 var
+  Artista: TArtista;
   ArtistaController: TArtistaController;
 begin
   inherited;
+
+  Artista := TArtista.Create(edtNome.Text, cbEstilo.Text, 'F', 0, Now);
+  Artista.ID := StrToInt(edtId.Text);
   ArtistaController := TArtistaController.Create;
 
   try
-    ArtistaController.ExcluirArtista(StrToInt(edtId.Text));
-    MessageDlg('Registro excluído com sucesso.', mtInformation, [mbOk], 0);
+    if ArtistaController.AtualizarArtista(Artista) then
+      MessageDlg('Registro excluído com sucesso.', mtInformation, [mbOk], 0);
   finally
     ArtistaController.Free;
+    Artista.Free;
   end;
 end;
 
-procedure TfrmArtistas.btnPesquisarClick(Sender: TObject);
+{procedure TfrmArtistas.btnPesquisarClick(Sender: TObject);
 begin
   inherited;
   //EnableComponentsByTag(Self, '100');
