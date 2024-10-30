@@ -132,6 +132,10 @@ begin
     ArtistaController.Free;
     Artista.Free;
   end;
+
+  EnableButtons(Self, '1000011');
+  pnlCampos.Enabled := False;
+  CleanFields(Self);
 end;
 
 procedure TfrmArtistas.btnLocalizarClick(Sender: TObject);
@@ -171,18 +175,18 @@ begin
     ArtistaController := TArtistaController.Create;
     try
       // Buscar o artista pelo ID
-      Artista :=  ArtistaController.
+      Artista :=  ArtistaController.LocalizarArtista(ArtistaID);
 
       // Preencher os campos visuais se o artista for encontrado
       if Assigned(Artista) then
       begin
         edtNome.Text := Artista.Nome;
-        ChkStatus.Checked := Estado(Artista.Status);
+        cbEstilo.ItemIndex := cbEstilo.Items.IndexOf(Artista.Estilo);
         btnExcluir.Enabled := True;
         btnAtualizar.Enabled := True;
       end
       else
-        Mensagem('Artista não encontrado.', 0);
+        MessageDlg('Artista não encontrado.', mtInformation, [mbOk], 0);
     finally
       Artista.Free;
       ArtistaController.Free;

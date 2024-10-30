@@ -39,6 +39,7 @@ inherited frmArtistas: TfrmArtistas
     end
     inherited edtID: TEdit
       Left = 53
+      OnKeyPress = edtIDKeyPress
       ExplicitLeft = 53
     end
     inherited edtNome: TEdit

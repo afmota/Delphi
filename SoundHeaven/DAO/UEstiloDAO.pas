@@ -196,6 +196,7 @@ begin
     begin
       Connection := FConn.GetConnection;
       ProcedureName := 'sp_ListarEstilosAtivos';
+      Parameters.Refresh;
       Open;
       First;
 

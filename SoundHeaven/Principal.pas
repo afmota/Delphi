@@ -62,6 +62,7 @@ end;
 
 procedure TfrmPrincipal.Sair1Click(Sender: TObject);
 begin
+  FreeAndNil(frmPrincipal);
   Application.Terminate;
 end;
 
