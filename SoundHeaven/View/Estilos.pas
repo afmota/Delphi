@@ -44,7 +44,7 @@ var
 begin
   inherited;
 
-  Estilo := TEstilo.Create(edtNome.Text, 'F', 0, Now);
+  Estilo := TEstilo.Create(0, edtNome.Text, 'F', 0, Now);
   Estilo.ID := StrToInt(edtId.Text);
   EstiloController := TEstiloController.Create;
 
@@ -79,7 +79,7 @@ begin
     case OpBD of
       1: begin
         try
-          Estilo := TEstilo.Create(edtNome.Text, 'T', Now, 0);
+          Estilo := TEstilo.Create(0, edtNome.Text, 'T', Now, 0);
           if EstiloController.InserirEstilo(Estilo) then
             MessageDlg('Registro gravado com sucesso.', mtInformation, [mbOk], 0);
         finally
@@ -88,8 +88,7 @@ begin
       end;
       2: begin
         try
-          Estilo := TEstilo.Create(edtNome.Text, 'T', 0, Now);
-          Estilo.ID := ID;
+          Estilo := TEstilo.Create(ID, edtNome.Text, 'T', 0, Now);
           if EstiloController.AtualizarEstilo(Estilo) then
             MessageDlg('Registro atualizado com sucesso.', mtInformation, [mbOk], 0);
         finally

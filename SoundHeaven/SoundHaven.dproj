@@ -156,6 +156,11 @@
         <DCCReference Include="Model\UArtista.pas"/>
         <DCCReference Include="Controller\UArtistaController.pas"/>
         <DCCReference Include="DAO\UArtistaDAO.pas"/>
+        <DCCReference Include="View\Gravadoras.pas">
+            <Form>frmGravadoras</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Model\UGravadora.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

@@ -14,8 +14,9 @@ type
     FDataAlteracao: TDateTime;
   public
     //constructor Create(ANome: string; AStatus: Integer = 1);
-    constructor Create(const Nome: string; const Ativo: Char;
-      const DataInclusao: TDateTime = 0; const DataAlteracao: TDateTime = 0); overload;
+    constructor Create(const AID: Integer = 0; const ANome: string = '';
+      const AAtivo: Char = 'T'; const ADataInclusao: TDateTime = 0;
+      const ADataAlteracao: TDateTime = 0); overload;
     property ID: Integer read FID write FID;
     property Nome: string read FNome write FNome;
     property Ativo: Char read FAtivo write FAtivo;
@@ -27,13 +28,15 @@ implementation
 
 { TEstilo }
 
-//constructor TEstilo.Create(ANome: string; AStatus: Integer = 1);
-constructor TEstilo.Create(const Nome: string; const Ativo: Char;
-  const DataInclusao: TDateTime = 0; const DataAlteracao: TDateTime = 0);
+constructor TEstilo.Create(const AID: Integer = 0; const ANome: string = '';
+  const AAtivo: Char = 'T'; const ADataInclusao: TDateTime = 0;
+  const ADataAlteracao: TDateTime = 0);
 begin
-  FNome := Nome;
-  FAtivo := Ativo;
-  if DataInclusao = 0 then FDataInclusao := Now else FDataInclusao := DataInclusao;
+  Randomize;
+  if FID = 0 then FID := Random(1000000) else FID := AID;
+  if ANome = '' then FNome := 'Unknown' else FNome := ANome;
+  FAtivo := AAtivo;
+  if ADataInclusao = 0 then FDataInclusao := Now else FDataInclusao := ADataInclusao;
   if DataAlteracao = 0 then FDataAlteracao := Now else FDataAlteracao := DataAlteracao;
 end;
 

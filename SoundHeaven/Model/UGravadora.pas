@@ -9,27 +9,32 @@ type
   private
     FID: Integer;
     FNome: string;
-    FStatus: Integer;
+    FAtivo: Char;
     FDataInclusao: TDateTime;
+    FDataAlteracao: TDateTime;
   public
     property ID: Integer read FID write FID;
     property Nome: string read FNome write FNome;
-    property Status: Integer read FStatus write FStatus;
+    property FAtivo: Char read FAtivo write FAtivo;
     property DataInclusao: TDateTime read FDataInclusao write FDataInclusao;
+    property DataAlteracao: TDateTime read FDataAlteracao write FDataAlteracao;
 
     // Constructor
-    constructor Create(ANome: string; AStatus: Integer = 1);
+    constructor Create(const ANome: string; const AAtivo: Char = 'T';
+      const ADataInclusao: TDateTime = 0; const ADataAlteracao: TDateTime = 0);
   end;
 
 implementation
 
 { TGravadora }
 
-constructor TGravadora.Create(ANome: string; AStatus: Integer = 1);
+constructor TGravadora.Create(const ANome: string; const AAtivo: Char = 'T';
+  const ADataInclusao: TDateTime = 0; const ADataAlteracao: TDateTime = 0);
 begin
   FNome := ANome;
-  FStatus := AStatus;
-  FDataInclusao := Now;
+  FAtivo := AAtivo;
+  if ADataInclusao = 0 then FDataInclusao := Now else FDataInclusao := ADataInclusao;
+  if ADataAlteracao = 0 then FDataInclusao := Now else FDataAlteracao := ADataAlteracao;
 end;
 
 end.

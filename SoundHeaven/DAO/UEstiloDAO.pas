@@ -203,11 +203,11 @@ begin
       if not IsEmpty then
         while not Eof do
         begin
-          Estilo := TEstilo.Create(FieldByName('Estilo_Nome').AsString,
+          Estilo := TEstilo.Create(FieldByName('Estilo_ID').AsInteger,
+                                   FieldByName('Estilo_Nome').AsString,
                                    FieldByName('Estilo_Ativo').AsString[1],
                                    FieldByName('Data_Inclusao').AsDateTime,
                                    FieldByName('Data_Alteracao').AsDateTime);
-          Estilo.ID := FieldByName('Estilo_ID').AsInteger;
           Result.Add(Estilo);
           Next;
         end

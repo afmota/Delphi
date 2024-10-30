@@ -14,7 +14,9 @@ uses
   FuncoesDivs in 'Functions\FuncoesDivs.pas',
   UArtista in 'Model\UArtista.pas',
   UArtistaController in 'Controller\UArtistaController.pas',
-  UArtistaDAO in 'DAO\UArtistaDAO.pas';
+  UArtistaDAO in 'DAO\UArtistaDAO.pas',
+  Gravadoras in 'View\Gravadoras.pas' {frmGravadoras},
+  UGravadora in 'Model\UGravadora.pas';
 
 {$R *.res}
 
@@ -22,5 +24,6 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmPrincipal, frmPrincipal);
+  Application.CreateForm(TfrmGravadoras, frmGravadoras);
   Application.Run;
 end.

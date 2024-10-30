@@ -2,20 +2,18 @@ unit Gravadoras;
 
 interface
 
-uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Model, Vcl.StdCtrls, Vcl.ExtCtrls,
-  Vcl.ButtonStylesAttributes, System.ImageList, Vcl.ImgList, Vcl.StyledButton;
+uses Model, Vcl.ButtonStylesAttributes, Vcl.StdCtrls, Vcl.Controls,
+  Vcl.StyledButton, System.Classes, Vcl.ExtCtrls;
 
 type
   TfrmGravadoras = class(TfrmModel)
-    chkStatus: TCheckBox;
-    procedure btnNovoClick(Sender: TObject);
-    procedure btnPesquisarClick(Sender: TObject);
+    procedure btnIncluirClick(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
+    {procedure btnPesquisarClick(Sender: TObject);
     procedure edtNomeChange(Sender: TObject);
     procedure edtIDKeyPress(Sender: TObject; var Key: Char);
     procedure btnAtualizarClick(Sender: TObject);
-    procedure btnSalvarClick(Sender: TObject);
+    procedure btnSalvarClick(Sender: TObject);}
   private
     { Private declarations }
   public
@@ -29,16 +27,23 @@ implementation
 
 {$R *.dfm}
 
-uses ComponentHelper, FuncoesDivs, UGravadoraController, UGravadora;
+uses ComponentHelper;
 
-procedure TfrmGravadoras.btnNovoClick(Sender: TObject);
+procedure TfrmGravadoras.btnIncluirClick(Sender: TObject);
 begin
   inherited;
   EnableComponentsByTag(Self, '011');
   edtNome.SetFocus;
 end;
 
-procedure TfrmGravadoras.btnPesquisarClick(Sender: TObject);
+procedure TfrmGravadoras.btnExcluirClick(Sender: TObject);
+var
+  Gravadora: TGravadora;
+begin
+  Inherited;
+end;
+
+{procedure TfrmGravadoras.btnPesquisarClick(Sender: TObject);
 begin
   inherited;
   EnableComponentsByTag(Self, '100');
@@ -134,6 +139,6 @@ begin
     Mensagem('O campo Nome deve ser preenchido.', 0);
     edtNome.SetFocus;
   end;
-end;
+end;}
 
 end.

@@ -9,7 +9,6 @@ uses
 type
   Tform_login = class(TForm)
     Panel1: TPanel;
-    btn_fechar: TSpeedButton;
     pnl_bemvindo: TPanel;
     Panel3: TPanel;
     pnl_campos: TPanel;
@@ -20,6 +19,7 @@ type
     Label4: TLabel;
     Label5: TLabel;
     Label6: TLabel;
+    btn_fechar: TSpeedButton;
     procedure btn_fecharClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
