@@ -2,7 +2,7 @@ unit UArtistaController;
 
 interface
 
-uses UArtista, UArtistaDAO, SysUtils, ADODB, System.Generics.Collections;
+uses UArtista, UArtistaDAO, SysUtils, ADODB;
 
 type
   TArtistaController = class
@@ -14,8 +14,9 @@ type
     function InserirArtista(const Artista: TArtista): Boolean;
     function AtualizarArtista(const Artista: TArtista): Boolean;
     function LocalizarArtista(const ID: Integer): TArtista; overload;
-    function LocalizarArtista(const ArtistaNome: string): TArtista; overload;
-    function ListarArtistas: TList<TArtista>;
+    {function BuscarArtista(ArtistaNome: string): TArtista; overload;
+    procedure ExcluirArtista(ID: Integer; NovoStatus: Integer = 0);
+    function ListarArtistasAtivos: TADOQuery;}
   end;
 
 implementation
@@ -60,14 +61,26 @@ begin
   Result := FDAO.LocalizarId(ID);
 end;
 
-function TArtistaController.LocalizarArtista(const ArtistaNome: string): TArtista;
+{function TArtistaController.BuscarArtista(ArtistaNome: string): TArtista;
 begin
-  Result := FDAO.LocalizarNome(ArtistaNome);
+  Result := FDAO.BuscarPorNome(ArtistaNome);
 end;
 
-function TArtistaController.ListarArtistas: TList<TArtista>;
+procedure TArtistaController.ExcluirArtista(ID: Integer; NovoStatus: Integer = 0);
+var
+  Artista: TArtista;
 begin
-  Result := FDAO.ListarArtistas;
+  Artista := FDAO.BuscarPorId(ID);
+  if Artista <> nil then
+  begin
+    Artista.Status := NovoStatus;
+    FDAO.Atualizar(Artista);
+  end;
 end;
+
+function TArtistaController.ListarArtistasAtivos: TADOQuery;
+begin
+  Result := FDAO.ListarAtivos;
+end;}
 
 end.

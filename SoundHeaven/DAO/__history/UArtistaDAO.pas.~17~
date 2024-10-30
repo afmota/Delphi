@@ -17,7 +17,7 @@ type
     function Atualizar(const Artista: TArtista): Boolean;
     function LocalizarId(const ID: Integer): TArtista;
     function LocalizarNome(const ArtistaNome: string): TArtista;
-    function ListarArtistas: TList<TArtista>;
+    function ListarAtivos: TList<TArtista>;
   end;
 
 implementation
@@ -179,7 +179,7 @@ begin
 end;
 
 // Método para listar artistas ativos
-function TArtistaDAO.ListarArtistas: TList<TArtista>;
+function TArtistaDAO.ListarAtivos: TList<TArtista>;
 var
   StoredProc: TADOStoredProc;
   Artista: TArtista;
