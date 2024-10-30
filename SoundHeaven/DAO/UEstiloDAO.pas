@@ -127,11 +127,11 @@ begin
         if not IsEmpty then
         begin
           Result := TEstilo.Create(
+            FieldByName('Estilo_ID').AsInteger,
             FieldByName('Estilo_Nome').AsString,
             FieldByName('Estilo_Ativo').AsString[1],
             FieldByName('Data_Inclusao').AsDateTime,
             FieldByName('Data_Alteracao').AsDateTime);
-          Result.ID := FieldByName('Estilo_ID').AsInteger;
         end
         else
           Result := nil;
@@ -164,11 +164,11 @@ begin
         if not IsEmpty then
         begin
           Result := TEstilo.Create(
+            FieldByName('Estilo_ID').AsInteger,
             FieldByName('Estilo_Nome').AsString,
             FieldByName('Estilo_Ativo').AsString[1],
             FieldByName('Data_Inclusao').AsDateTime,
             FieldByName('Data_Alteracao').AsDateTime);
-          Result.ID := FieldByName('Estilo_ID').AsInteger;
         end
         else
           Result := nil;

@@ -87,13 +87,14 @@ procedure TfrmArtistas.btnSalvarClick(Sender: TObject);
 var
   ArtistaController: TArtistaController;
   Artista: TArtista;
+  ArtistaID: Integer;
 begin
   ArtistaController := TArtistaController.Create;
 
   case OpBD of
     1: begin
       try
-        Artista := TArtista.Create(edtNome.Text, cbEstilo.Text, 'T', Now, 0);
+        Artista := TArtista.Create(0, edtNome.Text, cbEstilo.Text, 'T', Now, 0);
         if ArtistaController.InserirArtista(Artista) then
           MessageDlg('Registro gravado com sucesso.', mtInformation, [mbOk], 0);
       finally
@@ -102,10 +103,15 @@ begin
     end;
     2: begin
       try
-        Artista := TArtista.Create(edtNome.Text, cbEstilo.Text, 'T', 0, Now);
-        Artista.Id := StrToInt(edtId.Text);
-         if ArtistaController.AtualizarArtista(Artista) then
-           MessageDlg('Registro atualizado com sucesso.', mtInformation, [mbOk], 0);
+        if TryStrToInt(edtID.Text, ArtistaID) then
+        begin
+          Artista := TArtista.Create(ArtistaID, edtNome.Text, cbEstilo.Text,
+            'T', 0, Now);
+          Artista.Id := StrToInt(edtId.Text);
+           if ArtistaController.AtualizarArtista(Artista) then
+             MessageDlg(
+              'Registro atualizado com sucesso.', mtInformation, [mbOk], 0);
+        end;
       finally
         ArtistaController.Free;
       end;
@@ -121,8 +127,8 @@ var
 begin
   inherited;
 
-  Artista := TArtista.Create(edtNome.Text, cbEstilo.Text, 'F', 0, Now);
-  Artista.ID := StrToInt(edtId.Text);
+  Artista := TArtista.Create(StrToInt(edtID.Text), edtNome.Text, cbEstilo.Text,
+    'F', 0, Now);
   ArtistaController := TArtistaController.Create;
 
   try
@@ -166,7 +172,8 @@ begin
     // Valida se o número digitado no campo edtID é válido
     if not TryStrToInt(edtID.Text, ArtistaID) then
     begin
-      MessageDlg('O ID informado é inválido. Tente novamente', mtInformation, [mbOk], 0);
+      MessageDlg(
+        'O ID informado é inválido. Tente novamente', mtInformation, [mbOk], 0);
       edtId.SetFocus;
       Exit;
     end;

@@ -13,8 +13,8 @@ type
     procedure btnExcluirClick(Sender: TObject);
     procedure btnAtualizarClick(Sender: TObject);
     procedure btnSalvarClick(Sender: TObject);
-    //procedure btnLocalizarClick(Sender: TObject);
-    //procedure edtIDKeyPress(Sender: TObject; var Key: Char);
+    procedure btnLocalizarClick(Sender: TObject);
+    procedure edtIDKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
   public
@@ -44,17 +44,21 @@ var
 begin
   inherited;
 
-  Estilo := TEstilo.Create(edtNome.Text, 'F', 0, Now);
+  Estilo := TEstilo.Create(0, edtNome.Text, 'F', 0, Now);
   Estilo.ID := StrToInt(edtId.Text);
   EstiloController := TEstiloController.Create;
 
   try
-    EstiloController.AtualizarEstilo(Estilo);
-    MessageDlg('Registro excluído com sucesso.', mtInformation, [mbOk], 0);
+    if EstiloController.AtualizarEstilo(Estilo) then
+      MessageDlg('Registro excluído com sucesso.', mtInformation, [mbOk], 0);
   finally
     EstiloController.Free;
     Estilo.Free;
   end;
+
+  EnableButtons(Self, '1000011');
+  pnlCampos.Enabled := False;
+  CleanFields(Self);
 end;
 
 procedure TfrmEstilos.btnAtualizarClick(Sender: TObject);
@@ -70,34 +74,23 @@ var
   Estilo: TEstilo;
   ID: Integer;
 begin
-  if edtNome.Text <> '' then
-  begin
-    if edtId.Text <> '' then
-      try
-        ID := StrToInt(edtID.Text);
-      except
-        on E: EConvertError do
-          MessageDlg('O número informado para o ID é inválido: ' + E.message, mtError, [mbOk], 0);
-      end;
-
     EstiloController := TEstiloController.Create;
 
     case OpBD of
       1: begin
         try
-          Estilo := TEstilo.Create(edtNome.Text, 'T', Now, 0);
-          EstiloController.InserirEstilo(Estilo);
-          MessageDlg('Registro gravado com sucesso.', mtInformation, [mbOk], 0);
+          Estilo := TEstilo.Create(0, edtNome.Text, 'T', Now, 0);
+          if EstiloController.InserirEstilo(Estilo) then
+            MessageDlg('Registro gravado com sucesso.', mtInformation, [mbOk], 0);
         finally
           EstiloController.Free;
         end;
       end;
       2: begin
         try
-          Estilo := TEstilo.Create(edtNome.Text, 'T', 0, Now);
-          Estilo.ID := ID;
-          EstiloController.AtualizarEstilo(Estilo);
-          MessageDlg('Registro atualizado com sucesso.', mtInformation, [mbOk], 0);
+          Estilo := TEstilo.Create(ID, edtNome.Text, 'T', 0, Now);
+          if EstiloController.AtualizarEstilo(Estilo) then
+            MessageDlg('Registro atualizado com sucesso.', mtInformation, [mbOk], 0);
         finally
           EstiloController.Free;
           Estilo.Free;
@@ -105,15 +98,9 @@ begin
       end;
     end;
     inherited;
-  end
-  else
-  begin
-    MessageDlg('O campo NOME deve ser preenchido.', mtWarning, [mbOk], 0);
-    edtNome.SetFocus;
-  end;
 end;
 
-{procedure TfrmEstilos.btnLocalizarClick(Sender: TObject);
+procedure TfrmEstilos.btnLocalizarClick(Sender: TObject);
 begin
   inherited;
   edtID.SetFocus;
@@ -131,7 +118,7 @@ begin
     // Valida se o número digitado em edtID é valido
     if not TryStrToInt(edtID.Text, EstiloID) then
     begin
-      MessageDlg('O número informado é inválido. Tente novamente.', mtInformation, [mbOk], 0);
+      MessageDlg('O ID informado é inválido. Tente novamente.', mtInformation, [mbOk], 0);
       edtId.SetFocus;
       Exit;
     end;
@@ -146,7 +133,7 @@ begin
       if Assigned(Estilo) then
       begin
         edtNome.Text := Estilo.Nome;
-        EnableButtons(Self, '0111100');
+        EnableButtons(Self, '0110100');
       end
       else
         MessageDlg('Estilo não localizado.', mtInformation, [mbOk], 0);
@@ -155,6 +142,6 @@ begin
       EstiloController.Free;
     end;
   end;
-end;}
+end;
 
 end.

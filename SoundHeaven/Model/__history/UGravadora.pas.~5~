@@ -20,22 +20,18 @@ type
     property DataAlteracao: TDateTime read FDataAlteracao write FDataAlteracao;
 
     // Constructor
-    constructor Create(const AID: Integer = 0; const ANome: string = '';
-      const AAtivo: Char = 'T'; const ADataInclusao: TDateTime = 0;
-      const ADataAlteracao: TDateTime = 0);
+    constructor Create(const ANome: string; const AAtivo: Char = 'T';
+      const ADataInclusao: TDateTime = 0; const ADataAlteracao: TDateTime = 0);
   end;
 
 implementation
 
 { TGravadora }
 
-constructor TGravadora.Create(const AID: Integer = 0; const ANome: string = '';
-  const AAtivo: Char = 'T'; const ADataInclusao: TDateTime = 0;
-  const ADataAlteracao: TDateTime = 0);
+constructor TGravadora.Create(const ANome: string; const AAtivo: Char = 'T';
+  const ADataInclusao: TDateTime = 0; const ADataAlteracao: TDateTime = 0);
 begin
-  Randomize;
-  if AID = 0 then FID := Random(1000000) else FID := AID;
-  if ANome = '' then FNome := 'Unknown' else FNome := ANome;
+  FNome := ANome;
   FAtivo := AAtivo;
   if ADataInclusao = 0 then FDataInclusao := Now else FDataInclusao := ADataInclusao;
   if ADataAlteracao = 0 then FDataInclusao := Now else FDataAlteracao := ADataAlteracao;

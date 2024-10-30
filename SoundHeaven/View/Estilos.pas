@@ -72,7 +72,7 @@ procedure TfrmEstilos.btnSalvarClick(Sender: TObject);
 var
   EstiloController: TEstiloController;
   Estilo: TEstilo;
-  ID: Integer;
+  EstiloID: Integer;
 begin
     EstiloController := TEstiloController.Create;
 
@@ -81,16 +81,21 @@ begin
         try
           Estilo := TEstilo.Create(0, edtNome.Text, 'T', Now, 0);
           if EstiloController.InserirEstilo(Estilo) then
-            MessageDlg('Registro gravado com sucesso.', mtInformation, [mbOk], 0);
+            MessageDlg(
+              'Registro gravado com sucesso.', mtInformation, [mbOk], 0);
         finally
           EstiloController.Free;
         end;
       end;
       2: begin
         try
-          Estilo := TEstilo.Create(ID, edtNome.Text, 'T', 0, Now);
-          if EstiloController.AtualizarEstilo(Estilo) then
-            MessageDlg('Registro atualizado com sucesso.', mtInformation, [mbOk], 0);
+          if TryStrToInt(edtID.Text, ID) then
+          begin
+            Estilo := TEstilo.Create(EstiloID, edtNome.Text, 'T', 0, Now);
+            if EstiloController.AtualizarEstilo(Estilo) then
+              MessageDlg(
+                'Registro atualizado com sucesso.', mtInformation, [mbOk], 0);
+          end;
         finally
           EstiloController.Free;
           Estilo.Free;
@@ -118,7 +123,8 @@ begin
     // Valida se o número digitado em edtID é valido
     if not TryStrToInt(edtID.Text, EstiloID) then
     begin
-      MessageDlg('O ID informado é inválido. Tente novamente.', mtInformation, [mbOk], 0);
+      MessageDlg(
+        'O ID informado é inválido. Tente novamente.', mtInformation, [mbOk], 0);
       edtId.SetFocus;
       Exit;
     end;

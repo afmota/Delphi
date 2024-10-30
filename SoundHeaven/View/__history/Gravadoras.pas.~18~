@@ -27,7 +27,7 @@ implementation
 
 {$R *.dfm}
 
-uses ComponentHelper, UGravadora;
+uses ComponentHelper;
 
 procedure TfrmGravadoras.btnIncluirClick(Sender: TObject);
 begin
