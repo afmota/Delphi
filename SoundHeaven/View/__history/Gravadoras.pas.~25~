@@ -13,7 +13,7 @@ type
     procedure btnSalvarClick(Sender: TObject);
     procedure btnLocalizarClick(Sender: TObject);
     procedure edtNomeChange(Sender: TObject);
-    procedure edtIDKeyPress(Sender: TObject; var Key: Char);
+    {procedure edtIDKeyPress(Sender: TObject; var Key: Char);}
   private
     { Private declarations }
   public
@@ -108,7 +108,7 @@ begin
     btnAtualizar.Enabled := True;
 end;
 
-procedure TfrmGravadoras.edtIDKeyPress(Sender: TObject; var Key: Char);
+{procedure TfrmGravadoras.edtIDKeyPress(Sender: TObject; var Key: Char);
 var
   GravadoraID: Integer;
   GravadoraController: TGravadoraController;
@@ -120,8 +120,7 @@ begin
     // Valida se o número digitado no campo é válido
     if not TryStrToInt(edtId.Text, GravadoraID) then
     begin
-      MessageDlg('O ID informado é inválido. Tente novamente.', mtInformation, [mbOk], 0);
-      edtId.SetFocus;
+      Mensagem('O ID informado é inválido. Tente novamente.', 0);
       Exit;
     end;
 
@@ -129,21 +128,22 @@ begin
     GravadoraController := TGravadoraController.Create;
     try
       // Buscar a gravadora pelo ID
-      Gravadora := GravadoraController.LocalizarGravadora(GravadoraID);
+      Gravadora := GravadoraController.BuscarGravadora(GravadoraID);
 
       // Preencher os campos visuais se a gravadora for encontrada
       if Assigned(Gravadora) then
       begin
         edtNome.Text := Gravadora.Nome;
-        EnableButtons(Self, '0110100');
+        chkStatus.Checked := Estado(Gravadora.Status);
       end
       else
-        MessageDlg('Gravadora não encontrada.', mtInformation, [mbOk], 0);
+        Mensagem('Gravadora não encontrada.', 0);
     finally
         Gravadora.Free;
         GravadoraController.Free;
     end;
   end;
 end;
+}
 
 end.

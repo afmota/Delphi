@@ -1,0 +1,53 @@
+unit UGravadoraController;
+
+interface
+
+uses UGravadoraDAO, UGravadora, System.SysUtils;
+
+type
+  TGravadoraController = class
+  private
+    FDAO: TGravadoraDAO;
+  public
+    constructor Create;
+    destructor Destroy; override;
+    procedure InserirGravadora(Nome: string);
+    function AtualizarGravadora(const Gravadora: TGravadora): Boolean;
+    function BuscarGravadora(ID: Integer): TGravadora;
+  end;
+
+implementation
+
+constructor TGravadoraController.Create;
+begin
+  FDAO := TGravadoraDAO.Create;
+end;
+
+destructor TGravadoraController.Destroy;
+begin
+  FDAO.Free;
+  inherited;
+end;
+
+procedure TGravadoraController.InserirGravadora(Nome: string);
+var
+  Gravadora: TGravadora;
+begin
+  Gravadora := TGravadora.Create(Nome);
+  FDAO.Inserir(Gravadora);
+end;
+
+function TGravadoraController.AtualizarGravadora(const Gravadora: TGravadora): Boolean;
+begin
+  if Gravadora.Nome= '' then
+    raise Exception.Create('O campo NOME deve ser preenchido.')
+  else
+    Result := FDAO.Atualizar(Gravadora);
+end;
+
+function TGravadoraController.BuscarGravadora(ID: Integer): TGravadora;
+begin
+  Result := FDAO.BuscarGravadora(ID);
+end;
+
+end.

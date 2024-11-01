@@ -121,7 +121,6 @@ begin
     if not TryStrToInt(edtId.Text, GravadoraID) then
     begin
       MessageDlg('O ID informado é inválido. Tente novamente.', mtInformation, [mbOk], 0);
-      edtId.SetFocus;
       Exit;
     end;
 
@@ -129,16 +128,16 @@ begin
     GravadoraController := TGravadoraController.Create;
     try
       // Buscar a gravadora pelo ID
-      Gravadora := GravadoraController.LocalizarGravadora(GravadoraID);
+      Gravadora := GravadoraController.BuscarGravadora(GravadoraID);
 
       // Preencher os campos visuais se a gravadora for encontrada
       if Assigned(Gravadora) then
       begin
         edtNome.Text := Gravadora.Nome;
-        EnableButtons(Self, '0110100');
+        chkStatus.Checked := Estado(Gravadora.Status);
       end
       else
-        MessageDlg('Gravadora não encontrada.', mtInformation, [mbOk], 0);
+        Mensagem('Gravadora não encontrada.', 0);
     finally
         Gravadora.Free;
         GravadoraController.Free;

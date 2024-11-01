@@ -117,7 +117,6 @@ begin
 
         Parameters.ParamByName('@Gravadora_ID').Value := ID;
         Open;
-        First;
 
         if not IsEmpty then
           Result := TGravadora.Create(
@@ -142,40 +141,8 @@ begin
 end;
 
 function TGravadoraDAO.Localizar(const Nome: string): TGravadora;
-var
-  StoredProc: TADOStoredProc;
 begin
-  try
-    StoredProc := TADOStoredProc.Create(nil);
 
-    try
-      with StoredProc do
-      begin
-        Connection := FConn.GetConnection;
-        ProcedureName := 'sp_ObterGravadoraAtivaPorNome';
-        Parameters.Refresh;
-        Open;
-        First;
-
-        if not IsEmpty then
-          Result := TGravadora.Create(
-            FieldByName('Gravadora_ID').AsInteger,
-            FieldByName('Gravadora Nome').AsString,
-            FieldByName('Gravadora_Ativo').AsString[1],
-            FieldByName('Data_Inclusao').AsDateTime,
-            FieldByName('Data_Alteracao').AsDateTime)
-        else
-          Result := nil;
-      end;
-    except
-      on E: Exception do
-      begin
-        raise Exception.Create('Gravadora não encontrada.');
-      end;
-    end;
-  finally
-    StoredProc.Free;
-  end;
 end;
 
 function TGravadoraDAO.ListarGravadoras: TList<TGravadora>;

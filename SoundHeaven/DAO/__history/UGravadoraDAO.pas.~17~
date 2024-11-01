@@ -145,37 +145,35 @@ function TGravadoraDAO.Localizar(const Nome: string): TGravadora;
 var
   StoredProc: TADOStoredProc;
 begin
+  StoredProc := TADOStoredProc.Create(nil);
+
   try
-    StoredProc := TADOStoredProc.Create(nil);
+    with StoredProc do
+    begin
+      Connection := FConn.GetConnection;
+      ProcedureName := 'sp_ObterGravadoraAtivaPorNome';
+      Parameters.Refresh;
+      Open;
+      First;
 
-    try
-      with StoredProc do
-      begin
-        Connection := FConn.GetConnection;
-        ProcedureName := 'sp_ObterGravadoraAtivaPorNome';
-        Parameters.Refresh;
-        Open;
-        First;
-
-        if not IsEmpty then
-          Result := TGravadora.Create(
-            FieldByName('Gravadora_ID').AsInteger,
-            FieldByName('Gravadora Nome').AsString,
-            FieldByName('Gravadora_Ativo').AsString[1],
-            FieldByName('Data_Inclusao').AsDateTime,
-            FieldByName('Data_Alteracao').AsDateTime)
-        else
-          Result := nil;
-      end;
-    except
-      on E: Exception do
-      begin
-        raise Exception.Create('Gravadora não encontrada.');
-      end;
+      if not IsEmpty then
+        Result := TGravadora.Create(
+          FieldByName('Gravadora_ID').AsInteger,
+          FieldByName('Gravadora Nome').AsString,
+          FieldByName('Gravadora_Ativo').AsString[1],
+          FieldByName('Data_Inclusao').AsDateTime,
+          FieldByName('Data_Alteracao').AsDateTime)
+      else
+        Result := nil;
     end;
-  finally
-    StoredProc.Free;
+  except
+    on E: Exception do
+    begin
+      raise Exception.Create('Gravadora não encontrada.');
+    end;
   end;
+end;
+
 end;
 
 function TGravadoraDAO.ListarGravadoras: TList<TGravadora>;

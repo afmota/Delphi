@@ -16,9 +16,7 @@ uses
   UArtistaController in 'Controller\UArtistaController.pas',
   UArtistaDAO in 'DAO\UArtistaDAO.pas',
   Gravadoras in 'View\Gravadoras.pas' {frmGravadoras},
-  UGravadora in 'Model\UGravadora.pas',
-  UGravadoraController in 'Controller\UGravadoraController.pas',
-  UGravadoraDAO in 'DAO\UGravadoraDAO.pas';
+  UGravadora in 'Model\UGravadora.pas';
 
 {$R *.res}
 

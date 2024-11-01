@@ -6,8 +6,5 @@ inherited frmGravadoras: TfrmGravadoras
   inherited pnlCampos: TPanel
     Height = 227
     ExplicitHeight = 227
-    inherited edtNome: TEdit
-      OnChange = edtNomeChange
-    end
   end
 end

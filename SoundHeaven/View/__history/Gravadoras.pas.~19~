@@ -2,23 +2,18 @@ unit Gravadoras;
 
 interface
 
-uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Model, Vcl.StdCtrls, Vcl.ExtCtrls;
+uses Model, Vcl.ButtonStylesAttributes, Vcl.StdCtrls, Vcl.Controls,
+  Vcl.StyledButton, System.Classes, Vcl.ExtCtrls;
 
 type
   TfrmGravadoras = class(TfrmModel)
-    Label1: TLabel;
-    edtID: TEdit;
-    Label2: TLabel;
-    edtNome: TEdit;
-    chkStatus: TCheckBox;
-    procedure btnNovoClick(Sender: TObject);
-    procedure btnPesquisarClick(Sender: TObject);
+    procedure btnIncluirClick(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
+    {procedure btnPesquisarClick(Sender: TObject);
     procedure edtNomeChange(Sender: TObject);
     procedure edtIDKeyPress(Sender: TObject; var Key: Char);
     procedure btnAtualizarClick(Sender: TObject);
-    procedure btnSalvarClick(Sender: TObject);
+    procedure btnSalvarClick(Sender: TObject);}
   private
     { Private declarations }
   public
@@ -32,16 +27,23 @@ implementation
 
 {$R *.dfm}
 
-uses ComponentHelper, FuncoesDivs, UGravadoraController, UGravadora;
+uses ComponentHelper, UGravadora;
 
-procedure TfrmGravadoras.btnNovoClick(Sender: TObject);
+procedure TfrmGravadoras.btnIncluirClick(Sender: TObject);
 begin
   inherited;
   EnableComponentsByTag(Self, '011');
   edtNome.SetFocus;
 end;
 
-procedure TfrmGravadoras.btnPesquisarClick(Sender: TObject);
+procedure TfrmGravadoras.btnExcluirClick(Sender: TObject);
+var
+  Gravadora: TGravadora;
+begin
+  Inherited;
+end;
+
+{procedure TfrmGravadoras.btnPesquisarClick(Sender: TObject);
 begin
   inherited;
   EnableComponentsByTag(Self, '100');
@@ -100,17 +102,43 @@ begin
 end;
 
 procedure TfrmGravadoras.btnSalvarClick(Sender: TObject);
+var
+  Gravadora: TGravadora;
+  GravadoraController: TGravadoraController;
 begin
   inherited;
   if edtNome.Text <> '' then
   begin
+    Gravadora := TGravadora.Create(edtNome.Text, Estado(chkStatus.Checked));
+    if edtId.Text <> '' then Gravadora.ID := StrToInt(edtId.Text);
+    GravadoraController := TGravadoraController.Create;
 
+    case OpBD of
+      1: begin
+        try
+          GravadoraController.InserirGravadora(Gravadora.Nome);
+          Mensagem('Registro gravado com sucesso.', 0);
+        finally
+          GravadoraController.Free;
+          Gravadora.Free;
+        end;
+      end;
+      2: begin
+        try
+          GravadoraController.AtualizarGravadora(Gravadora.ID, Gravadora.Nome, Gravadora.Status);
+          Mensagem('Registro atualizado com sucesso.', 0);
+        finally
+          GravadoraController.Free;
+          Gravadora.Free;
+        end;
+      end;
+    end;
   end
   else
   begin
     Mensagem('O campo Nome deve ser preenchido.', 0);
     edtNome.SetFocus;
   end;
-end;
+end;}
 
 end.

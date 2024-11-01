@@ -1,4 +1,4 @@
-unit Estilos;
+ï»¿unit Estilos;
 
 interface
 
@@ -44,13 +44,12 @@ var
 begin
   inherited;
 
-  Estilo := TEstilo.Create(0, edtNome.Text, 'F', 0, Now);
-  Estilo.ID := StrToInt(edtId.Text);
+  Estilo := TEstilo.Create(StrToInt(edtId.Text), edtNome.Text, 'F', 0, Now);
   EstiloController := TEstiloController.Create;
 
   try
     if EstiloController.AtualizarEstilo(Estilo) then
-      MessageDlg('Registro excluído com sucesso.', mtInformation, [mbOk], 0);
+      MessageDlg('Registro excluï¿½do com sucesso.', mtInformation, [mbOk], 0);
   finally
     EstiloController.Free;
     Estilo.Free;
@@ -89,7 +88,7 @@ begin
       end;
       2: begin
         try
-          if TryStrToInt(edtID.Text, ID) then
+          if TryStrToInt(edtID.Text, EstiloID) then
           begin
             Estilo := TEstilo.Create(EstiloID, edtNome.Text, 'T', 0, Now);
             if EstiloController.AtualizarEstilo(Estilo) then
@@ -120,11 +119,11 @@ begin
   inherited;
   if Key = #13 then
   begin
-    // Valida se o número digitado em edtID é valido
+    // Valida se o nï¿½mero digitado em edtID ï¿½ valido
     if not TryStrToInt(edtID.Text, EstiloID) then
     begin
       MessageDlg(
-        'O ID informado é inválido. Tente novamente.', mtInformation, [mbOk], 0);
+        'O ID informado ï¿½ invï¿½lido. Tente novamente.', mtInformation, [mbOk], 0);
       edtId.SetFocus;
       Exit;
     end;
@@ -142,7 +141,7 @@ begin
         EnableButtons(Self, '0110100');
       end
       else
-        MessageDlg('Estilo não localizado.', mtInformation, [mbOk], 0);
+        MessageDlg('Estilo nï¿½o localizado.', mtInformation, [mbOk], 0);
     finally
       Estilo.Free;
       EstiloController.Free;

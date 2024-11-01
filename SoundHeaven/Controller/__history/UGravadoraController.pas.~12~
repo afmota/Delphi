@@ -2,7 +2,7 @@ unit UGravadoraController;
 
 interface
 
-uses UGravadoraDAO, UGravadora, System.SysUtils, System.Generics.Collections;
+uses UGravadoraDAO, UGravadora, System.SysUtils;
 
 type
   TGravadoraController = class
@@ -15,7 +15,6 @@ type
     function AtualizarGravadora(const Gravadora: TGravadora): Boolean;
     function LocalizarGravadora(const ID: Integer): TGravadora; overload;
     function LocalizarGravadora(const Nome:string): TGravadora; overload;
-    function ListarGravadoras: TList<TGravadora>;
   end;
 
 implementation
@@ -55,11 +54,6 @@ end;
 function TGravadoraController.LocalizarGravadora(const Nome: string): TGravadora;
 begin
   Result := FDAO.Localizar(Nome);
-end;
-
-function TGravadoraController.ListarGravadoras: TList<TGravadora>;
-begin
-  Result := FDAO.ListarGravadoras;
 end;
 
 end.

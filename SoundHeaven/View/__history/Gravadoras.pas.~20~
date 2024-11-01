@@ -2,20 +2,18 @@ unit Gravadoras;
 
 interface
 
-uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Model, Vcl.StdCtrls, Vcl.ExtCtrls,
-  Vcl.ButtonStylesAttributes, System.ImageList, Vcl.ImgList, Vcl.StyledButton;
+uses Model, Vcl.ButtonStylesAttributes, Vcl.StdCtrls, Vcl.Controls, Dialogs,
+  Vcl.StyledButton, System.Classes, Vcl.ExtCtrls, SysUtils;
 
 type
   TfrmGravadoras = class(TfrmModel)
-    chkStatus: TCheckBox;
-    procedure btnNovoClick(Sender: TObject);
-    procedure btnPesquisarClick(Sender: TObject);
+    procedure btnIncluirClick(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
+    procedure btnAtualizarClick(Sender: TObject);
+    {procedure btnPesquisarClick(Sender: TObject);
     procedure edtNomeChange(Sender: TObject);
     procedure edtIDKeyPress(Sender: TObject; var Key: Char);
-    procedure btnAtualizarClick(Sender: TObject);
-    procedure btnSalvarClick(Sender: TObject);
+    procedure btnSalvarClick(Sender: TObject);}
   private
     { Private declarations }
   public
@@ -29,16 +27,42 @@ implementation
 
 {$R *.dfm}
 
-uses ComponentHelper, FuncoesDivs, UGravadoraController, UGravadora;
+uses ComponentHelper, UGravadora, UGravadoraController;
 
-procedure TfrmGravadoras.btnNovoClick(Sender: TObject);
+procedure TfrmGravadoras.btnIncluirClick(Sender: TObject);
 begin
   inherited;
-  EnableComponentsByTag(Self, '011');
+  EnableComponentsByTag(Self, '01');
   edtNome.SetFocus;
 end;
 
-procedure TfrmGravadoras.btnPesquisarClick(Sender: TObject);
+procedure TfrmGravadoras.btnExcluirClick(Sender: TObject);
+var
+  Gravadora: TGravadora;
+  GravadoraController: TGravadoraController;
+begin
+  Inherited;
+
+  Gravadora := TGravadora.Create(StrToInt(edtId.Text), edtNome.Text, 'F', 0, Now);
+  GravadoraController := TGravadoraController.Create;
+
+  try
+    if GravadoraController.AtualizarGravadora(Gravadora) then
+      MessageDlg('Registro excluído com sucesso.', mtInformation, [mbOk], 0);
+  finally
+    GravadoraController.Free;
+    Gravadora.Free;
+  end;
+end;
+
+procedure TfrmGravadoras.btnAtualizarClick(Sender: TObject);
+begin
+  inherited;
+    EnableComponentsByTag(Self, '01');
+    edtNome.SetFocus;
+end;
+
+{procedure TfrmGravadoras.btnPesquisarClick(Sender: TObject);
 begin
   inherited;
   EnableComponentsByTag(Self, '100');
@@ -89,13 +113,6 @@ begin
   end;
 end;
 
-procedure TfrmGravadoras.btnAtualizarClick(Sender: TObject);
-begin
-  inherited;
-    EnableComponentsByTag(Self, '011');
-    edtNome.SetFocus;
-end;
-
 procedure TfrmGravadoras.btnSalvarClick(Sender: TObject);
 var
   Gravadora: TGravadora;
@@ -134,6 +151,6 @@ begin
     Mensagem('O campo Nome deve ser preenchido.', 0);
     edtNome.SetFocus;
   end;
-end;
+end;}
 
 end.

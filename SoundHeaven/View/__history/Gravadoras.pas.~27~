@@ -135,10 +135,10 @@ begin
       if Assigned(Gravadora) then
       begin
         edtNome.Text := Gravadora.Nome;
-        EnableButtons(Self, '0110100');
+        chkStatus.Checked := Estado(Gravadora.Status);
       end
       else
-        MessageDlg('Gravadora não encontrada.', mtInformation, [mbOk], 0);
+        Mensagem('Gravadora não encontrada.', 0);
     finally
         Gravadora.Free;
         GravadoraController.Free;

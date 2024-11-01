@@ -178,6 +178,8 @@ begin
   end;
 end;
 
+end;
+
 function TGravadoraDAO.ListarGravadoras: TList<TGravadora>;
 var
   StoredProc: TADOStoredProc;
