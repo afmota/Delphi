@@ -1,0 +1,31 @@
+unit UProdutorController;
+
+interface
+
+uses UProdutorDAO;
+
+type
+  TProdutorController = class
+  private
+    FDAO: TProdutorDAO;
+  public
+    constructor Create;
+    destructor Destroy; override;
+  end;
+
+implementation
+
+{ TProdutorController }
+
+constructor TProdutorController.Create;
+begin
+  FDAO := TProdutorDAO.Create;
+end;
+
+destructor TProdutorController.Destroy;
+begin
+  FDAO.Free;
+  inherited;
+end;
+
+end.

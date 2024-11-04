@@ -1,0 +1,21 @@
+unit UProdutorDAO;
+
+interface
+
+uses UCOnexao;
+
+type
+  TProdutorDAO = class
+  private
+    FConn: TConexaoDB;
+  public
+    contructor Create;
+  end;
+
+implementation
+
+{ TProdutorDAO }
+
+constructor TProdutorDAO.constructor Create;
+
+end.

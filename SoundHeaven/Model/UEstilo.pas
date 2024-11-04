@@ -13,10 +13,9 @@ type
     FDataInclusao: TDateTime;
     FDataAlteracao: TDateTime;
   public
-    //constructor Create(ANome: string; AStatus: Integer = 1);
-    constructor Create(const AID: Integer = 0; const ANome: string = '';
-      const AAtivo: Char = 'T'; const ADataInclusao: TDateTime = 0;
-      const ADataAlteracao: TDateTime = 0); overload;
+    constructor Create(const AID: Integer); overload; // usado em exclusões
+    constructor Create(const ANome: string); overload; // usado em inclusões
+    constructor Create(const AID: Integer; const ANome: string); overload; // usado em alterações
     property ID: Integer read FID write FID;
     property Nome: string read FNome write FNome;
     property Ativo: Char read FAtivo write FAtivo;
@@ -28,16 +27,20 @@ implementation
 
 { TEstilo }
 
-constructor TEstilo.Create(const AID: Integer = 0; const ANome: string = '';
-  const AAtivo: Char = 'T'; const ADataInclusao: TDateTime = 0;
-  const ADataAlteracao: TDateTime = 0);
+constructor TEstilo.Create(const AID: Integer);
 begin
-  Randomize;
-  if FID = 0 then FID := Random(1000000) else FID := AID;
-  if ANome = '' then FNome := 'Unknown' else FNome := ANome;
-  FAtivo := AAtivo;
-  if ADataInclusao = 0 then FDataInclusao := Now else FDataInclusao := ADataInclusao;
-  if DataAlteracao = 0 then FDataAlteracao := Now else FDataAlteracao := DataAlteracao;
+  FID := AID;
+end;
+
+constructor TEstilo.Create(const ANome: string);
+begin
+  FNome := ANome;
+end;
+
+constructor TEstilo.Create(const AID: Integer; const ANome: string);
+begin
+  FID := AID;
+  FNome := ANome;
 end;
 
 end.

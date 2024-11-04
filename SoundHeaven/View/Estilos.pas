@@ -41,14 +41,16 @@ procedure TfrmEstilos.btnExcluirClick(Sender: TObject);
 var
   Estilo: TEstilo;
   EstiloController: TEstiloController;
+  EstiloID: Integer;
 begin
   inherited;
 
-  Estilo := TEstilo.Create(StrToInt(edtId.Text), edtNome.Text, 'F', 0, Now);
+  EstiloID := StrToInt(edtID.Text);
+  Estilo := TEstilo.Create(EstiloID);
   EstiloController := TEstiloController.Create;
 
   try
-    if EstiloController.AtualizarEstilo(Estilo) then
+    if EstiloController.ExcluirEstilo(Estilo) then
       MessageDlg('Registro exclu�do com sucesso.', mtInformation, [mbOk], 0);
   finally
     EstiloController.Free;
@@ -78,7 +80,7 @@ begin
     case OpBD of
       1: begin
         try
-          Estilo := TEstilo.Create(0, edtNome.Text, 'T', Now, 0);
+          Estilo := TEstilo.Create(edtNome.Text);
           if EstiloController.InserirEstilo(Estilo) then
             MessageDlg(
               'Registro gravado com sucesso.', mtInformation, [mbOk], 0);
@@ -90,7 +92,7 @@ begin
         try
           if TryStrToInt(edtID.Text, EstiloID) then
           begin
-            Estilo := TEstilo.Create(EstiloID, edtNome.Text, 'T', 0, Now);
+            Estilo := TEstilo.Create(EstiloID, edtNome.Text);
             if EstiloController.AtualizarEstilo(Estilo) then
               MessageDlg(
                 'Registro atualizado com sucesso.', mtInformation, [mbOk], 0);

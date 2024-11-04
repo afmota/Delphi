@@ -1,0 +1,34 @@
+unit Produtores;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Model, Vcl.ButtonStylesAttributes,
+  Vcl.StdCtrls, Vcl.StyledButton, Vcl.ExtCtrls;
+
+type
+  TfrmModel1 = class(TfrmModel)
+    procedure btnIncluirClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmModel1: TfrmModel1;
+
+implementation
+
+{$R *.dfm}
+
+uses ComponentHelper;
+
+procedure TfrmModel1.btnIncluirClick(Sender: TObject);
+begin
+  inherited;
+  Enable
+end;
+
+end.

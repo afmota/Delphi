@@ -1,0 +1,17 @@
+unit UProdutorController;
+
+interface
+
+uses UProdutorDAO;
+
+type
+  TProdutorController = class
+  private
+    FDAO: TProdutorDAO;
+  public
+    constructor Create;
+  end;
+
+implementation
+
+end.

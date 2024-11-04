@@ -163,6 +163,13 @@
         <DCCReference Include="Model\UGravadora.pas"/>
         <DCCReference Include="Controller\UGravadoraController.pas"/>
         <DCCReference Include="DAO\UGravadoraDAO.pas"/>
+        <DCCReference Include="Model\UProdutor.pas"/>
+        <DCCReference Include="Controller\UProdutorController.pas"/>
+        <DCCReference Include="DAO\UProdutorDAO.pas"/>
+        <DCCReference Include="View\Produtores.pas">
+            <Form>frmProdutor</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

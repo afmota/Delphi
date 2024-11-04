@@ -1,0 +1,26 @@
+unit UProdutor;
+
+interface
+
+type
+  TProduto = class
+  private
+    FID: Integer;
+    FNome: string;
+    FAtivo: Char;
+    FDataInclusao: TDateTime;
+    FDataAlteracao: TDateTime;
+  public
+    property ID: Integer read FID write FID;
+    property Nome: string read FNome write FNome;
+    property Ativo: Char read FAtivo write FAtivo;
+    property DataInclusao: TDateTime read FDataInclusao write FDataInclusao;
+    property DataAlteracao: TDateTime read FDataAlteracao write FDataAlteracao;
+
+    constructor Create(const AID: Integer; const ANome: string; const AAtivo: Char;
+      const ADataInclusao: TDateTime; const ADataAlteracao: TDateTime);
+  end;
+
+implementation
+
+end.

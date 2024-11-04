@@ -13,6 +13,7 @@ type
     destructor Destroy; override;
     function Inserir(const Estilo: TEstilo): Boolean;
     function Atualizar(const Estilo: TEstilo): Boolean;
+    function Excluir(const Estilo: TEstilo): Boolean;
     function Localizar(const ID: Integer): TEstilo; overload;
     function Localizar(const Nome: string): TEstilo; overload;
     function ListarEstilos: TList<TEstilo>;
@@ -41,18 +42,9 @@ begin
       with StoredProc do
       begin
         Connection := FConn.GetConnection;  // Conectar ao banco de dados
-        ProcedureName := 'sp_InserirEstilo';  // Nome da stored procedure
+        ProcedureName := 'sp_EstiloInserir';  // Nome da stored procedure
         Parameters.Refresh;
-
-        // Definir os parâmetros da stored procedure
-        with Parameters do
-        begin
-          ParamByName('@Nome').Value := Estilo.Nome;
-          ParamByName('@Ativo').Value := Estilo.Ativo;
-          ParamByName('@DataInclusao').Value := Estilo.DataInclusao;
-        end;
-
-        // Executar a stored procedure
+        Parameters. ParamByName('@Nome').Value := Estilo.Nome;
         ExecProc;
       end;
 
@@ -80,15 +72,13 @@ begin
       with StoredProc do
       begin
         Connection := FConn.GetConnection;
-        ProcedureName := 'sp_AtualizarEstilo';
+        ProcedureName := 'sp_EstiloAtualizar';
         Parameters.Refresh;
 
         with Parameters do
         begin
           ParamByName('@Estilo_ID').Value := Estilo.ID;
           ParamByName('@Nome').Value := Estilo.Nome;
-          ParamByName('@Ativo').Value := Estilo.Ativo;
-          ParamByName('@DataAlteracao').Value := Estilo.DataAlteracao;
         end;
 
         // Executar a stored procedure
@@ -108,6 +98,34 @@ begin
   end;
 end;
 
+function TEstiloDAO.Excluir(const Estilo: TEstilo): Boolean;
+var
+  StoredProc: TADOStoredProc;
+begin
+  try
+    StoredProc := TADOStoredProc.Create(nil);
+    try
+      with StoredProc do
+      begin
+        Connection :=  FConn.GetConnection;
+        ProcedureName := 'sp_EstiloExcluir';
+        Parameters.Refresh;
+        Parameters.ParamByName('@Estilo_ID').Value := Estilo.ID;
+        ExecProc;
+      end;
+      Result := True;
+    except
+      on E: Exception do
+      begin
+        raise Exception.Create('Erro ao excluir registro: ' + E.Message);
+        Result := False;
+      end;
+    end;
+  finally
+    StoredProc.Free;
+  end;
+end;
+
 function TEstiloDAO.Localizar(const ID: Integer): TEstilo;
 var
   StoredProc: TADOStoredProc;
@@ -118,7 +136,7 @@ begin
       with StoredProc do
       begin
         Connection := FConn.GetConnection;
-        ProcedureName := 'sp_ObterEstiloAtivoPorID';
+        ProcedureName := 'sp_EstiloLocalizarPorID';
         Parameters.Refresh;
 
         Parameters.ParamByName('@Estilo_ID').Value := ID;
@@ -128,10 +146,7 @@ begin
         begin
           Result := TEstilo.Create(
             FieldByName('Estilo_ID').AsInteger,
-            FieldByName('Estilo_Nome').AsString,
-            FieldByName('Estilo_Ativo').AsString[1],
-            FieldByName('Data_Inclusao').AsDateTime,
-            FieldByName('Data_Alteracao').AsDateTime);
+            FieldByName('Estilo_Nome').AsString)
         end
         else
           Result := nil;
@@ -155,7 +170,7 @@ begin
       with StoredProc do
       begin
         Connection := FConn.GetConnection;
-        ProcedureName := 'sp_ObterEstiloAtivoPorNome';
+        ProcedureName := 'sp_EstiloLocalizarPorNome';
         Parameters.Refresh;
 
         Parameters.ParamByName('@Nome').Value := Nome;
@@ -165,10 +180,7 @@ begin
         begin
           Result := TEstilo.Create(
             FieldByName('Estilo_ID').AsInteger,
-            FieldByName('Estilo_Nome').AsString,
-            FieldByName('Estilo_Ativo').AsString[1],
-            FieldByName('Data_Inclusao').AsDateTime,
-            FieldByName('Data_Alteracao').AsDateTime);
+            FieldByName('Estilo_Nome').AsString);
         end
         else
           Result := nil;
@@ -195,7 +207,7 @@ begin
     with StoredProc do
     begin
       Connection := FConn.GetConnection;
-      ProcedureName := 'sp_ListarEstilosAtivos';
+      ProcedureName := 'sp_EstiloListarAtivos';
       Parameters.Refresh;
       Open;
       First;
@@ -203,11 +215,9 @@ begin
       if not IsEmpty then
         while not Eof do
         begin
-          Estilo := TEstilo.Create(FieldByName('Estilo_ID').AsInteger,
-                                   FieldByName('Estilo_Nome').AsString,
-                                   FieldByName('Estilo_Ativo').AsString[1],
-                                   FieldByName('Data_Inclusao').AsDateTime,
-                                   FieldByName('Data_Alteracao').AsDateTime);
+          Estilo := TEstilo.Create(
+            FieldByName('Estilo_ID').AsInteger,
+            FieldByName('Estilo_Nome').AsString);
           Result.Add(Estilo);
           Next;
         end

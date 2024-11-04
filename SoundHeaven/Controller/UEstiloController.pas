@@ -13,6 +13,7 @@ type
       destructor Destroy; override;
       function InserirEstilo(const Estilo: TEstilo): Boolean;
       function AtualizarEstilo(const Estilo: TEstilo): Boolean;
+      function ExcluirEstilo(const Estilo: TEstilo): Boolean;
       function LocalizarEstilo(const ID: Integer): TEstilo; overload;
       function LocalizarEstilo(const Nome: string): TEstilo; overload;
       function ListarEstilos: TList<TEstilo>;
@@ -47,6 +48,11 @@ begin
     Result := FDAO.Atualizar(Estilo)
   else
     raise Exception.Create('O campo NOME deve ser preenchido.');
+end;
+
+function TEstiloController.ExcluirEstilo(const Estilo: TEstilo): Boolean;
+begin
+  Result := FDAO.Excluir(Estilo);
 end;
 
 function TEstiloController.LocalizarEstilo(const ID: Integer): TEstilo;
