@@ -94,7 +94,7 @@ begin
   case OpBD of
     1: begin
       try
-        Artista := TArtista.Create(0, edtNome.Text, cbEstilo.Text, 'T', Now, 0);
+        Artista := TArtista.Create(edtNome.Text, cbEstilo.Text);
         if ArtistaController.InserirArtista(Artista) then
           MessageDlg('Registro gravado com sucesso.', mtInformation, [mbOk], 0);
       finally
@@ -105,12 +105,9 @@ begin
       try
         if TryStrToInt(edtID.Text, ArtistaID) then
         begin
-          Artista := TArtista.Create(ArtistaID, edtNome.Text, cbEstilo.Text,
-            'T', 0, Now);
-          Artista.Id := StrToInt(edtId.Text);
+          Artista := TArtista.Create(ArtistaID, edtNome.Text, cbEstilo.Text);
            if ArtistaController.AtualizarArtista(Artista) then
-             MessageDlg(
-              'Registro atualizado com sucesso.', mtInformation, [mbOk], 0);
+             MessageDlg('Registro atualizado com sucesso.', mtInformation, [mbOk], 0);
         end;
       finally
         ArtistaController.Free;
@@ -127,12 +124,11 @@ var
 begin
   inherited;
 
-  Artista := TArtista.Create(StrToInt(edtID.Text), edtNome.Text, cbEstilo.Text,
-    'F', 0, Now);
+  Artista := TArtista.Create(StrToInt(edtID.Text));
   ArtistaController := TArtistaController.Create;
 
   try
-    if ArtistaController.AtualizarArtista(Artista) then
+    if ArtistaController.ExcluirArtista(Artista) then
       MessageDlg('Registro excluído com sucesso.', mtInformation, [mbOk], 0);
   finally
     ArtistaController.Free;

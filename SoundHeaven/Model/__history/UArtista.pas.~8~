@@ -20,12 +20,12 @@ type
     property Ativo: Char read FAtivo write FAtivo;
     property DataInclusao:  TDateTime read FDataInclusao  write FDataInclusao;
     property DataAlteracao: TDateTime read FDataAlteracao write FDataAlteracao;
-    constructor Create(const ANome: string; const AEstilo: string); overload;
-    constructor Create(const AID: Integer; const ANome: string; const AEstilo: string); overload;
-    constructor Create(const AID: Integer); overload;
+    constructor Create(const ANome: string; const AEstilo: string);
   end;
 
 implementation
+
+{ TArtistas }
 
 { TArtista }
 
@@ -33,18 +33,6 @@ constructor TArtista.Create(const ANome, AEstilo: string);
 begin
   FNome := ANome;
   FEstilo := AEstilo;
-end;
-
-constructor TArtista.Create(const AID: Integer; const ANome, AEstilo: string);
-begin
-  FID := AID;
-  FNome := ANome;
-  FEstilo := AEstilo;
-end;
-
-constructor TArtista.Create(const AID: Integer);
-begin
-  FID := AID;
 end;
 
 end.

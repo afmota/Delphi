@@ -15,7 +15,6 @@ type
     // Métodos CRUD
     function Inserir(const Artista: TArtista): Boolean;
     function Atualizar(const Artista: TArtista): Boolean;
-    function Excluir(const Artista: TArtista): Boolean;
     function LocalizarId(const ID: Integer): TArtista;
     function LocalizarNome(const ArtistaNome: string): TArtista;
     function ListarArtistas: TList<TArtista>;
@@ -36,6 +35,7 @@ begin
   inherited;
 end;
 
+// Método para inserir novo artista no banco
 function TArtistaDAO.Inserir(const Artista: TArtista): Boolean;
 var
   StoredProc: TADOStoredProc;
@@ -46,13 +46,15 @@ begin
       with StoredProc do
       begin
         Connection := FConn.GetConnection;
-        ProcedureName := 'sp_ArtistaInserir';
+        ProcedureName := 'sp_InserirArtista';
         Parameters.Refresh;
 
         with Parameters do
         begin
           ParamByName('@Nome').Value := Artista.Nome;
           ParamByName('@Estilo').Value := Artista.Estilo;
+          ParamByName('@Ativo').value := Artista.Ativo;
+          ParamByName('@DataInclusao').Value := Artista.DataInclusao;
         end;
 
         ExecProc;
@@ -71,6 +73,7 @@ begin
   end;
 end;
 
+// Método para atualizar artista existente
 function TArtistaDAO.Atualizar(const Artista: TArtista): Boolean;
 var
   StoredProc: TADOStoredProc;
@@ -81,7 +84,7 @@ begin
       with StoredProc do
       begin
         Connection := FConn.GetConnection;
-        ProcedureName := 'sp_ArtistaAtualizar';
+        ProcedureName := 'sp_AtualizarArtista';
         Parameters.Refresh;
 
         with Parameters do
@@ -89,6 +92,8 @@ begin
           ParamByName('@ID').Value := Artista.ID;
           ParamByName('@Nome').Value := Artista.Nome;
           ParamByName('@Estilo').Value := Artista.Estilo;
+          ParamByName('@Ativo').Value := Artista.Ativo;
+          ParamByName('@DataAlteracao').Value := Artista.DataAlteracao;
         end;
 
         ExecProc;
@@ -104,39 +109,7 @@ begin
   end;
 end;
 
-function TArtistaDAO.Excluir(const Artista: TArtista): Boolean;
-var
-  StoredProc: TADOStoredProc;
-begin
-  try
-    StoredProc := TADOStoredProc.Create(nil);
-    try
-      try
-        with StoredProc do
-        begin
-          Connection := FConn.GetConnection;
-          ProcedureName := 'sp_ArtistaExcluir';
-          Parameters.Refresh;
-          Parameters.ParamByName('@Artista_ID').Value := Artista.ID;
-          ExecProc;
-
-          Result := True;
-        end;
-      except
-        on E: Exception do
-        begin
-          raise Exception.Create('Erro ao excluir Artista: ' + E.Message);
-          Result := False;
-        end;
-      end;
-    finally
-      StoredProc.Free;
-    end;
-  finally
-
-  end;
-end;
-
+// Método para buscar artista por ID
 function TArtistaDAO.LocalizarId(const ID: Integer): TArtista;
 var
   StoredProc: TADOStoredProc;
@@ -148,17 +121,19 @@ begin
       with StoredProc do
       begin
         Connection := FConn.GetConnection;
-        ProcedureName := 'sp_ArtistaLocalizarPorID';
+        ProcedureName := 'sp_ObterArtistaAtivoPorID';
         Parameters.Refresh;
         Parameters.ParamByName('@Artista_ID').Value := ID;
         Open;
 
         if not IsEmpty then
         begin
-          Artista := TArtista.Create(
-            FieldByName('Artista_ID').AsInteger,
-            FieldByName('Artista_Nome').AsString,
-            FieldByName('Artista_Estilo').AsString);
+          Artista := TArtista.Create(FieldByName('Artista_ID').AsInteger,
+                                     FieldByName('Artista_Nome').AsString,
+                                     FieldByName('Artista_Estilo').AsString,
+                                     FieldByName('Artista_Ativo').AsString[1],
+                                     FieldByName('Data_Inclusao').AsDateTime,
+                                     FieldByName('Data_Alteracao').AsDateTime);
           Result := Artista;
         end
         else
@@ -184,17 +159,19 @@ begin
       with StoredProc do
       begin
         Connection := FConn.GetConnection;
-        ProcedureName := 'sp_ArtistaLocalizarPorNome';
+        ProcedureName := 'sp_ObterArtistaAtivoPorNome';
         Parameters.Refresh;
         Parameters.ParamByName('@Artista_Nome').Value := ArtistaNome;
         Open;
 
         if not IsEmpty then
         begin
-          Artista := TArtista.Create(
-            FieldByName('Artista_ID').AsInteger,
-            FieldByName('Artista_Nome').AsString,
-            FieldByName('Artista_Estilo').AsString);
+          Artista := TArtista.Create(FieldByName('Artista_ID').AsInteger,
+                                     FieldByName('Artista_Nome').AsString,
+                                     FieldByName('Artista_Estilo').AsString,
+                                     FieldByName('Artista_Ativo').AsString[1],
+                                     FieldByName('Data_Inclusao').AsDateTime,
+                                     FieldByName('Data_Alteracao').AsDateTime);
           Result := Artista;
         end
         else
@@ -209,6 +186,7 @@ begin
   end;
 end;
 
+// Método para listar artistas ativos
 function TArtistaDAO.ListarArtistas: TList<TArtista>;
 var
   StoredProc: TADOStoredProc;
@@ -221,7 +199,7 @@ begin
     with StoredProc do
     begin
       Connection := FConn.GetConnection;
-      ProcedureName := 'sp_ArtistaListarAtivos';
+      ProcedureName := 'sp_ListarArtistasAtivos';
       Parameters.Refresh;
       Open;
       First;
@@ -229,10 +207,12 @@ begin
       if not IsEmpty then
         while not Eof do
         begin
-          Artista := TArtista.Create(
-            FieldByName('Artista_ID').AsInteger,
-            FieldByName('Artista_Nome').AsString,
-            FieldByName('Artista_Estilo').AsString);
+          Artista := TArtista.Create(FieldByName('Artista_ID').AsInteger,
+                                     FieldByName('Artista_Nome').AsString,
+                                     FieldByName('Artista_Estilo').AsString,
+                                     FieldByName('Artista_Ativo').AsString[1],
+                                     FieldByName('Data_Inclusao').AsDateTime,
+                                     FieldByName('Data_Alteracao').AsDateTime);
           Result.Add(Artista);
           Next;
         end

@@ -46,16 +46,15 @@ begin
       with StoredProc do
       begin
         Connection := FConn.GetConnection;
-        ProcedureName := 'sp_InserirArtista';
+        ProcedureName := 'sp_ArtistaInserir';
         Parameters.Refresh;
 
         with Parameters do
         begin
           ParamByName('@Nome').Value := Artista.Nome;
           ParamByName('@Estilo').Value := Artista.Estilo;
-          ParamByName('@Ativo').value := Artista.Ativo;
-          ParamByName('@DataInclusao').Value := Artista.DataInclusao;
         end;
+
         ExecProc;
       end;
 
@@ -83,7 +82,7 @@ begin
       with StoredProc do
       begin
         Connection := FConn.GetConnection;
-        ProcedureName := 'sp_AtualizarArtista';
+        ProcedureName := 'sp_ArtistaAtualizar';
         Parameters.Refresh;
 
         with Parameters do
@@ -91,9 +90,8 @@ begin
           ParamByName('@ID').Value := Artista.ID;
           ParamByName('@Nome').Value := Artista.Nome;
           ParamByName('@Estilo').Value := Artista.Estilo;
-          ParamByName('@Ativo').Value := Artista.Ativo;
-          ParamByName('@DataAlteracao').Value := Artista.DataAlteracao;
         end;
+
         ExecProc;
       end;
     except
@@ -126,12 +124,12 @@ begin
 
         if not IsEmpty then
         begin
-          Artista := TArtista.Create(FieldByName('Artista_Nome').AsString,
+          Artista := TArtista.Create(FieldByName('Artista_ID').AsInteger,
+                                     FieldByName('Artista_Nome').AsString,
                                      FieldByName('Artista_Estilo').AsString,
                                      FieldByName('Artista_Ativo').AsString[1],
                                      FieldByName('Data_Inclusao').AsDateTime,
                                      FieldByName('Data_Alteracao').AsDateTime);
-          Artista.ID := FieldByName('Artista_ID').AsInteger;
           Result := Artista;
         end
         else
@@ -205,12 +203,12 @@ begin
       if not IsEmpty then
         while not Eof do
         begin
-          Artista := TArtista.Create(FieldByName('Artista_Nome').AsString,
+          Artista := TArtista.Create(FieldByName('Artista_ID').AsInteger,
+                                     FieldByName('Artista_Nome').AsString,
                                      FieldByName('Artista_Estilo').AsString,
                                      FieldByName('Artista_Ativo').AsString[1],
                                      FieldByName('Data_Inclusao').AsDateTime,
                                      FieldByName('Data_Alteracao').AsDateTime);
-          Artista.ID := FieldByName('Artista_ID').AsInteger;
           Result.Add(Artista);
           Next;
         end

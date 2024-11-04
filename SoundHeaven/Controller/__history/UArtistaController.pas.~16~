@@ -13,7 +13,6 @@ type
     destructor Destroy; override;
     function InserirArtista(const Artista: TArtista): Boolean;
     function AtualizarArtista(const Artista: TArtista): Boolean;
-    function ExcluirArtista(const Artista: TArtista): Boolean;
     function LocalizarArtista(const ID: Integer): TArtista; overload;
     function LocalizarArtista(const ArtistaNome: string): TArtista; overload;
     function ListarArtistas: TList<TArtista>;
@@ -54,11 +53,6 @@ begin
         raise Exception.Create('O campo ESTILO deve ser preenchido')
       else
         Result := FDAO.Atualizar(Artista);
-end;
-
-function TArtistaController.ExcluirArtista(const Artista: TArtista): Boolean;
-begin
-  Result := FDAO.Excluir(Artista);
 end;
 
 function TArtistaController.LocalizarArtista(const ID: Integer): TArtista;

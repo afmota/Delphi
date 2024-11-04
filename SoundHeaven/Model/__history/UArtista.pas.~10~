@@ -27,6 +27,8 @@ type
 
 implementation
 
+{ TArtistas }
+
 { TArtista }
 
 constructor TArtista.Create(const ANome, AEstilo: string);

@@ -2,7 +2,7 @@ unit UArtistaDAO;
 
 interface
 
-uses System.SysUtils, Data.Win.ADODB, UConexao, UArtista;
+uses System.SysUtils, Data.Win.ADODB, UConexao, UArtista, System.Generics.Collections;
 
 type
   TArtistaDAO = class
@@ -15,9 +15,10 @@ type
     // Métodos CRUD
     function Inserir(const Artista: TArtista): Boolean;
     function Atualizar(const Artista: TArtista): Boolean;
+    function Excluir(const Artista: TArtista): Boolean;
     function LocalizarId(const ID: Integer): TArtista;
     function LocalizarNome(const ArtistaNome: string): TArtista;
-    //function ListarAtivos: TADOQuery;
+    function ListarArtistas: TList<TArtista>;
   end;
 
 implementation
@@ -35,7 +36,6 @@ begin
   inherited;
 end;
 
-// Método para inserir novo artista no banco
 function TArtistaDAO.Inserir(const Artista: TArtista): Boolean;
 var
   StoredProc: TADOStoredProc;
@@ -46,13 +46,15 @@ begin
       with StoredProc do
       begin
         Connection := FConn.GetConnection;
-        ProcedureName := 'sp_InserirArtista';
+        ProcedureName := 'sp_ArtistaInserir';
         Parameters.Refresh;
 
-        Parameters.ParamByName('@Nome').Value := Artista.Nome;
-        Parameters.ParamByName('@Estilo').Value := Artista.Estilo;
-        Parameters.ParamByName('@Ativo').value := Artista.Ativo;
-        Parameters.ParamByName('@DataInclusao').Value := Artista.DataInclusao;
+        with Parameters do
+        begin
+          ParamByName('@Nome').Value := Artista.Nome;
+          ParamByName('@Estilo').Value := Artista.Estilo;
+        end;
+
         ExecProc;
       end;
 
@@ -69,7 +71,6 @@ begin
   end;
 end;
 
-// Método para atualizar artista existente
 function TArtistaDAO.Atualizar(const Artista: TArtista): Boolean;
 var
   StoredProc: TADOStoredProc;
@@ -80,14 +81,16 @@ begin
       with StoredProc do
       begin
         Connection := FConn.GetConnection;
-        ProcedureName := 'sp_AtualizarArtista';
+        ProcedureName := 'sp_ArtistaAtualizar';
         Parameters.Refresh;
 
-        Parameters.ParamByName('@ID').Value := Artista.ID;
-        Parameters.ParamByName('@Nome').Value := Artista.Nome;
-        Parameters.ParamByName('@Estilo').Value := Artista.Estilo;
-        Parameters.ParamByName('@Ativo').Value := Artista.Ativo;
-        Parameters.ParamByName('@DataAlteracao').Value := Artista.DataAlteracao;
+        with Parameters do
+        begin
+          ParamByName('@ID').Value := Artista.ID;
+          ParamByName('@Nome').Value := Artista.Nome;
+          ParamByName('@Estilo').Value := Artista.Estilo;
+        end;
+
         ExecProc;
       end;
     except
@@ -101,7 +104,39 @@ begin
   end;
 end;
 
-// Método para buscar artista por ID
+function TArtistaDAO.Excluir(const Artista: TArtista): Boolean;
+var
+  StoredProc: TADOStoredProc;
+begin
+  try
+    StoredProc := TADOStoredProc.Create(nil);
+    try
+      try
+        with StoredProc do
+        begin
+          Connection := FConn.GetConnection;
+          ProcedureName := 'sp_ArtistaExcluir';
+          Parameters.Refresh;
+          Parameters.ParamByName('@Artista_ID').Value := Artista.ID;
+          ExecProc;
+
+          Result := True;
+        end;
+      except
+        on E: Exception do
+        begin
+          raise Exception.Create('Erro ao excluir Artista: ' + E.Message);
+          Result := False;
+        end;
+      end;
+    finally
+      StoredProc.Free;
+    end;
+  finally
+
+  end;
+end;
+
 function TArtistaDAO.LocalizarId(const ID: Integer): TArtista;
 var
   StoredProc: TADOStoredProc;
@@ -113,19 +148,17 @@ begin
       with StoredProc do
       begin
         Connection := FConn.GetConnection;
-        ProcedureName := 'sp_ObterArtistaAtivoPorID';
+        ProcedureName := 'sp_ArtistaLocalizarPorID';
         Parameters.Refresh;
         Parameters.ParamByName('@Artista_ID').Value := ID;
         Open;
 
         if not IsEmpty then
         begin
-          Artista := TArtista.Create(FieldByName('Artista_Nome').AsString,
-                                     FieldByName('Artista_Estilo').AsString,
-                                     FieldByName('Artista_Ativo').AsString[1],
-                                     FieldByName('Data_Inclusao').AsDateTime,
-                                     FieldByName('Data_Alteracao').AsDateTime);
-          Artista.ID := FieldByName('Artista_ID').AsInteger;
+          Artista := TArtista.Create(
+            FieldByName('Artista_ID').AsInteger,
+            FieldByName('Artista_Nome').AsString,
+            FieldByName('Artista_Estilo').AsString);
           Result := Artista;
         end
         else
@@ -151,19 +184,17 @@ begin
       with StoredProc do
       begin
         Connection := FConn.GetConnection;
-        ProcedureName := 'sp_ObterArtistaAtivoPorNome';
+        ProcedureName := 'sp_ArtistaLocalizarPorNome';
         Parameters.Refresh;
         Parameters.ParamByName('@Artista_Nome').Value := ArtistaNome;
         Open;
 
         if not IsEmpty then
         begin
-          Artista := TArtista.Create(FieldByName('Artista_Nome').AsString,
-                                     FieldByName('Artista_Estilo').AsString,
-                                     FieldByName('Artista_Ativo').AsString[1],
-                                     FieldByName('Data_Inclusao').AsDateTime,
-                                     FieldByName('Data_Alteracao').AsDateTime);
-          Artista.ID := FieldByName('Artista_ID').AsInteger;
+          Artista := TArtista.Create(
+            FieldByName('Artista_ID').AsInteger,
+            FieldByName('Artista_Nome').AsString,
+            FieldByName('Artista_Estilo').AsString);
           Result := Artista;
         end
         else
@@ -179,20 +210,42 @@ begin
 end;
 
 // Método para listar artistas ativos
-{function TArtistaDAO.ListarAtivos: TADOQuery;
+function TArtistaDAO.ListarArtistas: TList<TArtista>;
 var
-  Query: TADOQuery;
+  StoredProc: TADOStoredProc;
+  Artista: TArtista;
 begin
-  Query := TADOQuery.Create(nil);
+  Result := TList<TArtista>.Create;
+  StoredProc := TADOStoredProc.Create(nil);
+
   try
-    Query.Connection := FConn.GetConnection;
-    Query.SQL.Text := 'SELECT * FROM TB_Artistas WHERE Status = 1';
-    Query.Open;
-    Result := Query;
-  except
-    Query.Free;
-    raise;
+    with StoredProc do
+    begin
+      Connection := FConn.GetConnection;
+      ProcedureName := 'sp_ListarArtistasAtivos';
+      Parameters.Refresh;
+      Open;
+      First;
+
+      if not IsEmpty then
+        while not Eof do
+        begin
+          Artista := TArtista.Create(FieldByName('Artista_ID').AsInteger,
+                                     FieldByName('Artista_Nome').AsString,
+                                     FieldByName('Artista_Estilo').AsString,
+                                     FieldByName('Artista_Ativo').AsString[1],
+                                     FieldByName('Data_Inclusao').AsDateTime,
+                                     FieldByName('Data_Alteracao').AsDateTime);
+          Result.Add(Artista);
+          Next;
+        end
+        else
+          Result := nil;
+    end;
+  finally
+    StoredProc.Free;
+    Artista.Free;
   end;
-end;}
+end;
 
 end.

@@ -221,7 +221,7 @@ begin
     with StoredProc do
     begin
       Connection := FConn.GetConnection;
-      ProcedureName := 'sp_ArtistaListarAtivos';
+      ProcedureName := 'sp_ArtistasListarAtivos';
       Parameters.Refresh;
       Open;
       First;
@@ -229,10 +229,9 @@ begin
       if not IsEmpty then
         while not Eof do
         begin
-          Artista := TArtista.Create(
-            FieldByName('Artista_ID').AsInteger,
-            FieldByName('Artista_Nome').AsString,
-            FieldByName('Artista_Estilo').AsString);
+          Artista := TArtista.Create(FieldByName('Artista_ID').AsInteger,
+                                     FieldByName('Artista_Nome').AsString,
+                                     FieldByName('Artista_Estilo').AsString);
           Result.Add(Artista);
           Next;
         end

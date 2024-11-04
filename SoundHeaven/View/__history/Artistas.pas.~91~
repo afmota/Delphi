@@ -17,7 +17,7 @@ type
     procedure btnExcluirClick(Sender: TObject);
     procedure btnLocalizarClick(Sender: TObject);
     procedure btnAtualizarClick(Sender: TObject);
-    //procedure edtIDKeyPress(Sender: TObject; var Key: Char);
+    procedure edtIDKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
   public
@@ -87,13 +87,14 @@ procedure TfrmArtistas.btnSalvarClick(Sender: TObject);
 var
   ArtistaController: TArtistaController;
   Artista: TArtista;
+  ArtistaID: Integer;
 begin
   ArtistaController := TArtistaController.Create;
 
   case OpBD of
     1: begin
       try
-        Artista := TArtista.Create(edtNome.Text, cbEstilo.Text, 'T', Now, 0);
+        Artista := TArtista.Create(0, edtNome.Text, cbEstilo.Text, 'T', Now, 0);
         if ArtistaController.InserirArtista(Artista) then
           MessageDlg('Registro gravado com sucesso.', mtInformation, [mbOk], 0);
       finally
@@ -102,10 +103,15 @@ begin
     end;
     2: begin
       try
-        Artista := TArtista.Create(edtNome.Text, cbEstilo.Text, 'T', 0, Now);
-        Artista.Id := StrToInt(edtId.Text);
-         if ArtistaController.AtualizarArtista(Artista) then
-           MessageDlg('Registro atualizado com sucesso.', mtInformation, [mbOk], 0);
+        if TryStrToInt(edtID.Text, ArtistaID) then
+        begin
+          Artista := TArtista.Create(ArtistaID, edtNome.Text, cbEstilo.Text,
+            'T', 0, Now);
+          Artista.Id := StrToInt(edtId.Text);
+           if ArtistaController.AtualizarArtista(Artista) then
+             MessageDlg(
+              'Registro atualizado com sucesso.', mtInformation, [mbOk], 0);
+        end;
       finally
         ArtistaController.Free;
       end;
@@ -121,8 +127,8 @@ var
 begin
   inherited;
 
-  Artista := TArtista.Create(edtNome.Text, cbEstilo.Text, 'F', 0, Now);
-  Artista.ID := StrToInt(edtId.Text);
+  Artista := TArtista.Create(StrToInt(edtID.Text), edtNome.Text, cbEstilo.Text,
+    'F', 0, Now);
   ArtistaController := TArtistaController.Create;
 
   try
@@ -132,6 +138,10 @@ begin
     ArtistaController.Free;
     Artista.Free;
   end;
+
+  EnableButtons(Self, '1000011');
+  pnlCampos.Enabled := False;
+  CleanFields(Self);
 end;
 
 procedure TfrmArtistas.btnLocalizarClick(Sender: TObject);
@@ -149,19 +159,21 @@ begin
   edtNome.SetFocus;
 end;
 
-{procedure TfrmArtistas.edtIDKeyPress(Sender: TObject; var Key: Char);
+procedure TfrmArtistas.edtIDKeyPress(Sender: TObject; var Key: Char);
 var
   ArtistaID: Integer;
   ArtistaController: TArtistaController;
   Artista: TArtista;
 begin
   inherited;
+
   if Key = #13 then
   begin
     // Valida se o número digitado no campo edtID é válido
     if not TryStrToInt(edtID.Text, ArtistaID) then
     begin
-      Mensagem('O ID informado é inválido. Tente novamente', 0);
+      MessageDlg(
+        'O ID informado é inválido. Tente novamente', mtInformation, [mbOk], 0);
       edtId.SetFocus;
       Exit;
     end;
@@ -170,23 +182,23 @@ begin
     ArtistaController := TArtistaController.Create;
     try
       // Buscar o artista pelo ID
-      Artista :=  ArtistaController.BuscarArtista(ArtistaID);
+      Artista :=  ArtistaController.LocalizarArtista(ArtistaID);
 
       // Preencher os campos visuais se o artista for encontrado
       if Assigned(Artista) then
       begin
         edtNome.Text := Artista.Nome;
-        ChkStatus.Checked := Estado(Artista.Status);
+        cbEstilo.ItemIndex := cbEstilo.Items.IndexOf(Artista.Estilo);
         btnExcluir.Enabled := True;
         btnAtualizar.Enabled := True;
       end
       else
-        Mensagem('Artista não encontrado.', 0);
+        MessageDlg('Artista não encontrado.', mtInformation, [mbOk], 0);
     finally
       Artista.Free;
       ArtistaController.Free;
     end;
   end;
-end;}
+end;
 
 end.
