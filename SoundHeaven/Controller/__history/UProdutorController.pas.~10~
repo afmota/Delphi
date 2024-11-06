@@ -13,9 +13,6 @@ type
     destructor Destroy; override;
     function ExcluirProdutor(const Produtor: TProdutor): Boolean;
     function InserirProdutor(const Produtor: TProdutor): Boolean;
-    function AtualizarProdutor(const Produtor: TProdutor): Boolean;
-    function LocalizarProdutor(const ID: Integer): TProdutor; overload;
-    function LocalizarProdutor(const Nome: string): TProdutor; overload;
   end;
 
 implementation
@@ -41,28 +38,9 @@ end;
 function TProdutorController.InserirProdutor(const Produtor: TProdutor): Boolean;
 begin
   if Produtor.Nome = '' then
-    raise Exception.Create('O campo NOME deve ser preenchido.')
+    raise Exception.Create('O campo NOME deve ser preenchido')
   else
     Result := FDAO.Inserir(Produtor);
-end;
-
-function TProdutorController.AtualizarProdutor(
-  const Produtor: TProdutor): Boolean;
-begin
-  if Produtor.Nome = '' then
-    raise Exception.Create('O campo NOME deve ser preenchido.')
-  else
-    Result := FDAO.Atualizar(Produtor);
-end;
-
-function TProdutorController.LocalizarProdutor(const ID: Integer): TProdutor;
-begin
-  Result := FDAO.Localizar(ID);
-end;
-
-function TProdutorController.LocalizarProdutor(const Nome: string): TProdutor;
-begin
-  Result := FDAO.Localizar(Nome);
 end;
 
 end.

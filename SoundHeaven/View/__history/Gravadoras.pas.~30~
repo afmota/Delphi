@@ -83,7 +83,7 @@ begin
       end;
       2: begin
         try
-          Gravadora := TGravadora.Create(StrToInt(edtID.Text), edtNome.Text);
+          Gravadora := TGravadora.Create(StrToInt(edtID.Text), edtNome.Text, 'T', 0, Now);
           if GravadoraController.AtualizarGravadora(Gravadora) then
             MessageDlg('Registro atualizado com sucesso.', mtInformation, [mbOk], 0);
         finally

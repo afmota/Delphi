@@ -167,7 +167,7 @@
         <DCCReference Include="Controller\UProdutorController.pas"/>
         <DCCReference Include="DAO\UProdutorDAO.pas"/>
         <DCCReference Include="View\Produtores.pas">
-            <Form>frmProdutor</Form>
+            <Form>frmProdutores</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Base">

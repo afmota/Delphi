@@ -7,7 +7,7 @@ uses UConexao, UGravadora, Data.Win.ADODB, System.SysUtils, System.Generics.Coll
 type
   TGravadoraDAO = class
   private
-    FConn: TConexaoDB; // Conexï¿½o com o SQL Server
+    FConn: TConexaoDB; // Conexão com o SQL Server
   public
     constructor Create;
     destructor Destroy;
@@ -23,12 +23,12 @@ implementation
 
 constructor TGravadoraDAO.Create;
 begin
-  FConn := TConexaoDB.Create; //Instancia a conexï¿½o ADO
+  FConn := TConexaoDB.Create; //Instancia a conexão ADO
 end;
 
 destructor TGravadoraDAO.Destroy;
 begin
-  FConn.Free; // Liberar a conexï¿½o ao destruir
+  FConn.Free; // Liberar a conexão ao destruir
   inherited;
 end;
 
@@ -101,12 +101,14 @@ begin
       with StoredProc do
       begin
         Connection := FConn.GetConnection;
-        ProcedureName := 'sp_GravadoraAtualizar';
+        ProcedureName := 'sp_AtualizarGravadora';
 
         with Parameters do
         begin
           ParamByName('@Gravadora_ID').Value := Gravadora.ID;
           ParamByName('@Nome').Value := Gravadora.Nome;
+          ParamByName('@Ativo').Value := Gravadora.Ativo;
+          ParamByName('@DataAlteracao').Value := Gravadora.DataAlteracao;
         end;
 
         ExecProc;
@@ -133,8 +135,9 @@ begin
       with StoredProc do
       begin
         Connection := FConn.GetConnection;
-        ProcedureName := 'sp_GravadoraLocalizarPorID';
+        ProcedureName := 'sp_ObterGravadoraAtivoPorID';
         Parameters.Refresh;
+
         Parameters.ParamByName('@Gravadora_ID').Value := ID;
         Open;
         First;
@@ -142,14 +145,17 @@ begin
         if not IsEmpty then
           Result := TGravadora.Create(
             FieldByName('Gravadora_ID').AsInteger,
-            FieldByName('Gravadora_Nome').AsString)
+            FieldByName('Gravadora_Nome').AsString,
+            FieldByName('Gravatora_Ativo').AsString[1],
+            FieldByName('Data_Inclusao').AsDateTime,
+            FieldByName('Data_Alteracao').AsDateTime)
         else
           Result := nil;
       end;
     except
       on E: Exception do
       begin
-        raise Exception.Create('Gravadora nï¿½o encontrada.');
+        raise Exception.Create('Gravadora não encontrada.');
         Result := nil;
       end;
     end;
@@ -169,7 +175,7 @@ begin
       with StoredProc do
       begin
         Connection := FConn.GetConnection;
-        ProcedureName := 'sp_GravadoraLocalizarPorNome';
+        ProcedureName := 'sp_ObterGravadoraAtivaPorNome';
         Parameters.Refresh;
         Open;
         First;
@@ -177,14 +183,17 @@ begin
         if not IsEmpty then
           Result := TGravadora.Create(
             FieldByName('Gravadora_ID').AsInteger,
-            FieldByName('Gravadora Nome').AsString)
+            FieldByName('Gravadora Nome').AsString,
+            FieldByName('Gravadora_Ativo').AsString[1],
+            FieldByName('Data_Inclusao').AsDateTime,
+            FieldByName('Data_Alteracao').AsDateTime)
         else
           Result := nil;
       end;
     except
       on E: Exception do
       begin
-        raise Exception.Create('Gravadora nï¿½o encontrada.');
+        raise Exception.Create('Gravadora não encontrada.');
       end;
     end;
   finally
@@ -204,7 +213,7 @@ begin
     with StoredProc do
     begin
       Connection := FConn.GetConnection;
-      ProcedureName := 'sp_GravadoraListarAtivas';
+      ProcedureName := 'sp_ListarGravadorasAtivas';
       Parameters.Refresh;
       Open;
       First;
@@ -214,7 +223,11 @@ begin
         begin
           Gravadora.Create(
             FieldByName('Gravadora_ID').AsInteger,
-            FieldByName('Gravadora_Nome').AsString);
+            FieldByName('Gravadora_Nome').AsString,
+            FieldByName('Gravadora_Ativo').AsString[1],
+            FieldByName('Data_Inclusao').AsDateTime,
+            FieldByName('Data_Alteracao').AsDateTime);
+
           Result.Add(Gravadora);
           Next;
         end

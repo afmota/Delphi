@@ -73,7 +73,7 @@ begin
     case OpBD of
       1: begin
         try
-          Gravadora := TGravadora.Create(edtNome.Text);
+          Gravadora := TGravadora.Create(0, edtNome.Text, 'T', Now, 0);
           if GravadoraController.InserirGravadora(Gravadora) then
             MessageDlg('Registro gravado com sucesso.', mtInformation, [mbOk], 0);
         finally
@@ -83,7 +83,7 @@ begin
       end;
       2: begin
         try
-          Gravadora := TGravadora.Create(StrToInt(edtID.Text), edtNome.Text);
+          Gravadora := TGravadora.Create(StrToInt(edtID.Text), edtNome.Text, 'T', 0, Now);
           if GravadoraController.AtualizarGravadora(Gravadora) then
             MessageDlg('Registro atualizado com sucesso.', mtInformation, [mbOk], 0);
         finally

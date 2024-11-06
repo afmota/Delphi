@@ -1,11 +1,11 @@
-unit UGravadora;
+unit UProdutor;
 
 interface
 
 uses System.SysUtils;
 
 type
-  TGravadora = class
+  TProdutor = class
   private
     FID: Integer;
     FNome: string;
@@ -18,29 +18,19 @@ type
     property Ativo: Char read FAtivo write FAtivo;
     property DataInclusao: TDateTime read FDataInclusao write FDataInclusao;
     property DataAlteracao: TDateTime read FDataAlteracao write FDataAlteracao;
+
     constructor Create(const AID: Integer); overload;
-    constructor Create(const ANome: string); overload;
-    constructor Create(const AID: Integer; const ANome: string); overload;
   end;
 
 implementation
 
-{ TGravadora }
+{ TProdutor }
 
-constructor TGravadora.Create(const AID: Integer);
+{ TProdutor }
+
+constructor TProdutor.Create(const AID: Integer);
 begin
   FID := AID;
-end;
-
-constructor TGravadora.Create(const ANome: string);
-begin
-  FNome := ANome;
-end;
-
-constructor TGravadora.Create(const AID: Integer; const ANome: string);
-begin
-  FID := AID;
-  FNome := ANome;
 end;
 
 end.

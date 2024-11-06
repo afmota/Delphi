@@ -2,7 +2,7 @@ unit UProdutorDAO;
 
 interface
 
-uses UCOnexao, UProdutor, Data.Win.ADODB, System.SysUtils, System.Generics.Collections;
+uses UCOnexao, UProdutor, Data.Win.ADODB, System.SysUtils;
 
 type
   TProdutorDAO = class
@@ -16,7 +16,6 @@ type
     function Atualizar(const Produtor: TProdutor): Boolean;
     function Localizar(const ID: Integer): TProdutor; overload;
     function Localizar(const Nome: string): TProdutor; overload;
-    function ListarProdutores: TList<TProdutor>;
   end;
 
 implementation
@@ -181,43 +180,6 @@ begin
     end;
   finally
     StoredProc.Free;
-  end;
-end;
-
-function TProdutorDAO.ListarProdutores: TList<TProdutor>;
-var
-  StoredProc: TADOStoredProc;
-  Produtor: TProdutor;
-begin
-  try
-    StoredProc := TADOStoredProc.Create(nil);
-    try
-      with StoredProc do
-      begin
-        Connection := FConn.GetConnection;
-        ProcedureName := 'sp_ProdutorListarAtivos';
-        Parameters.Refresh;
-        Open;
-        First;
-
-        if not IsEmpty then
-          while not Eof do
-          begin
-            Produtor := TProdutor.Create(
-              FieldByName('Produtor_ID').AsInteger,
-              FieldByName('Produtor_Nome').AsString);
-
-            Result.Add(Produtor);
-            Next;
-          end
-        else
-          Result := nil;
-      end;
-    except
-
-    end;
-  finally
-
   end;
 end;
 

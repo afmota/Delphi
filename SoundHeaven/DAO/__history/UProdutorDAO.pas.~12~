@@ -2,7 +2,7 @@ unit UProdutorDAO;
 
 interface
 
-uses UCOnexao, UProdutor, Data.Win.ADODB, System.SysUtils, System.Generics.Collections;
+uses UCOnexao, UProdutor, Data.Win.ADODB, System.SysUtils;
 
 type
   TProdutorDAO = class
@@ -14,9 +14,7 @@ type
     function Excluir(const Produtor: TProdutor): Boolean;
     function Inserir(const Produtor: TProdutor): Boolean;
     function Atualizar(const Produtor: TProdutor): Boolean;
-    function Localizar(const ID: Integer): TProdutor; overload;
-    function Localizar(const Nome: string): TProdutor; overload;
-    function ListarProdutores: TList<TProdutor>;
+    function Localizar(const ID: Integer): TProdutor;
   end;
 
 implementation
@@ -150,74 +148,6 @@ begin
     end;
   finally
     StoredProc.Free;
-  end;
-end;
-
-function TProdutorDAO.Localizar(const Nome: string): TProdutor;
-var
-  StoredProc: TADOStoredProc;
-begin
-  try
-    StoredProc := TADOStoredProc.Create(nil);
-    try
-      with StoredProc do
-      begin
-        Connection := FConn.GetConnection;
-        ProcedureName := 'sp_ProdutorLocalizarPorNome';
-        Parameters.Refresh;
-        Parameters.ParamByName('@Produtor_Nome').Value := Nome;
-        Open;
-
-        if not IsEmpty then
-          Result := TProdutor.Create(
-            FieldByName('Produtor_ID').AsInteger,
-            FieldByName('Produtor_Nome').AsString)
-        else
-          Result := nil;
-      end;
-    except
-      on E: Exception do
-        raise Exception.Create('Produtos não encontrado.');
-    end;
-  finally
-    StoredProc.Free;
-  end;
-end;
-
-function TProdutorDAO.ListarProdutores: TList<TProdutor>;
-var
-  StoredProc: TADOStoredProc;
-  Produtor: TProdutor;
-begin
-  try
-    StoredProc := TADOStoredProc.Create(nil);
-    try
-      with StoredProc do
-      begin
-        Connection := FConn.GetConnection;
-        ProcedureName := 'sp_ProdutorListarAtivos';
-        Parameters.Refresh;
-        Open;
-        First;
-
-        if not IsEmpty then
-          while not Eof do
-          begin
-            Produtor := TProdutor.Create(
-              FieldByName('Produtor_ID').AsInteger,
-              FieldByName('Produtor_Nome').AsString);
-
-            Result.Add(Produtor);
-            Next;
-          end
-        else
-          Result := nil;
-      end;
-    except
-
-    end;
-  finally
-
   end;
 end;
 

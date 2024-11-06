@@ -18,44 +18,29 @@ type
     property Ativo: Char read FAtivo write FAtivo;
     property DataInclusao: TDateTime read FDataInclusao write FDataInclusao;
     property DataAlteracao: TDateTime read FDataAlteracao write FDataAlteracao;
-
-    constructor Create(const AID: Integer; const ANome: string; const AAtivo: Char;
-      const ADataInclusao: TDateTime; const ADataAlteracao: TDateTime); overload;
+    constructor Create(const AID: Integer); overload;
     constructor Create(const ANome: string); overload;
-    constructor Create(const AID: Integer; const AAtivo: Char;
-      ADataAlteracao: TDateTime); overload;
+    constructor Create(const AID: Integer; const ANome: string); overload;
   end;
 
 implementation
 
 { TProdutor }
 
-constructor TProdutor.Create(const AID: Integer; const ANome: string;
-  const AAtivo: Char; const ADataInclusao: TDateTime; const ADataAlteracao: TDateTime);
+constructor TProdutor.Create(const AID: Integer);
 begin
-  Randomize;
-  if AID = 0 then FID := Random(1000000) else FID := AID;
-  if ANome = '' then FNome := 'Unknown' else FNome := ANome;
-  FAtivo := AAtivo;
-  if ADataInclusao = 0 then FDataInclusao := Now else FDataInclusao := ADataInclusao;
-  if ADataAlteracao = 0 then FDataAlteracao := Now else FDataAlteracao := ADataAlteracao;
+  FID := AID;
 end;
 
 constructor TProdutor.Create(const ANome: string);
 begin
-  Randomize;
-  FID := Random(1000000);
   FNome := ANome;
-  FAtivo := 'T';
-  FDataInclusao := Now;
 end;
 
-constructor TProdutor.Create(const AID: Integer; const AAtivo: Char;
-  ADataAlteracao: TDateTime);
+constructor TProdutor.Create(const AID: Integer; const ANome: string);
 begin
   FID := AID;
-  FAtivo := AAtivo;
-  FDataAlteracao := ADataAlteracao;
+  FNome := ANome;
 end;
 
 end.

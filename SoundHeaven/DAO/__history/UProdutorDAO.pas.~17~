@@ -208,10 +208,7 @@ begin
               FieldByName('Produtor_Nome').AsString);
 
             Result.Add(Produtor);
-            Next;
-          end
-        else
-          Result := nil;
+          end;
       end;
     except
 

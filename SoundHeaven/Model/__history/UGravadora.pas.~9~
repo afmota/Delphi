@@ -20,7 +20,6 @@ type
     property DataAlteracao: TDateTime read FDataAlteracao write FDataAlteracao;
     constructor Create(const AID: Integer); overload;
     constructor Create(const ANome: string); overload;
-    constructor Create(const AID: Integer; const ANome: string); overload;
   end;
 
 implementation
@@ -34,12 +33,6 @@ end;
 
 constructor TGravadora.Create(const ANome: string);
 begin
-  FNome := ANome;
-end;
-
-constructor TGravadora.Create(const AID: Integer; const ANome: string);
-begin
-  FID := AID;
   FNome := ANome;
 end;
 

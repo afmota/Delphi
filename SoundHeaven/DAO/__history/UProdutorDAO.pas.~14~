@@ -184,41 +184,4 @@ begin
   end;
 end;
 
-function TProdutorDAO.ListarProdutores: TList<TProdutor>;
-var
-  StoredProc: TADOStoredProc;
-  Produtor: TProdutor;
-begin
-  try
-    StoredProc := TADOStoredProc.Create(nil);
-    try
-      with StoredProc do
-      begin
-        Connection := FConn.GetConnection;
-        ProcedureName := 'sp_ProdutorListarAtivos';
-        Parameters.Refresh;
-        Open;
-        First;
-
-        if not IsEmpty then
-          while not Eof do
-          begin
-            Produtor := TProdutor.Create(
-              FieldByName('Produtor_ID').AsInteger,
-              FieldByName('Produtor_Nome').AsString);
-
-            Result.Add(Produtor);
-            Next;
-          end
-        else
-          Result := nil;
-      end;
-    except
-
-    end;
-  finally
-
-  end;
-end;
-
 end.

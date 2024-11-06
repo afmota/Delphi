@@ -130,16 +130,8 @@ begin
     ProdutorController := TProdutorController.Create;
     try
       Produtor := ProdutorController.LocalizarProdutor(ProdutorID);
-      if Assigned(PRodutor) then
-      begin
-        edtNome.Text := Produtor.Nome;
-        EnableButtons(Self, '0110100');
-      end
-      else
-        MessageDlg('Produtor não localizado.', mtInformation, [mbOk], 0);
     finally
-      Produtor.Free;
-      ProdutorController.Free;
+
     end;
   end;
 end;

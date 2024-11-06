@@ -18,9 +18,9 @@ type
     property Ativo: Char read FAtivo write FAtivo;
     property DataInclusao: TDateTime read FDataInclusao write FDataInclusao;
     property DataAlteracao: TDateTime read FDataAlteracao write FDataAlteracao;
-    constructor Create(const AID: Integer); overload;
-    constructor Create(const ANome: string); overload;
-    constructor Create(const AID: Integer; const ANome: string); overload;
+    constructor Create(const AID: Integer);
+    constructor Create(const ANome: string);
+    constructor Create(const AID: Integer; const ANome: string);
   end;
 
 implementation
@@ -39,8 +39,7 @@ end;
 
 constructor TGravadora.Create(const AID: Integer; const ANome: string);
 begin
-  FID := AID;
-  FNome := ANome;
+
 end;
 
 end.

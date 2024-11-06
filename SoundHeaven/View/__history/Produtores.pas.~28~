@@ -138,8 +138,7 @@ begin
       else
         MessageDlg('Produtor não localizado.', mtInformation, [mbOk], 0);
     finally
-      Produtor.Free;
-      ProdutorController.Free;
+
     end;
   end;
 end;

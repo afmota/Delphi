@@ -11,7 +11,6 @@ type
   public
     constructor Create;
     destructor Destroy; override;
-    function ExcluirGravadora(const Gravadora: TGravadora): Boolean;
     function InserirGravadora(const Gravadora: TGravadora): Boolean;
     function AtualizarGravadora(const Gravadora: TGravadora): Boolean;
     function LocalizarGravadora(const ID: Integer): TGravadora; overload;
@@ -30,11 +29,6 @@ destructor TGravadoraController.Destroy;
 begin
   FDAO.Free;
   inherited;
-end;
-
-function TGravadoraController.ExcluirGravadora(const Gravadora: TGravadora): Boolean;
-begin
-  Result := FDAO.Excluir(Gravadora);
 end;
 
 function TGravadoraController.InserirGravadora(const Gravadora: TGravadora): Boolean;
