@@ -4,7 +4,7 @@ interface
 
 uses
   System.Classes, Vcl.Controls, Vcl.Forms, Vcl.ComCtrls, System.SysUtils,
-    Vcl.StdCtrls, Vcl.Mask, Vcl.StyledButton; // Importa as unidades necessárias
+    Vcl.StdCtrls, Vcl.Mask, Vcl.ExtCtrls, Vcl.StyledButton; // Importa as unidades necessárias
 
 // Declara o procedimento para ativar/desativar componentes com base em uma string de 0s e 1s
 procedure EnableComponentsByTag(AForm: TForm; const States: string);
@@ -54,6 +54,8 @@ end;
        TMemo(Form.Components[i]).Lines.Clear;
      if Form.Components[i] is TDateTimePicker then
        TDateTimePicker(Form.Components[i]).Date := Now;
+     if Form.Components[i] is TImage then
+       TImage(Form.Components[i]).Picture := nil;
    end;
  end;
 

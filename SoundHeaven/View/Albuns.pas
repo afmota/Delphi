@@ -4,28 +4,49 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Model, Vcl.StdCtrls, Vcl.ExtCtrls,
-  Vcl.ComCtrls;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Model, Vcl.ButtonStylesAttributes,
+  Vcl.StdCtrls, Vcl.StyledButton, Vcl.ExtCtrls, Vcl.ComCtrls, System.Generics.Collections,
+  Vcl.Buttons;
 
 type
   TfrmAlbuns = class(TfrmModel)
-    Label1: TLabel;
-    edtID: TEdit;
-    Label2: TLabel;
-    edtTitulo: TEdit;
     Label3: TLabel;
-    cbxArtista: TComboBox;
     Label4: TLabel;
-    dtpLancamento: TDateTimePicker;
     Label5: TLabel;
-    dtpAquisicao: TDateTimePicker;
     Label6: TLabel;
-    edtProdutor: TEdit;
     Label7: TLabel;
-    cbxGravadora: TComboBox;
     Label8: TLabel;
-    edtNumeroSerie: TEdit;
-    chkStatus: TCheckBox;
+    Label9: TLabel;
+    cbArtista: TComboBox;
+    cbEstilo: TComboBox;
+    cbProdutor: TComboBox;
+    cbGravadora: TComboBox;
+    cbMidia: TComboBox;
+    dtLancamento: TDateTimePicker;
+    dtAquisicao: TDateTimePicker;
+    Label10: TLabel;
+    Label11: TLabel;
+    Label12: TLabel;
+    edtCatalogo: TEdit;
+    edtNumSerie: TEdit;
+    Shape1: TShape;
+    imgCapa: TImage;
+    btnUpArtista: TBitBtn;
+    btnUpEstilo: TBitBtn;
+    btnUpProdutor: TBitBtn;
+    btnUpGravadora: TBitBtn;
+    procedure FormShow(Sender: TObject);
+    procedure CarregaCbArtista;
+    procedure CarregaCbEstilo;
+    procedure CarregaCbProdutor;
+    procedure CarregaCbGravadora;
+    procedure btnIncluirClick(Sender: TObject);
+    procedure btnSalvarClick(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure edtIDKeyPress(Sender: TObject; var Key: Char);
+    procedure btnLocalizarClick(Sender: TObject);
+    procedure btnAtualizarClick(Sender: TObject);
+    procedure btnUpArtistaClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -39,220 +60,325 @@ implementation
 
 {$R *.dfm}
 
-end.
+uses UArtistaController, UArtista, ComponentHelper, UEstiloController, UEstilo,
+  UProdutorController, UProdutor, UGravadoraController, UGravadora, UAlbum,
+  UAlbumController, Vcl.Clipbrd;
 
+procedure TfrmAlbuns.FormShow(Sender: TObject);
+begin
+  inherited;
 
+  imgCapa.Picture := nil;
 
-{
-type
-  TfrmAlbuns = class(TfrmModel)
-    {pnlBotoes: TPanel;
-    pnlCampos: TPanel;
-    btnNovo: TButton;
-    btnBuscar: TButton;
-    btnAtualizar: TButton;
-    btnSair: TButton;
-    btnSalvar: TButton;
-    Label1: TLabel;
-    Label2: TLabel;
-    Label3: TLabel;
-    Label4: TLabel;
-    Label5: TLabel;
-    Label6: TLabel;
-    btnCancelar: TButton;
-    edtID: TEdit;
-    btnEncontrar: TSpeedButton;
-    edtTitulo: TEdit;
-    edtArtista: TEdit;
-    datLancamento: TDateTimePicker;
-    datAquisicao: TDateTimePicker;
-    edtNumSerie: TEdit;
-    chkStatus: TCheckBox;
-    procedure FormShow(Sender: TObject);
-    procedure btnSairClick(Sender: TObject);
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure btnNovoClick(Sender: TObject);
-    procedure btnCancelarClick(Sender: TObject);
-    procedure btnBuscarClick(Sender: TObject);
-    procedure btnEncontrarClick(Sender: TObject);
-    procedure edtTituloChange(Sender: TObject);
-    procedure btnAtualizarClick(Sender: TObject);
-    procedure btnSalvarClick(Sender: TObject);
-  private
-    { Private declarations }
-{  public
-    { Public declarations }
-{  end;
+  cbArtista.Items.Clear;
+  cbEstilo.Items.Clear;
+  cbProdutor.Items.Clear;
+  cbGravadora.Items.Clear;
 
+  CarregaCbArtista;
+  CarregaCbEstilo;
+  CarregaCbProdutor;
+  CarregaCbGravadora;
+
+  dtLancamento.Date := Now;
+  dtAquisicao.Date := Now;
+end;
+
+procedure TfrmAlbuns.CarregaCBArtista;
 var
-  frmAlbuns: TfrmAlbuns;
-  //OpBD: Integer;
-
-{const
-  dataErro1 = 'A data de lançamento não pode ser maior que a data de aquisição.';
-  dataErro2 = 'A data de lançamento não pode ser maior que a data atual.';
-  dataErro3 = 'A data de aquisição não pode ser maior que a data atual.';
-
-implementation
-
-{$R *.dfm}
-
-{uses
-  FuncoesDivs
-  , ComponentHelper
-  , UAlbumController
-  , UAlbuns
-  , UAlbumDAO
-  ;}
-
-{ TfrmAlbuns }
-
-{procedure TfrmAlbuns.FormShow(Sender: TObject);
+  ArtistaController: TArtistaController;
+  ListaArtistas: TList<TArtista>;
+  I: Integer;
+  Artista: TArtista;
 begin
-  EnableButtons('110001');
-  pnlCampos.Enabled := False;
-  EnableComponentsByTag(Self, '00000000');
-  CleanFields(Self);
-end;
-
-procedure TfrmAlbuns.btnNovoClick(Sender: TObject);
-begin
-  EnableButtons('000110');
-  pnlCampos.Enabled := True;
-  EnableComponentsByTag(Self, '00111101');
-  edtTitulo.SetFocus;
-  OpBD := 1;
-end;
-
-procedure TfrmAlbuns.btnSairClick(Sender: TObject);
-begin
-  Close;
-end;
-
-procedure TfrmAlbuns.edtTituloChange(Sender: TObject);
-begin
-  if edtID.Text <> '' then
-    btnAtualizar.Enabled := True;
-end;
-
-procedure TfrmAlbuns.FormClose(Sender: TObject; var Action: TCloseAction);
-begin
-  Action := caFree;
-end;
-
-procedure TfrmAlbuns.btnCancelarClick(Sender: TObject);
-begin
-  EnableButtons('110001');
-  pnlcampos.Enabled := False;
-  EnableComponentsByTag(Self, '00000000');
-  CleanFields(Self);
-end;
-
-procedure TfrmAlbuns.btnBuscarClick(Sender: TObject);
-begin
-  EnableButtons('000100');
-  pnlCampos.Enabled := True;
-  EnableComponentsByTag(Self, '11000000');
-  CleanFields(Self);
-  EdtID.SetFocus;
-end;
-
-procedure TfrmAlbuns.btnEncontrarClick(Sender: TObject);
-var
-  AlbumID: Integer;
-  AlbumController: TAlbumController;
-  Album: TAlbum;
-begin
-  // Verificar se o valor do ID é válido (número)
-  if not TryStrToInt(edtId.Text, AlbumID) then
-  begin
-    Mensagem('ID inválido. Tente novamente', 0);
-    edtID.SetFocus;
-    Exit;
-  end;
-
-  // Criar o Controller
-  AlbumController := TAlbumController.Create;
   try
-    // Busca o album pelo ID
-    Album := AlbumController.BuscarAlbum(AlbumID);
-
-    // Preencher os campos visuais se o álbum for encontrado
-    if Assigned(Album) then
+    cbArtista.Items.Clear;
+    ArtistaController := TArtistaController.Create;
+    ListaArtistas := ArtistaController.ListarArtistas;
+    if not Assigned(ListaArtistas) then
     begin
-      edtTitulo.Text     := Album.Titulo;
-      edtArtista.Text    := Album.Artista;
-      datLancamento.Date := Album.DataLancamento;
-      datAquisicao.Date  := Album.DataAquisicao;
-      edtNumSerie.Text   := Album.NumeroSerie;
-      if Album.Status = 1 then chkStatus.Checked := True else chkStatus.Checked := False;
+      MessageDlg('Artistas ainda não foram cadastrados no sistema.', mtInformation, [mbOk], 0);
+      EnableButtons(Self, '0000001');
     end
     else
     begin
-      MessageDlg('Álbum não encontrado.', mtInformation, [mbOk], 0);
-      CleanFields(Self);
-      btnAtualizar.Enabled := False;
+      for I := 0 to ListaArtistas.Count -1 do
+      begin
+        Artista := ListaArtistas[I];
+        cbArtista.Items.Add(Artista.Nome);
+      end;
+      cbArtista.ItemIndex := -1;
     end;
   finally
-    Album.Free;
-    AlbumController.Free;
+    if Assigned(ListaArtistas) then
+    begin
+      ListaArtistas.Free;
+      ArtistaController.Free;
+    end;
+  end;
+end;
+
+procedure TfrmAlbuns.CarregaCbEstilo;
+var
+  EstiloController: TEstiloController;
+  ListaEstilos: TList<TEstilo>;
+  I: Integer;
+  Estilo: TEstilo;
+begin
+  try
+    cbEstilo.Items.Clear;
+    EstiloController := TEstiloController.Create;
+    ListaEstilos := EstiloController.ListarEstilos;
+    if not Assigned(ListaEstilos) then
+    begin
+      MessageDlg('Estilos musicais ainda não foram cadastrados no sistema.', mtInformation, [mbOk], 0);
+      EnableButtons(Self, '0000001');
+    end
+    else
+    begin
+      for I := 0 to ListaEstilos.Count -1 do
+      begin
+        Estilo := ListaEstilos[I];
+        cbEstilo.Items.Add(Estilo.Nome);
+      end;
+      cbEstilo.ItemIndex := -1;
+    end;
+  finally
+    if Assigned(ListaEstilos) then
+    begin
+      ListaEstilos.Free;
+      EstiloController.Free;
+    end;
+  end;
+end;
+
+procedure TfrmAlbuns.CarregaCbProdutor;
+var
+  ProdutorController: TProdutorController;
+  ListaProdutores: TList<TProdutor>;
+  I: Integer;
+  Produtor: TProdutor;
+begin
+  try
+    cbProdutor.Items.Clear;
+    ProdutorController := TProdutorController.Create;
+    ListaProdutores := ProdutorController.ListarProdutores;
+    if not Assigned(ListaProdutores) then
+    begin
+      MessageDlg('Produtores ainda não foram cadastrados no sistema.', mtInformation, [mbOk], 0);
+      EnableButtons(Self, '0000001');
+    end
+    else
+    begin
+      for I := 0 to ListaProdutores.Count -1 do
+      begin
+        Produtor := ListaProdutores[I];
+        cbProdutor.Items.Add(Produtor.Nome);
+      end;
+      cbProdutor.ItemIndex := -1;
+    end;
+  finally
+    if Assigned(ListaProdutores) then
+    begin
+      ListaProdutores.Free;
+      ProdutorController.Free;
+    end;
+  end;
+end;
+
+procedure TfrmAlbuns.CarregaCbGravadora;
+var
+  GravadoraController: TGravadoraController;
+  ListaGravadoras: TList<TGravadora>;
+  I: Integer;
+  Gravadora: TGravadora;
+begin
+  try
+    cbGravadora.Items.Clear;
+    GravadoraController := TGravadoraController.Create;
+    ListaGravadoras := GravadoraController.ListarGravadoras;
+    if not Assigned(ListaGravadoras) then
+    begin
+      MessageDlg('Gravadoras ainda não foram cadastradas no sistema.', mtInformation, [mbOk], 0);
+      EnableButtons(Self, '0000001');
+    end
+    else
+    begin
+      for I := 0 to ListaGravadoras.Count -1 do
+      begin
+        Gravadora := ListaGravadoras[I];
+        cbGravadora.Items.Add(Gravadora.Nome);
+      end;
+      cbGravadora.ItemIndex := -1;
+    end;
+  finally
+    if Assigned(ListaGravadoras) then ListaGravadoras.Free;
   end;
 end;
 
 procedure TfrmAlbuns.btnAtualizarClick(Sender: TObject);
 begin
-  EnableButtons('0001100');
+  inherited;
+   EnableComponentsByTag(Self, '0101111111101');
+   edtNome.SetFocus;
+end;
+
+procedure TfrmAlbuns.btnIncluirClick(Sender: TObject);
+begin
+  inherited;
   pnlCampos.Enabled := True;
-  EnableComponentsByTag(Self, '00111101');
-  edtTitulo.SetFocus;
-  OpBD := 2;
+  EnableComponentsByTag(Self, '0101111111101');
+  edtNome.SetFocus;
+end;
+
+procedure TfrmAlbuns.btnLocalizarClick(Sender: TObject);
+begin
+  inherited;
+
+  EnableComponentsByTag(Self,'1000000000010');
+  edtID.SetFocus;
 end;
 
 procedure TfrmAlbuns.btnSalvarClick(Sender: TObject);
 var
+  AlbumController: TAlbumController;
   Album: TAlbum;
-  DAO: TAlbumDAO;
-  Estado: Integer;
 begin
-  if chkStatus.Checked = True then Estado := 1 else Estado := 0;
-  Album := TAlbum.Create(edtTitulo.Text, edtArtista.Text, datLancamento.Date, datAquisicao.Date, Estado);
-  DAO := TAlbumDAO.Create;
-
-  if GreaterDate(datLancamento.Date, datAquisicao.Date) then
-  begin
-    Mensagem(DataErro1, 0);
-    datLancamento.SetFocus;
-    Exit;
-  end
-  else
-    if GreaterDate(datLancamento.Date, Now) then
-    begin
-      Mensagem(DataErro2, 0);
-      datLancamento.SetFocus;
-      Exit;
-    end
-    else
-      if GreaterDate(datAquisicao.Date, Now) then
-      begin
-        Mensagem(DataErro3, 0);
-        datAquisicao.SetFocus;
-        Exit;
-      end
-      else
-      begin
-        case OpBD of
-          1: begin
-            try
-              DAO.Inserir(Album);
-            finally
-              DAO.Free;
-            end;
-          end;
-          2: begin
-            DAO.Atualizar(Album);
-          end;
+  AlbumController := TAlbumController.Create;
+  try
+    try
+      case OpBD of
+        1: begin
+          Album := TAlbum.Create(
+            edtNome.Text,
+            cbArtista.Text,
+            cbEstilo.Text,
+            cbProdutor.Text,
+            cbGravadora.Text,
+            cbMidia.ItemIndex,
+            edtCatalogo.Text,
+            dtLancamento.Date,
+            dtAquisicao.Date,
+            imgCapa.Picture.Bitmap
+          );
+          if AlbumController.InserirAlbum(Album) then
+            MessageDlg('Álbum inserido com sucesso.', mtInformation, [mbOk], 0);
+        end;
+        2: begin
+          Album := TAlbum.Create(
+            StrToInt(edtID.Text),
+            edtNome.Text,
+            cbArtista.Text,
+            cbEstilo.Text,
+            cbProdutor.Text,
+            cbGravadora.Text,
+            cbMidia.ItemIndex,
+            edtCatalogo.Text,
+            dtLancamento.Date,
+            dtAquisicao.Date,
+            imgCapa.Picture.Bitmap
+          );
+          if AlbumController.AtualizarAlbum(Album) then
+            MessageDlg('Álbum atualizado com sucesso.', mtInformation, [mbOk], 0);
         end;
       end;
+    finally
+      Album.Free; // Garante que o álbum será liberado
+    end;
+  finally
+    AlbumController.Free; // Garante que o controlador será liberado
+  end;
+
+  inherited;
 end;
 
-end.}
+procedure TfrmAlbuns.btnUpArtistaClick(Sender: TObject);
+var
+  Botao: TBitBtn;
+begin
+  if Sender is TBitBtn then
+  begin
+    Botao := TBitBtn(Sender);
+
+    case Botao.Tag of
+      -1: CarregaCbArtista;
+      -2: CarregaCbEstilo;
+      -3: CarregaCbProdutor;
+      -4: CarregaCbGravadora;
+    end;
+  end;
+end;
+
+procedure TfrmAlbuns.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+
+  if pnlCampos.Enabled then
+    // Verifica se CTRL+V foi pressionado
+    if (Key = Ord('V')) and (ssCtrl in Shift) then
+    begin
+      // Verifica se a área de transferência contém uma imagem
+      if Clipboard.HasFormat(CF_BITMAP) then
+      begin
+        // Atribui a imagem do Clipboard ao TImage
+        imgCapa.Picture.Bitmap.Assign(Clipboard);
+      end
+      else
+        ShowMessage('A área de transferência não contém uma imagem.');
+
+      // Evita o processamento adicional da tecla
+      Key := 0;
+    end;
+end;
+
+procedure TfrmAlbuns.edtIDKeyPress(Sender: TObject; var Key: Char);
+var
+  AlbumID: Integer;
+  AlbumController: TAlbumController;
+  Album: TAlbum;
+begin
+  inherited;
+
+  if Key = #13 then
+  begin
+    if not TryStrToInt(edtId.Text, AlbumID) then
+    begin
+      MessageDlg('O ID informado é inválido. Tente novamente', mtInformation, [mbOk], 0);
+      edtId.SetFocus;
+      Exit;
+    end;
+
+    AlbumController := TAlbumController.Create;
+    try
+      Album := AlbumController.LocalizarAlbumPorID(AlbumID);
+      if Assigned(Album) then
+      begin
+        edtNome.Text := Album.Nome;
+        cbArtista.ItemIndex := cbArtista.Items.IndexOf(Album.Artista);
+        cbEstilo.ItemIndex := cbEstilo.Items.IndexOf(Album.Estilo);
+        cbProdutor.ItemIndex := cbProdutor.Items.IndexOf(Album.Produtor);
+        cbGravadora.ItemIndex := cbGravadora.Items.IndexOf(Album.Gravadora);
+        cbMidia.ItemIndex := Album.Midia;
+        dtLancamento.Date := Album.Lancamento;
+        dtAquisicao.Date := Album.Aquisicao;
+        edtCatalogo.Text := Album.Catalogo;
+        edtNumSerie.Text := Album.NumSerie;
+
+        // Verifica se a capa existe antes de atribuir
+        if Assigned(Album.Capa) and not Album.Capa.Empty then
+          imgCapa.Picture.Bitmap.Assign(Album.Capa)
+        else
+          imgCapa.Picture := nil; // Limpa a imagem se não houver capa
+
+        EnableButtons(Self, '0110100');
+      end
+      else
+        MessageDlg('Álbum não encontrado.', mtInformation, [mbOk], 0);
+    finally
+      AlbumController.Free; // Album será liberado pelo controller
+    end;
+  end;
+end;
+
+end.

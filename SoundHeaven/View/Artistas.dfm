@@ -1,5 +1,5 @@
 inherited frmArtistas: TfrmArtistas
-  Caption = 'Cadastro de Artistas'
+  Caption = 'Artistas'
   ClientHeight = 417
   ClientWidth = 650
   ExplicitWidth = 666

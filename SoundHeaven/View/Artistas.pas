@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Model, Vcl.StdCtrls, Generics.Collections, Vcl.Controls,
   Vcl.ButtonStylesAttributes, Dialogs,Vcl.StyledButton, System.Classes,
-  Vcl.ExtCtrls, System.SysUtils;
+  Vcl.ExtCtrls, System.SysUtils, Vcl.Forms;
 
 type
   TfrmArtistas = class(TfrmModel)

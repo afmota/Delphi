@@ -92,11 +92,13 @@ begin
         end;
 
         ExecProc;
+        Result := True;
       end;
     except
       on E: Exception do
       begin
         raise Exception.Create('Erro ao atualizar Artista');
+        Result := False;
       end;
     end;
   finally
@@ -241,7 +243,6 @@ begin
     end;
   finally
     StoredProc.Free;
-    Artista.Free;
   end;
 end;
 

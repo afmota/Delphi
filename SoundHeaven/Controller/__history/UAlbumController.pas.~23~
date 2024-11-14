@@ -1,0 +1,61 @@
+unit UAlbumController;
+
+interface
+
+uses UAlbumDAO, UAlbum, SysUtils;
+
+type
+  TAlbumController = class
+  private
+    FDAO: TAlbumDAO;
+  public
+    constructor Create;
+    destructor Destroy; override;
+    function InserirAlbum(const Album: TAlbum): Boolean;
+  end;
+
+implementation
+
+{ TAlbumController }
+
+constructor TAlbumController.Create;
+begin
+  FDAO := TAlbumDAO.Create;
+end;
+
+destructor TAlbumController.Destroy;
+begin
+  FDAO.Free;
+  inherited;
+end;
+
+function TAlbumController.InserirAlbum(const Album: TAlbum): Boolean;
+begin
+  if Album.Nome <> '' then
+    if Album.Artista <> '' then
+      if Album.Estilo <> '' then
+        if Album.Produtor <> '' then
+          if Album.Gravadora <> '' then
+            if Album.Midia >= 0 then
+              if Album.Catalogo <> '' then
+                if Album.Lancamento <= Now then
+                  Result := FDAO.Inserir(Album)
+                else
+                  raise Exception.Create('A data de LANÇAMENTO não pode ser uma data futura.')
+              else
+                raise Exception.Create('O campo CATÁLOGO deve ser preenchido.')
+            else
+              raise Exception.Create('O campo MÍDIA deve ser preenchido')
+          else
+            raise Exception.Create('O campo GRAVADORA deve ser preenchido')
+        else
+          raise Exception.Create('O campo PRODUTOR deve ser preenchido')
+      else
+        raise Exception.Create('O campo ESTILO deve ser preenchido.')
+    else
+      raise Exception.Create('O campo ARTISTA deve ser preenchido.')
+  else
+    raise Exception.Create('O campo TÍTULO deve ser preenchido.');
+end;
+
+end.

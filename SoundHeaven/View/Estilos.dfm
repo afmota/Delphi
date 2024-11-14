@@ -1,5 +1,5 @@
 inherited frmEstilos: TfrmEstilos
-  Caption = '0'
+  Caption = 'Estilos'
   ClientHeight = 191
   ExplicitHeight = 230
   TextHeight = 15

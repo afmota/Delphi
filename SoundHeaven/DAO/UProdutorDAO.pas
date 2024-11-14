@@ -101,9 +101,9 @@ begin
       begin
         Connection := FConn.GetConnection;
         ProcedureName := 'sp_ProdutorAtualizar';
-        Refresh;
         with Parameters do
         begin
+          Refresh;
           ParamByName('@Produtor_ID').Value := Produtor.ID;
           ParamByName('@Produtor_Nome').Value := Produtor.Nome;
         end;
@@ -189,35 +189,32 @@ var
   StoredProc: TADOStoredProc;
   Produtor: TProdutor;
 begin
+  Result := TList<TProdutor>.Create;
+  StoredProc := TADOStoredProc.Create(nil);
   try
-    StoredProc := TADOStoredProc.Create(nil);
-    try
-      with StoredProc do
-      begin
-        Connection := FConn.GetConnection;
-        ProcedureName := 'sp_ProdutorListarAtivos';
-        Parameters.Refresh;
-        Open;
-        First;
+    with StoredProc do
+    begin
+      Connection := FConn.GetConnection;
+      ProcedureName := 'sp_ProdutorListarAtivos';
+      Parameters.Refresh;
+      Open;
+      First;
 
-        if not IsEmpty then
-          while not Eof do
-          begin
-            Produtor := TProdutor.Create(
-              FieldByName('Produtor_ID').AsInteger,
-              FieldByName('Produtor_Nome').AsString);
+      if not IsEmpty then
+        while not Eof do
+        begin
+          Produtor := TProdutor.Create(
+            FieldByName('Produtor_ID').AsInteger,
+            FieldByName('Produtor_Nome').AsString);
 
-            Result.Add(Produtor);
-            Next;
-          end
-        else
-          Result := nil;
-      end;
-    except
-
+          Result.Add(Produtor);
+          Next;
+        end
+      else
+        Result := nil;
     end;
   finally
-
+    StoredProc.Free;
   end;
 end;
 

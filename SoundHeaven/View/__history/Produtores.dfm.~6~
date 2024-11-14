@@ -1,0 +1,4 @@
+inherited frmProdutores: TfrmProdutores
+  Caption = 'Cadastro de Produtores'
+  TextHeight = 15
+end

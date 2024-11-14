@@ -66,9 +66,8 @@ var
   StoredProc: TADOStoredProc;
 begin
   try
+    StoredProc := TADOStoredProc.Create(nil);
     try
-      StoredProc := TADOStoredProc.Create(nil);
-
       with StoredProc do
       begin
         Connection := FConn.GetConnection;
@@ -200,7 +199,6 @@ var
   Estilo: TEstilo;
 begin
   Result := TList<TEstilo>.Create;
-
   StoredProc := TADOStoredProc.Create(nil);
 
   try

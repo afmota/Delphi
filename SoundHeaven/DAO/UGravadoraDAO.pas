@@ -1,4 +1,4 @@
-unit UGravadoraDAO;
+﻿unit UGravadoraDAO;
 
 interface
 
@@ -95,9 +95,8 @@ var
   StoredProc: TADOStoredProc;
 begin
   try
+    StoredProc := TADOStoredProc.Create(nil);
     try
-      StoredProc := TADOStoredProc.Create(nil);
-
       with StoredProc do
       begin
         Connection := FConn.GetConnection;
@@ -105,6 +104,7 @@ begin
 
         with Parameters do
         begin
+          Refresh;
           ParamByName('@Gravadora_ID').Value := Gravadora.ID;
           ParamByName('@Nome').Value := Gravadora.Nome;
         end;
@@ -198,8 +198,8 @@ var
   Gravadora: TGravadora;
 begin
   Result := TList<TGravadora>.Create;
-
   StoredProc := TADOStoredProc.Create(nil);
+
   try
     with StoredProc do
     begin
@@ -212,7 +212,7 @@ begin
       if not IsEmpty then
         while not Eof do
         begin
-          Gravadora.Create(
+          Gravadora := TGravadora.Create(
             FieldByName('Gravadora_ID').AsInteger,
             FieldByName('Gravadora_Nome').AsString);
           Result.Add(Gravadora);
@@ -222,7 +222,6 @@ begin
         Result := nil;
     end;
   finally
-    Gravadora.Free;
     StoredProc.Free;
   end;
 end;

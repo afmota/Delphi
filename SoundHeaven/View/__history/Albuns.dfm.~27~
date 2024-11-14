@@ -1,0 +1,379 @@
+inherited frmAlbuns: TfrmAlbuns
+  Cursor = crHandPoint
+  Caption = 'Cadastro de '#193'Lbuns'
+  OnKeyDown = FormKeyDown
+  TextHeight = 15
+  inherited pnlCampos: TPanel
+    Left = 112
+    Top = 71
+    Width = 769
+    Height = 674
+    ExplicitLeft = 112
+    ExplicitTop = 71
+    ExplicitWidth = 769
+    ExplicitHeight = 674
+    inherited Label1: TLabel
+      Left = 115
+      ExplicitLeft = 115
+    end
+    inherited Label2: TLabel
+      Left = 87
+      Top = 53
+      Width = 45
+      Caption = 'T'#237'tulo'
+      ExplicitLeft = 87
+      ExplicitTop = 53
+      ExplicitWidth = 45
+    end
+    object Label3: TLabel [2]
+      Left = 82
+      Top = 96
+      Width = 50
+      Height = 21
+      Caption = 'Artista'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlue
+      Font.Height = -16
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label4: TLabel [3]
+      Left = 90
+      Top = 139
+      Width = 42
+      Height = 21
+      Caption = 'Estilo'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlue
+      Font.Height = -16
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label5: TLabel [4]
+      Left = 64
+      Top = 182
+      Width = 68
+      Height = 21
+      Caption = 'Produtor'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlue
+      Font.Height = -16
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label6: TLabel [5]
+      Left = 53
+      Top = 225
+      Width = 79
+      Height = 21
+      Caption = 'Gravadora'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlue
+      Font.Height = -16
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label7: TLabel [6]
+      Left = 88
+      Top = 268
+      Width = 44
+      Height = 21
+      Caption = 'M'#237'dia'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlue
+      Font.Height = -16
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label8: TLabel [7]
+      Left = 38
+      Top = 312
+      Width = 94
+      Height = 21
+      Caption = 'Lan'#231'amento'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlue
+      Font.Height = -16
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label9: TLabel [8]
+      Left = 282
+      Top = 312
+      Width = 75
+      Height = 21
+      Caption = 'Aquisi'#231#227'o'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlue
+      Font.Height = -16
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label10: TLabel [9]
+      Left = 63
+      Top = 366
+      Width = 69
+      Height = 21
+      Caption = 'Cat'#225'logo'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlue
+      Font.Height = -16
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label11: TLabel [10]
+      Left = 294
+      Top = 366
+      Width = 84
+      Height = 21
+      Caption = 'N'#250'm. S'#233'rie'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlue
+      Font.Height = -16
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label12: TLabel [11]
+      Left = 94
+      Top = 409
+      Width = 38
+      Height = 21
+      Cursor = crHandPoint
+      Caption = 'Capa'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlue
+      Font.Height = -16
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Shape1: TShape [12]
+      Left = 138
+      Top = 409
+      Width = 252
+      Height = 252
+      Pen.Color = clBlue
+    end
+    object imgCapa: TImage [13]
+      Tag = 12
+      Left = 139
+      Top = 410
+      Width = 250
+      Height = 250
+      Center = True
+      Stretch = True
+    end
+    inherited edtID: TEdit
+      Left = 138
+      OnKeyDown = FormKeyDown
+      OnKeyPress = edtIDKeyPress
+      ExplicitLeft = 138
+    end
+    inherited edtNome: TEdit
+      Left = 138
+      Top = 50
+      Width = 543
+      OnKeyDown = FormKeyDown
+      ExplicitLeft = 138
+      ExplicitTop = 50
+      ExplicitWidth = 543
+    end
+    object cbArtista: TComboBox
+      Tag = 3
+      Left = 138
+      Top = 93
+      Width = 543
+      Height = 29
+      Cursor = crHandPoint
+      Style = csDropDownList
+      Color = clWhite
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlue
+      Font.Height = -16
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 2
+      StyleName = 'Windows'
+      OnKeyDown = FormKeyDown
+    end
+    object cbEstilo: TComboBox
+      Tag = 4
+      Left = 138
+      Top = 136
+      Width = 543
+      Height = 29
+      Cursor = crHandPoint
+      Style = csDropDownList
+      Color = 16772332
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlue
+      Font.Height = -16
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 3
+      StyleName = 'Windows'
+      OnKeyDown = FormKeyDown
+    end
+    object cbProdutor: TComboBox
+      Tag = 5
+      Left = 138
+      Top = 179
+      Width = 543
+      Height = 29
+      Cursor = crHandPoint
+      Style = csDropDownList
+      Color = 16772332
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlue
+      Font.Height = -16
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 4
+      StyleName = 'Windows'
+      OnKeyDown = FormKeyDown
+    end
+    object cbGravadora: TComboBox
+      Tag = 6
+      Left = 138
+      Top = 222
+      Width = 543
+      Height = 29
+      Cursor = crHandPoint
+      Style = csDropDownList
+      Color = 16772332
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlue
+      Font.Height = -16
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 5
+      StyleName = 'Windows'
+      OnKeyDown = FormKeyDown
+    end
+    object cbMidia: TComboBox
+      Tag = 7
+      Left = 138
+      Top = 265
+      Width = 87
+      Height = 29
+      Cursor = crHandPoint
+      Style = csDropDownList
+      Color = 16772332
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlue
+      Font.Height = -16
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 6
+      StyleName = 'Windows'
+      OnKeyDown = FormKeyDown
+      Items.Strings = (
+        'LP'
+        'CD'
+        'CD-R')
+    end
+    object dtLancamento: TDateTimePicker
+      Tag = 8
+      Left = 138
+      Top = 312
+      Width = 127
+      Height = 29
+      Cursor = crHandPoint
+      Date = 45603.000000000000000000
+      Time = 0.786466030091105500
+      Color = 16772332
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlue
+      Font.Height = -16
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 7
+      OnKeyDown = FormKeyDown
+    end
+    object dtAquisicao: TDateTimePicker
+      Tag = 9
+      Left = 363
+      Top = 312
+      Width = 127
+      Height = 29
+      Cursor = crHandPoint
+      Date = 45603.000000000000000000
+      Time = 0.786466030091105500
+      Color = 16772332
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlue
+      Font.Height = -16
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 8
+      OnKeyDown = FormKeyDown
+    end
+    object edtCatalogo: TEdit
+      Tag = 10
+      Left = 138
+      Top = 363
+      Width = 127
+      Height = 29
+      Cursor = crHandPoint
+      BevelInner = bvNone
+      BevelOuter = bvNone
+      BorderStyle = bsNone
+      CharCase = ecUpperCase
+      Color = 14803425
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlue
+      Font.Height = -16
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 9
+      StyleName = 'Windows'
+      OnKeyDown = FormKeyDown
+    end
+    object edtNumSerie: TEdit
+      Tag = 11
+      Left = 384
+      Top = 363
+      Width = 297
+      Height = 29
+      Cursor = crHandPoint
+      BevelInner = bvNone
+      BevelOuter = bvNone
+      BorderStyle = bsNone
+      CharCase = ecUpperCase
+      Color = 14803425
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlue
+      Font.Height = -16
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 10
+      StyleName = 'Windows'
+      OnKeyDown = FormKeyDown
+    end
+    object Button1: TButton
+      Left = 687
+      Top = 93
+      Width = 33
+      Height = 29
+      TabOrder = 11
+    end
+  end
+end

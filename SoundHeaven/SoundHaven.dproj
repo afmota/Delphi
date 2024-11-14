@@ -5,7 +5,7 @@
         <FrameworkType>VCL</FrameworkType>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
-        <Platform Condition="'$(Platform)'==''">Win64</Platform>
+        <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <ProjectName Condition="'$(ProjectName)'==''">SoundHaven</ProjectName>
         <TargetedPlatforms>3</TargetedPlatforms>
         <AppType>Application</AppType>
@@ -71,6 +71,7 @@
         <UWP_DelphiLogo44>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_44.png</UWP_DelphiLogo44>
         <UWP_DelphiLogo150>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_150.png</UWP_DelphiLogo150>
         <SanitizedProjectName>SoundHaven</SanitizedProjectName>
+        <Custom_Styles>&quot;Aqua Light Slate|VCLSTYLE|$(BDSCOMMONDIR)\Styles\AquaLightSlate.vsf&quot;</Custom_Styles>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <DCC_UsePackage>vclwinx;FMXTMSFNCCorePkgDXE15;fmx;vclie;DbxCommonDriver;bindengine;IndyIPCommon;VCLRESTComponents;FireDACCommonODBC;FireDACCommonDriver;appanalytics;IndyProtocols;vclx;Skia.Package.RTL;IndyIPClient;dbxcds;vcledge;bindcompvclwinx;bindcompfmx;inetdb;FireDACSqliteDriver;DbxClientDriver;soapmidas;vclactnband;fmxFireDAC;dbexpress;DBXMySQLDriver;VclSmp;inet;vcltouch;fmxase;dbrtl;Skia.Package.FMX;fmxdae;FireDACMSAccDriver;CustomIPTransport;vcldsnap;DBXInterBaseDriver;IndySystem;Skia.Package.VCL;VCLTMSFNCUIPackPkgDXE15;vcldb;StyledComponents;vclFireDAC;bindcomp;FireDACCommon;IndyCore;RESTBackendComponents;bindcompdbx;rtl;FireDACMySQLDriver;FireDACADSDriver;RESTComponents;DBXSqliteDriver;vcl;IndyIPServer;dsnapxml;dsnapcon;adortl;vclimg;FireDACPgDriver;FireDAC;inetdbxpress;xmlrtl;tethering;bindcompvcl;dsnap;CloudService;fmxobj;bindcompvclsmp;VCLTMSFNCCorePkgDXE15;soaprtl;FMXTMSFNCUIPackPkgDXE15;soapserver;FireDACIBDriver;$(DCC_UsePackage)</DCC_UsePackage>
@@ -136,26 +137,33 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Functions\ComponentHelper.pas"/>
-        <DCCReference Include="Model\UEstilo.pas"/>
-        <DCCReference Include="Controller\UEstiloController.pas"/>
-        <DCCReference Include="DAO\UEstiloDAO.pas"/>
-        <DCCReference Include="DAO\UConexao.pas"/>
         <DCCReference Include="Model\Model.pas">
             <Form>frmModel</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Functions\FuncoesDivs.pas"/>
         <DCCReference Include="View\Estilos.pas">
             <Form>frmEstilos</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Model\UEstilo.pas"/>
+        <DCCReference Include="Controller\UEstiloController.pas"/>
+        <DCCReference Include="DAO\UEstiloDAO.pas"/>
+        <DCCReference Include="DAO\UConexao.pas"/>
         <DCCReference Include="View\Artistas.pas">
             <Form>frmArtistas</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="Functions\FuncoesDivs.pas"/>
         <DCCReference Include="Model\UArtista.pas"/>
         <DCCReference Include="Controller\UArtistaController.pas"/>
         <DCCReference Include="DAO\UArtistaDAO.pas"/>
+        <DCCReference Include="View\Produtores.pas">
+            <Form>frmProdutores</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Model\UProdutor.pas"/>
+        <DCCReference Include="Controller\UProdutorController.pas"/>
+        <DCCReference Include="DAO\UProdutorDAO.pas"/>
         <DCCReference Include="View\Gravadoras.pas">
             <Form>frmGravadoras</Form>
             <FormType>dfm</FormType>
@@ -163,13 +171,13 @@
         <DCCReference Include="Model\UGravadora.pas"/>
         <DCCReference Include="Controller\UGravadoraController.pas"/>
         <DCCReference Include="DAO\UGravadoraDAO.pas"/>
-        <DCCReference Include="Model\UProdutor.pas"/>
-        <DCCReference Include="Controller\UProdutorController.pas"/>
-        <DCCReference Include="DAO\UProdutorDAO.pas"/>
-        <DCCReference Include="View\Produtores.pas">
-            <Form>frmProdutores</Form>
+        <DCCReference Include="View\Albuns.pas">
+            <Form>frmAlbuns</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Model\UAlbum.pas"/>
+        <DCCReference Include="Controller\UAlbumController.pas"/>
+        <DCCReference Include="DAO\UAlbumDAO.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

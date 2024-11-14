@@ -1,0 +1,61 @@
+unit UAlbum;
+
+interface
+
+uses Graphics;
+
+type
+  TAlbum = class
+  private
+    FNome: string;
+    FArtista: string;
+    FEstilo: string;
+    FProdutor: string;
+    FGravadora: string;
+    FMidia: Integer;
+    FCatalogo: string;
+    FLancamento: TDateTime;
+    FAquisicao: TDateTime;
+    FCapa: TBitmap;
+    FAtivo: Char;
+    Data_Inclusao: TDateTime;
+    Data_Alteracao: TDateTime;
+  public
+    constructor Create(const ANome: string; const AArtista: string; const AEstilo: string;
+      const AProdutor: string; const AGravadora: string; const AMidia: Integer;
+      const ACatalogo: string; const ALancamento: TDateTime; const AAquisicao: TDateTime;
+      const ACapa: TBitmap);
+    property Nome: string read FNome write FNome;
+    property Artista: string read FArtista write FArtista;
+    property Estilo: string read FEstilo write FEstilo;
+    property Produtor: string read FProdutor write FProdutor;
+    property Gravadora: string read FGravadora write FGravadora;
+    property Midia: Integer read FMidia write FMidia;
+    property Catalogo: string read FCatalogo write FCatalogo;
+    property Lancamento: TDateTime read FLancamento write FLancamento;
+    property Aquisicao: TDateTime read FAquisicao write FAquisicao;
+    property Capa: TBitmap read FCapa write FCapa;
+  end;
+
+implementation
+
+{ TAlbum }
+
+constructor TAlbum.Create(const ANome: string; const AArtista: string; const AEstilo: string;
+  const AProdutor: string; const AGravadora: string; const AMidia: Integer;
+  const ACatalogo: string; const ALancamento: TDateTime; const AAquisicao: TDateTime;
+  const ACapa: TBitmap);
+begin
+  FNome := ANome;
+  FArtista := AArtista;
+  FEstilo := AEstilo;
+  FProdutor := AProdutor;
+  FGravadora := AGravadora;
+  FMidia := AMidia;
+  FCatalogo := ACatalogo;
+  FLancamento := ALancamento;
+  FAquisicao := AAquisicao;
+  FCapa := ACapa;
+end;
+
+end.

@@ -2,7 +2,7 @@ unit UProdutorController;
 
 interface
 
-uses UProdutorDAO, UPRodutor, Dialogs, System.SysUtils;
+uses UProdutorDAO, UPRodutor, Dialogs, System.SysUtils, System.Generics.Collections;
 
 type
   TProdutorController = class
@@ -16,6 +16,7 @@ type
     function AtualizarProdutor(const Produtor: TProdutor): Boolean;
     function LocalizarProdutor(const ID: Integer): TProdutor; overload;
     function LocalizarProdutor(const Nome: string): TProdutor; overload;
+    function ListarProdutores: TList<TProdutor>;
   end;
 
 implementation
@@ -63,6 +64,11 @@ end;
 function TProdutorController.LocalizarProdutor(const Nome: string): TProdutor;
 begin
   Result := FDAO.Localizar(Nome);
+end;
+
+function TProdutorController.ListarProdutores: TList<TProdutor>;
+begin
+  Result := FDAO.ListarProdutores;
 end;
 
 end.

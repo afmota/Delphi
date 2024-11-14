@@ -23,7 +23,6 @@ type
 
 var
   frmProdutores: TfrmProdutores;
-  OpDB: Integer;
 
 implementation
 
@@ -48,6 +47,8 @@ begin
 
   ProdutorID := StrToInt(edtID.Text);
   Produtor := TProdutor.Create(ProdutorID);
+  ProdutorController := TProdutorController.Create;
+
   try
     if ProdutorController.ExcluirProdutor(Produtor) then
       MessageDlg('Registro excluído com sucesso.', mtInformation, [mbOk], 0);
@@ -76,7 +77,7 @@ var
 begin
   ProdutorController := TProdutorController.Create;
 
-  case OpDB of
+  case OpBD of
     1: begin
       try
         Produtor := TProdutor.Create(edtNome.Text);
