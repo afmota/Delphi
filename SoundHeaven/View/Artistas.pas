@@ -5,12 +5,13 @@ interface
 uses
   Winapi.Windows, Model, Vcl.StdCtrls, Generics.Collections, Vcl.Controls,
   Vcl.ButtonStylesAttributes, Dialogs,Vcl.StyledButton, System.Classes,
-  Vcl.ExtCtrls, System.SysUtils, Vcl.Forms;
+  Vcl.ExtCtrls, System.SysUtils, Vcl.Forms, Vcl.Buttons;
 
 type
   TfrmArtistas = class(TfrmModel)
     cbEstilo: TComboBox;
     Label3: TLabel;
+    btnUpEstilo: TBitBtn;
     procedure FormShow(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure btnSalvarClick(Sender: TObject);
@@ -18,6 +19,8 @@ type
     procedure btnLocalizarClick(Sender: TObject);
     procedure btnAtualizarClick(Sender: TObject);
     procedure edtIDKeyPress(Sender: TObject; var Key: Char);
+    procedure CarregaCbEstilo;
+    procedure btnUpEstiloClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -42,38 +45,7 @@ var
 begin
   inherited;
 
-  // Limpa a ComboBox
-  cbEstilo.Items.Clear;
-
-  try
-    // Obtém a lista de estilos via Controller
-    EstiloController := TEstiloController.Create;
-    ListaEstilos := EstiloController.ListarEstilos;
-
-    if not Assigned(ListaEstilos) then
-    begin
-      MessageDlg('Estilos musicais ainda não foram cadastrados no sistema.',
-        mtInformation, [mbOk], 0);
-      EnableButtons(Self, '0000001');
-    end
-    else
-    begin
-      // Adiciona cada estilo ao combobox
-      for i := 0 to ListaEstilos.Count -1 do
-      begin
-        Estilo := ListaEstilos[i];
-        cbEstilo.Items.Add(Estilo.Nome); // Preenche com o nome do estilo
-      end;
-      cbEstilo.ItemIndex := -1;
-    end;
-  finally
-    if Assigned(ListaEstilos) then
-    begin
-      ListaEstilos.Free;
-      EstiloController.Free;
-      Estilo.Free;
-    end;
-  end;
+  CarregaCbEstilo;
 end;
 
 procedure TfrmArtistas.btnIncluirClick(Sender: TObject);
@@ -115,6 +87,12 @@ begin
     end;
   end;
   inherited;
+end;
+
+procedure TfrmArtistas.btnUpEstiloClick(Sender: TObject);
+begin
+  inherited;
+  CarregaCbEstilo;
 end;
 
 procedure TfrmArtistas.btnExcluirClick(Sender: TObject);
@@ -197,4 +175,37 @@ begin
   end;
 end;
 
+procedure TfrmArtistas.CarregaCbEstilo;
+var
+  EstiloController: TEstiloController;
+  ListaEstilos: TList<TEstilo>;
+  I: Integer;
+  Estilo: TEstilo;
+begin
+  try
+    cbEstilo.Items.Clear;
+    EstiloController := TEstiloController.Create;
+    ListaEstilos := EstiloController.ListarEstilos;
+    if not Assigned(ListaEstilos) then
+    begin
+      MessageDlg('Estilos musicais ainda não foram cadastrados no sistema.', mtInformation, [mbOk], 0);
+      EnableButtons(Self, '0000001');
+    end
+    else
+    begin
+      for I := 0 to ListaEstilos.Count -1 do
+      begin
+        Estilo := ListaEstilos[I];
+        cbEstilo.Items.Add(Estilo.Nome);
+      end;
+      cbEstilo.ItemIndex := -1;
+    end;
+  finally
+    if Assigned(ListaEstilos) then
+    begin
+      ListaEstilos.Free;
+      EstiloController.Free;
+    end;
+  end;
+end;
 end.

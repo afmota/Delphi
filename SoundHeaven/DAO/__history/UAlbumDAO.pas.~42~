@@ -15,7 +15,6 @@ type
     function Inserir(const Album: TAlbum): Boolean;
     function Atualizar(const Album: TAlbum): Boolean;
     function LocalizarPorId(AlbumID: Integer): TAlbum;
-    function LocalizarPorNome(AlbumTitulo: string): TAlbum;
   end;
 
 implementation
@@ -208,65 +207,5 @@ begin
   StoredProc.Free;
 end;
 
-
-function TAlbumDAO.LocalizarPorNome(AlbumTitulo: string): TAlbum;
-var
-  StoredProc: TADOStoredProc;
-  MemoryStream: TMemoryStream;
-  Bitmap: TBitmap;
-begin
-  Result := nil;
-  StoredProc := TADOStoredProc.Create(nil);
-  try
-    with StoredProc do
-    begin
-      Connection := FConn.GetConnection;
-      ProcedureName := 'sp_AlbumLocalizarPorNome';
-      Parameters.Refresh;
-      Parameters.ParamByName('@Album_Titulo').Value := AlbumTitulo;
-      Open;
-
-      if not IsEmpty then
-      begin
-        Result := TAlbum.Create(
-          FieldByName('Album_Titulo').AsString,
-          FieldByName('Album_Artista').AsString,
-          FieldByName('Album_Estilo').AsString,
-          FieldByName('Album_Produtor').AsString,
-          FieldByName('Album_Gravadora').AsString,
-          FieldByName('Album_Midia').AsInteger,
-          FieldByName('Album_Catalogo').AsString,
-          FieldByName('Album_NumSerie').AsString,
-          FieldByName('Album_DataLancamento').AsDateTime,
-          FieldByName('Album_DataAquisicao').AsDateTime,
-          nil // Capa será carregada em seguida
-        );
-        Result.Id := FieldByName('Album_ID').AsInteger;
-
-        if not FieldByName('Album_Capa').IsNull then
-        begin
-          MemoryStream := TMemoryStream.Create;
-          Bitmap := TBitmap.Create;
-          try
-            TBlobField(FieldByName('Album_Capa')).SaveToStream(MemoryStream);
-            MemoryStream.Position := 0;
-            Bitmap.LoadFromStream(MemoryStream);
-            Result.Capa.Assign(Bitmap);
-          finally
-            MemoryStream.Free;
-            Bitmap.Free;
-          end;
-        end;
-      end;
-    end;
-  except
-    on E: Exception do
-    begin
-      Result := nil;
-      raise Exception.Create('Álbum não encontrado: ' + E.Message);
-    end;
-  end;
-  StoredProc.Free;
-end;
 
 end.

@@ -32,6 +32,9 @@ type
     Shape1: TShape;
     imgCapa: TImage;
     btnUpArtista: TBitBtn;
+    btnUpEstilo: TBitBtn;
+    btnUpProdutor: TBitBtn;
+    btnUpGravadora: TBitBtn;
     procedure FormShow(Sender: TObject);
     procedure CarregaCbArtista;
     procedure CarregaCbEstilo;
@@ -89,6 +92,7 @@ var
   Artista: TArtista;
 begin
   try
+    cbArtista.Items.Clear;
     ArtistaController := TArtistaController.Create;
     ListaArtistas := ArtistaController.ListarArtistas;
     if not Assigned(ListaArtistas) then
@@ -122,6 +126,7 @@ var
   Estilo: TEstilo;
 begin
   try
+    cbEstilo.Items.Clear;
     EstiloController := TEstiloController.Create;
     ListaEstilos := EstiloController.ListarEstilos;
     if not Assigned(ListaEstilos) then
@@ -155,6 +160,7 @@ var
   Produtor: TProdutor;
 begin
   try
+    cbProdutor.Items.Clear;
     ProdutorController := TProdutorController.Create;
     ListaProdutores := ProdutorController.ListarProdutores;
     if not Assigned(ListaProdutores) then
@@ -188,6 +194,7 @@ var
   Gravadora: TGravadora;
 begin
   try
+    cbGravadora.Items.Clear;
     GravadoraController := TGravadoraController.Create;
     ListaGravadoras := GravadoraController.ListarGravadoras;
     if not Assigned(ListaGravadoras) then
@@ -295,6 +302,9 @@ begin
 
     case Botao.Tag of
       -1: CarregaCbArtista;
+      -2: CarregaCbEstilo;
+      -3: CarregaCbProdutor;
+      -4: CarregaCbGravadora;
     end;
   end;
 end;

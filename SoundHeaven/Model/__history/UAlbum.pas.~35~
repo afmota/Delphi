@@ -19,7 +19,6 @@ type
     FLancamento: TDateTime;
     FAquisicao: TDateTime;
     FCapa: TBitmap;
-    FObservacao: string;
     FAtivo: Char;
     Data_Inclusao: TDateTime;
     Data_Alteracao: TDateTime;
@@ -49,7 +48,6 @@ type
     property Lancamento: TDateTime read FLancamento write FLancamento;
     property Aquisicao: TDateTime read FAquisicao write FAquisicao;
     property Capa: TBitmap read FCapa write FCapa;
-    property Observacao: string read FObservacao write FObservacao;
   end;
 
 implementation

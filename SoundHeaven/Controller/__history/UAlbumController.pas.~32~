@@ -15,7 +15,6 @@ type
     function InserirAlbum(const Album: TAlbum): Boolean;
     function AtualizarAlbum(const Album: TAlbum): Boolean;
     function LocalizarAlbumPorID(AlbumID: Integer): TAlbum;
-    function LocalizarAlbumPorNome(AlbumTitulo: string): TAlbum;
   end;
 
 implementation
@@ -88,11 +87,6 @@ end;
 function TAlbumController.LocalizarAlbumPorID(AlbumID: Integer): TAlbum;
 begin
   Result := FDAO.LocalizarPorId(AlbumID);
-end;
-
-function TAlbumController.LocalizarAlbumPorNome(AlbumTitulo: string): TAlbum;
-begin
-  Result := FDAO.LocalizarPorNome(AlbumTitulo);
 end;
 
 end.

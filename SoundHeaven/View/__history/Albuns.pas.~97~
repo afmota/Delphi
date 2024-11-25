@@ -5,7 +5,8 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Model, Vcl.ButtonStylesAttributes,
-  Vcl.StdCtrls, Vcl.StyledButton, Vcl.ExtCtrls, Vcl.ComCtrls, System.Generics.Collections;
+  Vcl.StdCtrls, Vcl.StyledButton, Vcl.ExtCtrls, Vcl.ComCtrls, System.Generics.Collections,
+  Vcl.Buttons;
 
 type
   TfrmAlbuns = class(TfrmModel)
@@ -30,6 +31,10 @@ type
     edtNumSerie: TEdit;
     Shape1: TShape;
     imgCapa: TImage;
+    btnUpArtista: TBitBtn;
+    btnUpEstilo: TBitBtn;
+    btnUpProdutor: TBitBtn;
+    btnUpGravadora: TBitBtn;
     procedure FormShow(Sender: TObject);
     procedure CarregaCbArtista;
     procedure CarregaCbEstilo;
@@ -41,6 +46,7 @@ type
     procedure edtIDKeyPress(Sender: TObject; var Key: Char);
     procedure btnLocalizarClick(Sender: TObject);
     procedure btnAtualizarClick(Sender: TObject);
+    procedure btnUpArtistaClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -86,6 +92,7 @@ var
   Artista: TArtista;
 begin
   try
+    cbArtista.Items.Clear;
     ArtistaController := TArtistaController.Create;
     ListaArtistas := ArtistaController.ListarArtistas;
     if not Assigned(ListaArtistas) then
@@ -119,6 +126,7 @@ var
   Estilo: TEstilo;
 begin
   try
+    cbEstilo.Items.Clear;
     EstiloController := TEstiloController.Create;
     ListaEstilos := EstiloController.ListarEstilos;
     if not Assigned(ListaEstilos) then
@@ -152,6 +160,7 @@ var
   Produtor: TProdutor;
 begin
   try
+    cbProdutor.Items.Clear;
     ProdutorController := TProdutorController.Create;
     ListaProdutores := ProdutorController.ListarProdutores;
     if not Assigned(ListaProdutores) then
@@ -185,6 +194,7 @@ var
   Gravadora: TGravadora;
 begin
   try
+    cbGravadora.Items.Clear;
     GravadoraController := TGravadoraController.Create;
     ListaGravadoras := GravadoraController.ListarGravadoras;
     if not Assigned(ListaGravadoras) then
@@ -225,7 +235,7 @@ procedure TfrmAlbuns.btnLocalizarClick(Sender: TObject);
 begin
   inherited;
 
-  EnableComponentsByTag(Self,'100000000000');
+  EnableComponentsByTag(Self,'1100000000010');
   edtID.SetFocus;
 end;
 
@@ -282,6 +292,23 @@ begin
   inherited;
 end;
 
+procedure TfrmAlbuns.btnUpArtistaClick(Sender: TObject);
+var
+  Botao: TBitBtn;
+begin
+  if Sender is TBitBtn then
+  begin
+    Botao := TBitBtn(Sender);
+
+    case Botao.Tag of
+      -1: CarregaCbArtista;
+      -2: CarregaCbEstilo;
+      -3: CarregaCbProdutor;
+      -4: CarregaCbGravadora;
+    end;
+  end;
+end;
+
 procedure TfrmAlbuns.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
@@ -310,21 +337,26 @@ var
   AlbumID: Integer;
   AlbumController: TAlbumController;
   Album: TAlbum;
+  EditComponent: TEdit;
 begin
-  inherited;
-
   if Key = #13 then
   begin
-    if not TryStrToInt(edtId.Text, AlbumID) then
-    begin
-      MessageDlg('O ID informado é inválido. Tente novamente', mtInformation, [mbOk], 0);
-      edtId.SetFocus;
-      Exit;
-    end;
+    EditComponent := TEdit(Sender);
+    if EditComponent = edtID then
+      if not TryStrToInt(edtId.Text, AlbumID) then
+      begin
+        MessageDlg('O ID informado é inválido. Tente novamente', mtInformation, [mbOk], 0);
+        edtId.SetFocus;
+        Exit;
+      end;
 
     AlbumController := TAlbumController.Create;
     try
-      Album := AlbumController.LocalizarAlbumPorID(AlbumID);
+      if EditComponent = edtId then
+        Album := AlbumController.LocalizarAlbumPorID(AlbumID)
+      else
+        Album := AlbumController.LocalizarAlbumPorNome(edtNome.Text);
+
       if Assigned(Album) then
       begin
         edtNome.Text := Album.Nome;

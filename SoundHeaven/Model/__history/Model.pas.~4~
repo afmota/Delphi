@@ -102,7 +102,7 @@ end;
 procedure TfrmModel.btnLocalizarClick(Sender: TObject);
 begin
   EnableButtons(Self, '0000100');
-  EnableComponentsByTag(Self, '11');
+  EnableComponentsByTag(Self, '10');
   CleanFields(Self);
   pnlCampos.Enabled := True;
 end;

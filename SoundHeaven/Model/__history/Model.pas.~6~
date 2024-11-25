@@ -67,7 +67,7 @@ end;
 procedure TfrmModel.btnIncluirClick(Sender: TObject);
 begin
   EnableButtons(Self, '0001100');
-  CleanFields(Self);
+  //CleanFields(Self);
   OpBD := 1;
   pnlCampos.Enabled := True;
 end;

@@ -71,7 +71,7 @@
         <UWP_DelphiLogo44>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_44.png</UWP_DelphiLogo44>
         <UWP_DelphiLogo150>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_150.png</UWP_DelphiLogo150>
         <SanitizedProjectName>SoundHaven</SanitizedProjectName>
-        <Custom_Styles>&quot;Aqua Light Slate|VCLSTYLE|$(BDSCOMMONDIR)\Styles\AquaLightSlate.vsf&quot;</Custom_Styles>
+        <Custom_Styles>&quot;Iceberg Classico|VCLSTYLE|$(BDSCOMMONDIR)\Styles\IcebergClassico.vsf&quot;</Custom_Styles>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <DCC_UsePackage>vclwinx;FMXTMSFNCCorePkgDXE15;fmx;vclie;DbxCommonDriver;bindengine;IndyIPCommon;VCLRESTComponents;FireDACCommonODBC;FireDACCommonDriver;appanalytics;IndyProtocols;vclx;Skia.Package.RTL;IndyIPClient;dbxcds;vcledge;bindcompvclwinx;bindcompfmx;inetdb;FireDACSqliteDriver;DbxClientDriver;soapmidas;vclactnband;fmxFireDAC;dbexpress;DBXMySQLDriver;VclSmp;inet;vcltouch;fmxase;dbrtl;Skia.Package.FMX;fmxdae;FireDACMSAccDriver;CustomIPTransport;vcldsnap;DBXInterBaseDriver;IndySystem;Skia.Package.VCL;VCLTMSFNCUIPackPkgDXE15;vcldb;StyledComponents;vclFireDAC;bindcomp;FireDACCommon;IndyCore;RESTBackendComponents;bindcompdbx;rtl;FireDACMySQLDriver;FireDACADSDriver;RESTComponents;DBXSqliteDriver;vcl;IndyIPServer;dsnapxml;dsnapcon;adortl;vclimg;FireDACPgDriver;FireDAC;inetdbxpress;xmlrtl;tethering;bindcompvcl;dsnap;CloudService;fmxobj;bindcompvclsmp;VCLTMSFNCCorePkgDXE15;soaprtl;FMXTMSFNCUIPackPkgDXE15;soapserver;FireDACIBDriver;$(DCC_UsePackage)</DCC_UsePackage>
@@ -110,6 +110,9 @@
         <VerInfo_AutoIncVersion>true</VerInfo_AutoIncVersion>
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=0.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <DCC_UnitSearchPath>C:\Users\Agnaldo Mota\OneDrive\Documentos\Meus Projetos\Delphi\SoundHeaven\View;C:\Users\Agnaldo Mota\OneDrive\Documentos\Meus Projetos\Delphi\SoundHeaven\Functions;C:\Users\Agnaldo Mota\OneDrive\Documentos\Meus Projetos\Delphi\SoundHeaven\Controller;C:\Users\Agnaldo Mota\OneDrive\Documentos\Meus Projetos\Delphi\SoundHeaven\DAO;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <DCC_ExeOutput>C:\Users\af_mo\OneDrive\Documentos\Meus Projetos\Delphi\SoundHeaven\output\</DCC_ExeOutput>
+        <DCC_DcpOutput>C:\Users\af_mo\OneDrive\Documentos\Meus Projetos\Delphi\SoundHeaven\dcu\</DCC_DcpOutput>
+        <Icon_MainIcon>SoundHaven_Icon.ico</Icon_MainIcon>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
@@ -1177,6 +1180,7 @@
                 <Platform value="Win32">True</Platform>
                 <Platform value="Win64">True</Platform>
             </Platforms>
+            <ModelSupport>False</ModelSupport>
         </BorlandProject>
         <ProjectFileVersion>12</ProjectFileVersion>
     </ProjectExtensions>

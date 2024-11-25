@@ -35,7 +35,6 @@ uses
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
-  TStyleManager.TrySetStyle('Aqua Light Slate');
   Application.CreateForm(TfrmPrincipal, frmPrincipal);
   Application.Run;
 end.

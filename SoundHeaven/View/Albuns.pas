@@ -235,7 +235,7 @@ procedure TfrmAlbuns.btnLocalizarClick(Sender: TObject);
 begin
   inherited;
 
-  EnableComponentsByTag(Self,'1000000000010');
+  EnableComponentsByTag(Self,'1100000000010');
   edtID.SetFocus;
 end;
 
@@ -337,23 +337,29 @@ var
   AlbumID: Integer;
   AlbumController: TAlbumController;
   Album: TAlbum;
+  EditComponent: TEdit;
 begin
-  inherited;
-
   if Key = #13 then
   begin
-    if not TryStrToInt(edtId.Text, AlbumID) then
-    begin
-      MessageDlg('O ID informado é inválido. Tente novamente', mtInformation, [mbOk], 0);
-      edtId.SetFocus;
-      Exit;
-    end;
+    EditComponent := TEdit(Sender);
+    if EditComponent = edtID then
+      if not TryStrToInt(edtId.Text, AlbumID) then
+      begin
+        MessageDlg('O ID informado é inválido. Tente novamente', mtInformation, [mbOk], 0);
+        edtId.SetFocus;
+        Exit;
+      end;
 
     AlbumController := TAlbumController.Create;
     try
-      Album := AlbumController.LocalizarAlbumPorID(AlbumID);
+      if EditComponent = edtId then
+        Album := AlbumController.LocalizarAlbumPorID(AlbumID)
+      else
+        Album := AlbumController.LocalizarAlbumPorNome(edtNome.Text);
+
       if Assigned(Album) then
       begin
+        if Album.ID > 0 then edtID.Text := IntToStr(Album.ID);
         edtNome.Text := Album.Nome;
         cbArtista.ItemIndex := cbArtista.Items.IndexOf(Album.Artista);
         cbEstilo.ItemIndex := cbEstilo.Items.IndexOf(Album.Estilo);
@@ -371,7 +377,7 @@ begin
         else
           imgCapa.Picture := nil; // Limpa a imagem se não houver capa
 
-        EnableButtons(Self, '0110100');
+        EnableButtons(Self, '1110100');
       end
       else
         MessageDlg('Álbum não encontrado.', mtInformation, [mbOk], 0);

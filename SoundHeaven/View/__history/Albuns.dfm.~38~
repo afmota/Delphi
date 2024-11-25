@@ -183,7 +183,6 @@ inherited frmAlbuns: TfrmAlbuns
       Top = 50
       Width = 543
       OnKeyDown = FormKeyDown
-      OnKeyPress = edtIDKeyPress
       ExplicitLeft = 138
       ExplicitTop = 50
       ExplicitWidth = 543
