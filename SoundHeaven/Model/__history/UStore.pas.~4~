@@ -15,8 +15,7 @@ type
     property Titulo: string read FTitulo write FTitulo;
     property Artista: string read FArtista write FArtista;
     property DataLancamento: TDateTime read FDataLancamento write FDataLancamento;
-    constructor Create(const ATitulo: string; const AArtista: string;
-      const ADataLancamento: TDateTime);
+    constructor Create(const ATitulo: string; const AArtista: string; const ADataLancamento: TDateTime);
   end;
 
 implementation
