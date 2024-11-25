@@ -1,0 +1,18 @@
+unit UStore;
+
+interface
+
+type
+  TStore = class
+    FID: Integer;
+    FTitulo: string;
+    FArtista: string;
+    FDataLancamento: TDateTime;
+    FAtivo: string;
+  private
+  public
+  end;
+
+implementation
+
+end.

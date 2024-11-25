@@ -28,8 +28,7 @@ uses
   UAlbumController in 'Controller\UAlbumController.pas',
   UAlbumDAO in 'DAO\UAlbumDAO.pas',
   Vcl.Themes,
-  Vcl.Styles,
-  UStore in 'Model\UStore.pas';
+  Vcl.Styles;
 
 {$R *.res}
 

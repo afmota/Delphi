@@ -181,6 +181,7 @@
         <DCCReference Include="Model\UAlbum.pas"/>
         <DCCReference Include="Controller\UAlbumController.pas"/>
         <DCCReference Include="DAO\UAlbumDAO.pas"/>
+        <DCCReference Include="Model\UStore.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -207,7 +208,7 @@
                 </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="4">
-                <DeployFile LocalName="Win32\Debug\SoundHaven.exe" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="..\..\..\..\..\..\af_mo\OneDrive\Documentos\Meus Projetos\Delphi\SoundHeaven\output\SoundHaven.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>SoundHaven.exe</RemoteName>
                         <Overwrite>true</Overwrite>
@@ -216,12 +217,6 @@
                 <DeployFile LocalName="Win64\Debug\SoundHaven.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win64">
                         <RemoteName>SoundHaven.exe</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="Win64\Debug\SoundHaven.rsm" Configuration="Debug" Class="DebugSymbols">
-                    <Platform Name="Win64">
-                        <RemoteName>SoundHaven.rsm</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
