@@ -11,7 +11,7 @@ type
   public
     constructor Create;
     destructor Destroy; override;
-    function ExcluirEntradaStore(const StoreID: Integer): Boolean;
+    function ExcluirEntradaStore(const Store: TStore): Boolean;
     function InserirEntradaStore(const Store: TStore): Boolean;
     function AtualizarEntradaStore(const Store: TStore): Boolean;
     function LocalizarEntradaStorePorId(const StoreID: Integer): TStore;
@@ -33,9 +33,9 @@ begin
   inherited;
 end;
 
-function TStoreController.ExcluirEntradaStore(const StoreID: Integer): Boolean;
+function TStoreController.ExcluirEntradaStore(const Store: TStore): Boolean;
 begin
-  Result := FDAO.ExcluirEntrada(StoreID);
+  Result := FDAO.ExcluirEntrada(Store);
 end;
 
 function TStoreController.InserirEntradaStore(const Store: TStore): Boolean;

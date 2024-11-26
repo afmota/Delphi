@@ -15,7 +15,6 @@ type
     function AtualizarEntrada(Store: TStore): Boolean;
     function LocalizarEntrada(StoreID: Integer): TStore; overload;
     function LocalizarEntrada(Nome: string): TStore; overload;
-    function ExcluirEntrada(ID: Integer): Boolean;
   end;
 
 implementation
