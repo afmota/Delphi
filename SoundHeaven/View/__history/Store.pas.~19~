@@ -155,8 +155,7 @@ begin
         end;
       end;
     finally
-      StoreController.Free;
-      Store.Free;
+
     end;
   end;
 end;

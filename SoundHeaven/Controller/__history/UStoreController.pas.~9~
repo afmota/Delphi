@@ -66,13 +66,13 @@ end;
 function TStoreController.LocalizarEntradaStorePorId(
   const StoreID: Integer): TStore;
 begin
-  Result := LocalizarEntrada(StoreID);
+  // segue código
 end;
 
 function TStoreController.LocalizarEntradaStorePorNome(
   const Nome: string): TStore;
 begin
-  Result := LocalizarEntrada(Nome);
+  // segue código
 end;
 
 end.

@@ -2,15 +2,12 @@ unit UStoreController;
 
 interface
 
-uses UStore, SysUtils;
+uses UStore;
 
 type
   TStoreController = class
   private
-    FDAO: TStoreDAO;
   public
-    constructor Create;
-    destructor Destroy; override;
     function ExcluirEntradaStore(const Store: TStore): Boolean;
     function InserirEntradaStore(const Store: TStore): Boolean;
     function AtualizarEntradaStore(const Store: TStore): Boolean;
@@ -22,57 +19,32 @@ implementation
 
 { TStoreController }
 
-constructor TStoreController.Create;
-begin
-  FDAO := TStoreDAO.Create;
-end;
-
-destructor TStoreController.Destroy;
-begin
-  FDAO.Free;
-  inherited;
-end;
-
 function TStoreController.ExcluirEntradaStore(const Store: TStore): Boolean;
 begin
-  Result := FDAO.ExcluirEntrada(Store);
+  if True then
+  // segue código
 end;
 
 function TStoreController.InserirEntradaStore(const Store: TStore): Boolean;
 begin
-  Result := False;
-
-  if Store.Titulo <> '' then
-    if Store.Artista <> '' then
-      Result := InserirEntrada(Store)
-    else
-      raise Exception.Create('O campo ARTISTA deve ser preenchido.')
-  else
-    raise Exception.Create('O campo TÍTULO deve ser preenchido');
+  // segue código
 end;
 
 function TStoreController.AtualizarEntradaStore(const Store: TStore): Boolean;
 begin
-  Result := False;
-  if Store.Titulo <> '' then
-    if Store.Artista <> '' then
-      Result := AtulizarEntrada(Store)
-    else
-      raise Exception.Create('O campo ARTISTA deve ser preenchido.')
-  else
-    raise Exception.Create('O campo Título deve ser preenchido.');
+  // segue código
 end;
 
 function TStoreController.LocalizarEntradaStorePorId(
   const StoreID: Integer): TStore;
 begin
-  Result := LocalizarEntrada(StoreID);
+  // segue código
 end;
 
 function TStoreController.LocalizarEntradaStorePorNome(
   const Nome: string): TStore;
 begin
-  Result := LocalizarEntrada(Nome);
+  // segue código
 end;
 
 end.
