@@ -110,8 +110,7 @@ begin
         Result := TStore.Create(
           FieldByName('Store_ID').AsInteger,
           FieldByName('Store_Titulo').AsString,
-          FieldByName('Store_Artista').AsString,
-          FieldByName('Store_DataLancamento').AsDateTime);
+          FieldByName('Store_Artista').AsString);
     end;
   finally
     StoredProc.Free;
@@ -141,8 +140,7 @@ begin
         Result := TStore.Create(
           FieldByName('Store_ID').AsInteger,
           FieldByName('Store_Titulo').AsString,
-          FieldByName('Store_Artista').AsString,
-          FieldByName('Store_DataLancamento').AsDateTime);
+          FieldByName('Store_Artista').AsString);
     end;
   finally
     StoredProc.Free;

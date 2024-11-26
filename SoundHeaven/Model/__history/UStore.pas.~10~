@@ -20,8 +20,6 @@ type
     constructor Create(const AID: Integer; const ATitulo: string; const AArtista: string); overload;
     constructor Create(const AID: Integer; const ATitulo: string;
       const AArtista: string; const ADataLancamento: TDateTime); overload;
-    constructor Create(const ATitulo: string; const AArtista: string;
-      const ADataLancamento: TDateTime); overload;
   end;
 
 implementation
@@ -50,14 +48,6 @@ constructor TStore.Create(const AID: Integer; const ATitulo, AArtista: string;
   const ADataLancamento: TDateTime);
 begin
   FID := AID;
-  FTitulo := ATitulo;
-  FArtista := AArtista;
-  FDataLancamento := ADataLancamento;
-end;
-
-constructor TStore.Create(const ATitulo, AArtista: string;
-  const ADataLancamento: TDateTime);
-begin
   FTitulo := ATitulo;
   FArtista := AArtista;
   FDataLancamento := ADataLancamento;

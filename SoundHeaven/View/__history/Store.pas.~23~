@@ -84,18 +84,16 @@ begin
       1: begin
         Store := TStore.Create(
           edtNome.Text,
-          edtArtista.Text,
-          dtpDataLancamento.Date);
+          edtArtista.Text);
         Store.DataLancamento := Now;
         if StoreController.InserirEntradaStore(Store) = True then
           MessageDlg('Registro inserido com sucesso.', mtInformation, [mbOk], 0);
       end;
       2: begin
         Store := TStore.Create(
-          StrToInt(edtId.Text),
           edtNome.Text,
-          edtArtista.Text,
-          dtpDataLancamento.Date);
+          edtArtista.Text);
+        Store.ID := StrToInt(edtId.Text);
         if StoreController.AtualizarEntradaStore(Store) = True then
           MessageDlg('Registro atualizado com sucesso.', mtInformation, [mbOk], 0);
       end;
