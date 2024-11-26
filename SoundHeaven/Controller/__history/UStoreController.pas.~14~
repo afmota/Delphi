@@ -66,13 +66,13 @@ end;
 function TStoreController.LocalizarEntradaStorePorId(
   const StoreID: Integer): TStore;
 begin
-  Result := FDAO.LocalizarEntrada(StoreID);
+  Result := LocalizarEntrada(StoreID);
 end;
 
 function TStoreController.LocalizarEntradaStorePorNome(
   const Nome: string): TStore;
 begin
-  Result := FDAO.LocalizarEntrada(Nome);
+  Result := LocalizarEntrada(Nome);
 end;
 
 end.

@@ -187,6 +187,7 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Controller\UStoreController.pas"/>
+        <DCCReference Include="DAO\UStoreDAO.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

@@ -31,7 +31,8 @@ uses
   Vcl.Styles,
   UStore in 'Model\UStore.pas',
   Store in 'View\Store.pas' {frmStore},
-  UStoreController in 'Controller\UStoreController.pas';
+  UStoreController in 'Controller\UStoreController.pas',
+  UStoreDAO in 'DAO\UStoreDAO.pas';
 
 {$R *.res}
 

@@ -72,7 +72,7 @@ end;
 function TStoreController.LocalizarEntradaStorePorNome(
   const Nome: string): TStore;
 begin
-  Result := FDAO.LocalizarEntrada(Nome);
+  Result := LocalizarEntrada(Nome);
 end;
 
 end.
