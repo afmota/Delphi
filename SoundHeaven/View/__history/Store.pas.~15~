@@ -1,0 +1,114 @@
+unit Store;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Model, Vcl.ButtonStylesAttributes,
+  Vcl.StdCtrls, Vcl.StyledButton, Vcl.ExtCtrls;
+
+type
+  TfrmStore = class(TfrmModel)
+    Label3: TLabel;
+    edtArtista: TEdit;
+    procedure btnIncluirClick(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
+    procedure btnAtualizarClick(Sender: TObject);
+    procedure btnSalvarClick(Sender: TObject);
+    procedure btnLocalizarClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmStore: TfrmStore;
+
+implementation
+
+{$R *.dfm}
+
+uses ComponentHelper, UStoreController, UStore;
+
+procedure TfrmStore.btnIncluirClick(Sender: TObject);
+begin
+  inherited;
+  EnableComponentsByTag(Self, '01');
+  edtNome.SetFocus;
+end;
+
+procedure TfrmStore.btnExcluirClick(Sender: TObject);
+var
+  StoreController: TStoreController;
+  Store: TStore;
+begin
+  inherited;
+
+  Store := TStore.Create(StrToInt(edtId.Text));
+  StoreController := TStoreController.Create;
+
+  try
+    if StoreController.ExcluirEntradaStore(Store) then
+      MessageDlg('Registro excluído com sucesso.', mtInformation, [mbOk], 0);
+  finally
+    StoreController.Free;
+    Store.Free;
+  end;
+
+  EnableButtons(Self, '1000011');
+  pnlCampos.Enabled := False;
+  CleanFields(Self);
+end;
+
+procedure TfrmStore.btnAtualizarClick(Sender: TObject);
+begin
+  inherited;
+
+  EnableComponentsByTag(Self, '01');
+  edtNome.SetFocus;
+end;
+
+procedure TfrmStore.btnSalvarClick(Sender: TObject);
+var
+  StoreController: TStoreController;
+  Store: TStore;
+begin
+  inherited;
+
+  StoreController := TStoreController.Create;
+  try
+    case OpBD of
+      1: begin
+        Store := TStore.Create(
+          edtNome.Text,
+          edtArtista.Text,
+          Now);
+        if StoreController.InserirEntradaStore(Store) = True then
+          MessageDlg('Registro inserido com sucesso.', mtInformation, [mbOk], 0);
+      end;
+      2: begin
+        Store := TStore.Create(
+          edtNome.Text,
+          edtArtista.Text,
+          0);
+        Store.ID := StrToInt(edtId.Text);
+        if StoreController.AtualizarEntradaStore(Store) = True then
+          MessageDlg('Registro atualizado com sucesso.', mtInformation, [mbOk], 0);
+      end;
+    end;
+  finally
+    Store.Free;
+    StoreController.Free;
+  end;
+end;
+
+procedure TfrmStore.btnLocalizarClick(Sender: TObject);
+begin
+  inherited;
+
+  EnableComponentsByTag(Self,'1100000000010');
+  edtID.SetFocus;
+end;
+
+end.

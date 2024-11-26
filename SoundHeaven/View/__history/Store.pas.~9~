@@ -1,0 +1,61 @@
+unit Store;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Model, Vcl.ButtonStylesAttributes,
+  Vcl.StdCtrls, Vcl.StyledButton, Vcl.ExtCtrls;
+
+type
+  TfrmStore = class(TfrmModel)
+    Label3: TLabel;
+    edtArtista: TEdit;
+    procedure btnIncluirClick(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmStore: TfrmStore;
+
+implementation
+
+{$R *.dfm}
+
+uses ComponentHelper, UStoreController, UStore;
+
+procedure TfrmStore.btnIncluirClick(Sender: TObject);
+begin
+  inherited;
+  EnableComponentsByTag(Self, '01');
+  edtNome.SetFocus;
+end;
+
+procedure TfrmStore.btnExcluirClick(Sender: TObject);
+var
+  StoreController: TStoreController;
+  Store: TStore;
+begin
+  inherited;
+
+  Store := TStore.Create(StrToInt(edtId.Text));
+  StoreController := TStoreController.Create;
+
+  try
+    if StoreController.ExcluirEntradaStore(Store) then
+      MessageDlg('Registro excluído com sucesso.', mtInformation, [mbOk], 0);
+  finally
+    StoreController.Free;
+    Store.Free;
+  end;
+
+  EnableButtons(Self, '1000011');
+  pnlCampos.Enabled := False;
+  CleanFields(Self);
+end;
+
+end.

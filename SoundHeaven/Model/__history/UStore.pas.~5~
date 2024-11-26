@@ -16,18 +16,12 @@ type
     property Artista: string read FArtista write FArtista;
     property DataLancamento: TDateTime read FDataLancamento write FDataLancamento;
     constructor Create(const ATitulo: string; const AArtista: string;
-      const ADataLancamento: TDateTime); overload;
-    constructor Create(const AID: Integer); overload;
+      const ADataLancamento: TDateTime);
   end;
 
 implementation
 
 { TStore }
-
-constructor TStore.Create(const AID: Integer);
-begin
-  FID := AID;
-end;
 
 constructor TStore.Create(const ATitulo, AArtista: string;
   const ADataLancamento: TDateTime);

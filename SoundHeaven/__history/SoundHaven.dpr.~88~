@@ -23,7 +23,14 @@ uses
   UGravadora in 'Model\UGravadora.pas',
   UGravadoraController in 'Controller\UGravadoraController.pas',
   UGravadoraDAO in 'DAO\UGravadoraDAO.pas',
-  Albuns in 'View\Albuns.pas' {frmAlbuns};
+  Albuns in 'View\Albuns.pas' {frmAlbuns},
+  UAlbum in 'Model\UAlbum.pas',
+  UAlbumController in 'Controller\UAlbumController.pas',
+  UAlbumDAO in 'DAO\UAlbumDAO.pas',
+  Vcl.Themes,
+  Vcl.Styles,
+  UStore in 'Model\UStore.pas',
+  Store in 'View\Store.pas' {frmStore};
 
 {$R *.res}
 
@@ -31,5 +38,6 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmPrincipal, frmPrincipal);
+  Application.CreateForm(TfrmStore, frmStore);
   Application.Run;
 end.

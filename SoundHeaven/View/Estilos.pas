@@ -51,7 +51,7 @@ begin
 
   try
     if EstiloController.ExcluirEstilo(Estilo) then
-      MessageDlg('Registro exclu�do com sucesso.', mtInformation, [mbOk], 0);
+      MessageDlg('Registro excluído com sucesso.', mtInformation, [mbOk], 0);
   finally
     EstiloController.Free;
     Estilo.Free;

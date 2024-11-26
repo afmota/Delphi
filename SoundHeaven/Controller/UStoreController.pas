@@ -1,0 +1,50 @@
+unit UStoreController;
+
+interface
+
+uses UStore;
+
+type
+  TStoreController = class
+  private
+  public
+    function ExcluirEntradaStore(const Store: TStore): Boolean;
+    function InserirEntradaStore(const Store: TStore): Boolean;
+    function AtualizarEntradaStore(const Store: TStore): Boolean;
+    function LocalizarEntradaStorePorId(const StoreID: Integer): TStore;
+    function LocalizarEntradaStorePorNome(const Nome: string): TStore;
+  end;
+
+implementation
+
+{ TStoreController }
+
+function TStoreController.ExcluirEntradaStore(const Store: TStore): Boolean;
+begin
+  if True then
+  // segue código
+end;
+
+function TStoreController.InserirEntradaStore(const Store: TStore): Boolean;
+begin
+  // segue código
+end;
+
+function TStoreController.AtualizarEntradaStore(const Store: TStore): Boolean;
+begin
+  // segue código
+end;
+
+function TStoreController.LocalizarEntradaStorePorId(
+  const StoreID: Integer): TStore;
+begin
+  // segue código
+end;
+
+function TStoreController.LocalizarEntradaStorePorNome(
+  const Nome: string): TStore;
+begin
+  // segue código
+end;
+
+end.

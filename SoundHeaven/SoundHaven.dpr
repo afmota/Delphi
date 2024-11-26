@@ -29,7 +29,9 @@ uses
   UAlbumDAO in 'DAO\UAlbumDAO.pas',
   Vcl.Themes,
   Vcl.Styles,
-  UStore in 'Model\UStore.pas';
+  UStore in 'Model\UStore.pas',
+  Store in 'View\Store.pas' {frmStore},
+  UStoreController in 'Controller\UStoreController.pas';
 
 {$R *.res}
 
@@ -37,5 +39,6 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmPrincipal, frmPrincipal);
+  Application.CreateForm(TfrmStore, frmStore);
   Application.Run;
 end.

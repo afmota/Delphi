@@ -44,7 +44,6 @@ type
     procedure btnSalvarClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure edtIDKeyPress(Sender: TObject; var Key: Char);
-    procedure btnLocalizarClick(Sender: TObject);
     procedure btnAtualizarClick(Sender: TObject);
     procedure btnUpArtistaClick(Sender: TObject);
   private
@@ -229,14 +228,6 @@ begin
   pnlCampos.Enabled := True;
   EnableComponentsByTag(Self, '0101111111101');
   edtNome.SetFocus;
-end;
-
-procedure TfrmAlbuns.btnLocalizarClick(Sender: TObject);
-begin
-  inherited;
-
-  EnableComponentsByTag(Self,'1100000000010');
-  edtID.SetFocus;
 end;
 
 procedure TfrmAlbuns.btnSalvarClick(Sender: TObject);

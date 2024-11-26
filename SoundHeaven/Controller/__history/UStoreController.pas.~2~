@@ -1,0 +1,13 @@
+unit UStoreController;
+
+interface
+
+type
+  TStoreController = class
+  private
+  public
+  end;
+
+implementation
+
+end.

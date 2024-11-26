@@ -1,0 +1,24 @@
+unit UStoreController;
+
+interface
+
+uses UStore;
+
+type
+  TStoreController = class
+  private
+  public
+    function ExcluirEntradaStore(const Store: TStore): Boolean;
+  end;
+
+implementation
+
+{ TStoreController }
+
+function TStoreController.ExcluirEntradaStore(const Store: TStore): Boolean;
+begin
+  if True then
+
+end;
+
+end.

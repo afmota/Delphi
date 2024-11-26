@@ -182,6 +182,11 @@
         <DCCReference Include="Controller\UAlbumController.pas"/>
         <DCCReference Include="DAO\UAlbumDAO.pas"/>
         <DCCReference Include="Model\UStore.pas"/>
+        <DCCReference Include="View\Store.pas">
+            <Form>frmStore</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Controller\UStoreController.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
