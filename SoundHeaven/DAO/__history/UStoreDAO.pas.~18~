@@ -147,30 +147,4 @@ begin
   end;
 end;
 
-function TStoreDAO.ExcluirEntrada(ID: Integer): Boolean;
-var
-  StoredProc: TADOStoredProc;
-begin
-  Result := False;
-  StoredProc := TADOStoredProc.Create(nil);
-
-  try
-    with StoredProc do
-    begin
-      Connection := FConn.GetConnection;
-      ProcedureName := 'spStoreExcluirEntrada';
-
-      with Parameters do
-      begin
-        Refresh;
-        ParamByName('@Store_ID').Value := ID;
-      end;
-      ExecProc;
-      Result := True;
-    end;
-  finally
-    StoredProc.Free;
-  end;
-end;
-
 end.
