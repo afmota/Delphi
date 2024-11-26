@@ -5,14 +5,12 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Model, Vcl.ButtonStylesAttributes,
-  Vcl.StdCtrls, Vcl.StyledButton, Vcl.ExtCtrls, Vcl.ComCtrls;
+  Vcl.StdCtrls, Vcl.StyledButton, Vcl.ExtCtrls;
 
 type
   TfrmStore = class(TfrmModel)
     Label3: TLabel;
     edtArtista: TEdit;
-    dtpDataLancamento: TDateTimePicker;
-    Label4: TLabel;
     procedure btnIncluirClick(Sender: TObject);
     procedure btnExcluirClick(Sender: TObject);
     procedure btnAtualizarClick(Sender: TObject);
@@ -141,7 +139,6 @@ begin
         begin
           edtNome.Text := Store.Titulo;
           edtArtista.Text := Store.Artista;
-          dtpDataLancamento.Date := Store.DataLancamento;
         end;
       end
       else
@@ -153,7 +150,6 @@ begin
           edtId.Text := IntToStr(Store.ID);
           edtNome.Text := Store.Titulo;
           edtArtista.Text := Store.Artista;
-          dtpDataLancamento.Date := Store.DataLancamento;
         end;
       end;
     finally

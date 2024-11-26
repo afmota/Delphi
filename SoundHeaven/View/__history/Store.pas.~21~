@@ -5,14 +5,12 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Model, Vcl.ButtonStylesAttributes,
-  Vcl.StdCtrls, Vcl.StyledButton, Vcl.ExtCtrls, Vcl.ComCtrls;
+  Vcl.StdCtrls, Vcl.StyledButton, Vcl.ExtCtrls;
 
 type
   TfrmStore = class(TfrmModel)
     Label3: TLabel;
     edtArtista: TEdit;
-    dtpDataLancamento: TDateTimePicker;
-    Label4: TLabel;
     procedure btnIncluirClick(Sender: TObject);
     procedure btnExcluirClick(Sender: TObject);
     procedure btnAtualizarClick(Sender: TObject);
@@ -84,15 +82,16 @@ begin
       1: begin
         Store := TStore.Create(
           edtNome.Text,
-          edtArtista.Text);
-        Store.DataLancamento := Now;
+          edtArtista.Text,
+          Now);
         if StoreController.InserirEntradaStore(Store) = True then
           MessageDlg('Registro inserido com sucesso.', mtInformation, [mbOk], 0);
       end;
       2: begin
         Store := TStore.Create(
           edtNome.Text,
-          edtArtista.Text);
+          edtArtista.Text,
+          0);
         Store.ID := StrToInt(edtId.Text);
         if StoreController.AtualizarEntradaStore(Store) = True then
           MessageDlg('Registro atualizado com sucesso.', mtInformation, [mbOk], 0);
@@ -141,7 +140,6 @@ begin
         begin
           edtNome.Text := Store.Titulo;
           edtArtista.Text := Store.Artista;
-          dtpDataLancamento.Date := Store.DataLancamento;
         end;
       end
       else
@@ -153,7 +151,6 @@ begin
           edtId.Text := IntToStr(Store.ID);
           edtNome.Text := Store.Titulo;
           edtArtista.Text := Store.Artista;
-          dtpDataLancamento.Date := Store.DataLancamento;
         end;
       end;
     finally

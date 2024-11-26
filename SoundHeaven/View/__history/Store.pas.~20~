@@ -15,6 +15,8 @@ type
     procedure btnExcluirClick(Sender: TObject);
     procedure btnAtualizarClick(Sender: TObject);
     procedure btnSalvarClick(Sender: TObject);
+    procedure btnLocalizarClick(Sender: TObject);
+    procedure edtIDKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
   public
@@ -79,16 +81,83 @@ begin
   try
     case OpBD of
       1: begin
-        Store := TStore.Create(edtNome.Text,
+        Store := TStore.Create(
+          edtNome.Text,
           edtArtista.Text,
           Now);
         if StoreController.InserirEntradaStore(Store) = True then
           MessageDlg('Registro inserido com sucesso.', mtInformation, [mbOk], 0);
       end;
+      2: begin
+        Store := TStore.Create(
+          edtNome.Text,
+          edtArtista.Text,
+          0);
+        Store.ID := StrToInt(edtId.Text);
+        if StoreController.AtualizarEntradaStore(Store) = True then
+          MessageDlg('Registro atualizado com sucesso.', mtInformation, [mbOk], 0);
+      end;
     end;
   finally
     Store.Free;
     StoreController.Free;
+  end;
+end;
+
+procedure TfrmStore.btnLocalizarClick(Sender: TObject);
+begin
+  inherited;
+
+  EnableComponentsByTag(Self,'1100000000010');
+  edtID.SetFocus;
+end;
+
+procedure TfrmStore.edtIDKeyPress(Sender: TObject; var Key: Char);
+var
+  EditComponent: TEdit;
+  StoreID: Integer;
+  StoreController: TStoreController;
+  Store: TStore;
+begin
+  inherited;
+
+  if Key = #013 then
+  begin
+    EditComponent := TEdit(Sender);
+    if EditComponent = edtID then
+      if not TryStrToInt(edtId.Text, StoreID) then
+      begin
+        MessageDlg('O ID informado é inválido. Tente novamente.', mtInformation, [mbOk], 0);
+        edtId.SetFocus;
+        Exit;
+      end;
+
+    StoreController := TStoreController.Create;
+    try
+      if EditComponent = edtId then
+      begin
+        Store := StoreController.LocalizarEntradaStorePorID(StoreID);
+        if Assigned(Store) then
+        begin
+          edtNome.Text := Store.Titulo;
+          edtArtista.Text := Store.Artista;
+        end;
+      end
+      else
+      if EditComponent = edtArtista then
+      begin
+        Store := StoreController.LocalizarEntradaStorePorNome(edtNome.Text);
+        if Assigned(Store) then
+        begin
+          edtId.Text := IntToStr(Store.ID);
+          edtNome.Text := Store.Titulo;
+          edtArtista.Text := Store.Artista;
+        end;
+      end;
+    finally
+      StoreController.Free;
+      Store.Free;
+    end;
   end;
 end;
 
