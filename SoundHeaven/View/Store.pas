@@ -86,7 +86,6 @@ begin
           edtNome.Text,
           edtArtista.Text,
           dtpDataLancamento.Date);
-        Store.DataLancamento := Now;
         if StoreController.InserirEntradaStore(Store) = True then
           MessageDlg('Registro inserido com sucesso.', mtInformation, [mbOk], 0);
       end;
@@ -144,10 +143,11 @@ begin
           edtNome.Text := Store.Titulo;
           edtArtista.Text := Store.Artista;
           dtpDataLancamento.Date := Store.DataLancamento;
+          EnableButtons(Self, '0110100');
         end;
       end
       else
-      if EditComponent = edtArtista then
+      if EditComponent = edtNome then
       begin
         Store := StoreController.LocalizarEntradaStorePorNome(edtNome.Text);
         if Assigned(Store) then
@@ -156,6 +156,7 @@ begin
           edtNome.Text := Store.Titulo;
           edtArtista.Text := Store.Artista;
           dtpDataLancamento.Date := Store.DataLancamento;
+          EnableButtons(Self, '0110100');
         end;
       end;
     finally

@@ -5,12 +5,14 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Model, Vcl.ButtonStylesAttributes,
-  Vcl.StdCtrls, Vcl.StyledButton, Vcl.ExtCtrls;
+  Vcl.StdCtrls, Vcl.StyledButton, Vcl.ExtCtrls, Vcl.ComCtrls;
 
 type
   TfrmStore = class(TfrmModel)
     Label3: TLabel;
     edtArtista: TEdit;
+    dtpDataLancamento: TDateTimePicker;
+    Label4: TLabel;
     procedure btnIncluirClick(Sender: TObject);
     procedure btnExcluirClick(Sender: TObject);
     procedure btnAtualizarClick(Sender: TObject);
@@ -42,19 +44,18 @@ end;
 procedure TfrmStore.btnExcluirClick(Sender: TObject);
 var
   StoreController: TStoreController;
-  Store: TStore;
+  StoreID: Integer;
 begin
   inherited;
 
-  Store := TStore.Create(StrToInt(edtId.Text));
+  StoreID := StrToInt(edtId.Text);
   StoreController := TStoreController.Create;
 
   try
-    if StoreController.ExcluirEntradaStore(Store) then
+    if StoreController.ExcluirEntradaStore(StoreID) then
       MessageDlg('Registro excluído com sucesso.', mtInformation, [mbOk], 0);
   finally
     StoreController.Free;
-    Store.Free;
   end;
 
   EnableButtons(Self, '1000011');
@@ -84,16 +85,16 @@ begin
         Store := TStore.Create(
           edtNome.Text,
           edtArtista.Text,
-          Now);
+          dtpDataLancamento.Date);
         if StoreController.InserirEntradaStore(Store) = True then
           MessageDlg('Registro inserido com sucesso.', mtInformation, [mbOk], 0);
       end;
       2: begin
         Store := TStore.Create(
+          StrToInt(edtId.Text),
           edtNome.Text,
           edtArtista.Text,
-          0);
-        Store.ID := StrToInt(edtId.Text);
+          dtpDataLancamento.Date);
         if StoreController.AtualizarEntradaStore(Store) = True then
           MessageDlg('Registro atualizado com sucesso.', mtInformation, [mbOk], 0);
       end;
@@ -117,6 +118,7 @@ var
   EditComponent: TEdit;
   StoreID: Integer;
   StoreController: TStoreController;
+  Store: TStore;
 begin
   inherited;
 
@@ -132,6 +134,33 @@ begin
       end;
 
     StoreController := TStoreController.Create;
+    try
+      if EditComponent = edtId then
+      begin
+        Store := StoreController.LocalizarEntradaStorePorID(StoreID);
+        if Assigned(Store) then
+        begin
+          edtNome.Text := Store.Titulo;
+          edtArtista.Text := Store.Artista;
+          dtpDataLancamento.Date := Store.DataLancamento;
+        end;
+      end
+      else
+      if EditComponent = edtNome then
+      begin
+        Store := StoreController.LocalizarEntradaStorePorNome(edtNome.Text);
+        if Assigned(Store) then
+        begin
+          edtId.Text := IntToStr(Store.ID);
+          edtNome.Text := Store.Titulo;
+          edtArtista.Text := Store.Artista;
+          dtpDataLancamento.Date := Store.DataLancamento;
+        end;
+      end;
+    finally
+      StoreController.Free;
+      Store.Free;
+    end;
   end;
 end;
 

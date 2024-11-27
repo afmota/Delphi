@@ -58,7 +58,6 @@ inherited frmStore: TfrmStore
       Left = 119
       Width = 583
       Height = 27
-      OnKeyPress = edtIDKeyPress
       ExplicitLeft = 119
       ExplicitWidth = 583
       ExplicitHeight = 27

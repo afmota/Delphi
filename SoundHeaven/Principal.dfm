@@ -65,6 +65,11 @@ object frmPrincipal: TfrmPrincipal
         Caption = #193'lbuns'
         OnClick = MenuClick
       end
+      object Store1: TMenuItem
+        Tag = 6
+        Caption = 'Store'
+        OnClick = MenuClick
+      end
     end
     object Sair1: TMenuItem
       Caption = 'Sair'

@@ -51,7 +51,6 @@ begin
         Refresh;
         ParamByName('@Store_Titulo').Value := Store.Titulo;
         ParamByName('@Store_Artista').Value := Store.Artista;
-        ParamByName('@Store_DataLancamento').Value := Store.DataLancamento;
       end;
       ExecProc;
       Result := True;
@@ -109,6 +108,7 @@ begin
       Open;
       if not IsEmpty then
         Result := TStore.Create(
+          FieldByName('Store_ID').AsInteger,
           FieldByName('Store_Titulo').AsString,
           FieldByName('Store_Artista').AsString,
           FieldByName('Store_DataLancamento').AsDateTime);
@@ -129,7 +129,7 @@ begin
     with StoredProc do
     begin
       Connection := FConn.GetConnection;
-      ProcedureName := 'sp_StoreLocalizarPorNome';
+      ProcedureName := 'sp_StoreLocalizaPorNome';
 
       with Parameters do
       begin
@@ -160,7 +160,7 @@ begin
     with StoredProc do
     begin
       Connection := FConn.GetConnection;
-      ProcedureName := 'sp_StoreExcluirEntrada';
+      ProcedureName := 'spStoreExcluirEntrada';
 
       with Parameters do
       begin

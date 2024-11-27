@@ -18,6 +18,7 @@ type
     lbuns1: TMenuItem;
     pnlTaskBar: TPanel;
     AnimationTimer: TTimer;
+    Store1: TMenuItem;
     //procedure OpenMDIChild(AFormClass: TFormClass);
     procedure MenuClick(Sender: TObject);
     procedure Sair1Click(Sender: TObject);
@@ -43,7 +44,7 @@ implementation
 
 {$R *.dfm}
 
-uses Estilos, Artistas, Produtores, Gravadoras, Albuns;
+uses Estilos, Artistas, Produtores, Gravadoras, Albuns, Store;
 
 procedure TfrmPrincipal.OpenForm(AFormClass: TFormClass);
 var
@@ -156,6 +157,7 @@ begin
     3: OpenForm(TfrmProdutores);
     4: OpenForm(TfrmGravadoras);
     5: OpenForm(TfrmAlbuns);
+    6: OpenForm(TfrmStore);
   end;
 end;
 

@@ -51,7 +51,6 @@ begin
         Refresh;
         ParamByName('@Store_Titulo').Value := Store.Titulo;
         ParamByName('@Store_Artista').Value := Store.Artista;
-        ParamByName('@Store_DataLancamento').Value := Store.DataLancamento;
       end;
       ExecProc;
       Result := True;
@@ -129,7 +128,7 @@ begin
     with StoredProc do
     begin
       Connection := FConn.GetConnection;
-      ProcedureName := 'sp_StoreLocalizarPorNome';
+      ProcedureName := 'sp_StoreLocalizaPorNome';
 
       with Parameters do
       begin
@@ -160,7 +159,7 @@ begin
     with StoredProc do
     begin
       Connection := FConn.GetConnection;
-      ProcedureName := 'sp_StoreExcluirEntrada';
+      ProcedureName := 'spStoreExcluirEntrada';
 
       with Parameters do
       begin
