@@ -2,7 +2,7 @@ unit UStoreDAO;
 
 interface
 
-uses UConexao, UStore, Data.Win.ADODB;
+uses UConexao, UStore, Data.Win.ADODB, System.Generics.Collections, SysUtils;
 
 type
   TStoreDAO = class
@@ -16,6 +16,7 @@ type
     function LocalizarEntrada(StoreID: Integer): TStore; overload;
     function LocalizarEntrada(Nome: string): TStore; overload;
     function ExcluirEntrada(ID: Integer): Boolean;
+    function ListarStore: TList<TStore>;
   end;
 
 implementation
@@ -169,6 +170,45 @@ begin
       end;
       ExecProc;
       Result := True;
+    end;
+  finally
+    StoredProc.Free;
+  end;
+end;
+
+function TStoreDAO.ListarStore: TList<TStore>;
+var
+  StoredProc: TADOStoredProc;
+  Store: TStore;
+begin
+  try
+    Result := TList<TStore>.Create;;
+    StoredProc := TADOStoredProc.Create(nil);
+
+    try
+      with StoredProc do
+      begin
+        Connection := FConn.GetConnection;
+        ProcedureName := 'sp_StoreListarAtivos';
+        Open;
+
+        while not Eof do
+        begin
+          Store := TStore.Create(
+            FieldByName('Store_ID').AsInteger,
+            FieldByName('Store_Titulo').AsString,
+            FieldByName('Store_Artista').AsString,
+            FieldByName('Store_DataLancamento').AsDateTime);
+          Result.Add(Store);
+          Next;
+        end;
+      end;
+    except
+      on E: Exception do
+      begin
+        FreeAndNil(Result);
+        raise Exception.Create('Não foram encontrados registros :' + E.Message);
+      end;
     end;
   finally
     StoredProc.Free;

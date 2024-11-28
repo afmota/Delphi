@@ -3,9 +3,10 @@ unit Store;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Model, Vcl.ButtonStylesAttributes,
-  Vcl.StdCtrls, Vcl.StyledButton, Vcl.ExtCtrls, Vcl.ComCtrls;
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Model,
+  Vcl.ButtonStylesAttributes, Vcl.StdCtrls, Vcl.StyledButton, Vcl.ExtCtrls,
+  Vcl.ComCtrls, Vcl.Grids, System.Generics.Collections;
 
 type
   TfrmStore = class(TfrmModel)
@@ -13,12 +14,18 @@ type
     edtArtista: TEdit;
     dtpDataLancamento: TDateTimePicker;
     Label4: TLabel;
+    StringGrid: TStringGrid;
     procedure btnIncluirClick(Sender: TObject);
     procedure btnExcluirClick(Sender: TObject);
     procedure btnAtualizarClick(Sender: TObject);
     procedure btnSalvarClick(Sender: TObject);
     procedure btnLocalizarClick(Sender: TObject);
     procedure edtIDKeyPress(Sender: TObject; var Key: Char);
+    procedure PreencherStringGrid;
+    procedure StringGridDrawCell(Sender: TObject; ACol, ARow: LongInt;
+      Rect: TRect; State: TGridDrawState);
+    procedure FormShow(Sender: TObject);
+    procedure FormResize(Sender: TObject);
   private
     { Private declarations }
   public
@@ -163,6 +170,95 @@ begin
       StoreController.Free;
       Store.Free;
     end;
+  end;
+end;
+
+procedure TfrmStore.FormResize(Sender: TObject);
+begin
+  inherited;
+  StringGrid.Left := (Self.ClientWidth - StringGrid.Width) div 2;
+end;
+
+procedure TfrmStore.FormShow(Sender: TObject);
+begin
+  inherited;
+  PreencherStringGrid;
+end;
+
+procedure TfrmStore.PreencherStringGrid;
+var
+  I: Integer;
+  Store: TStore;
+  StoreController: TStoreController;
+  StoreList: TList<TStore>;
+begin
+  StringGrid.Left := pnlCampos.Left;
+
+  // Obter os dados através do Controller
+  StoreController := TStoreController.Create;
+  StoreList := StoreController.StoreListarEntradas;
+  try
+    StringGrid.ColWidths[0] := 50;
+    StringGrid.ColWidths[1] := 350;
+    StringGrid.ColWidths[2] := 250;
+    StringGrid.ColWidths[3] := 100;
+    StringGrid.DefaultRowHeight := 50;
+
+    // Configurar o TStringGrid
+    StringGrid.RowCount := StoreList.Count + 1; // +1 para o cabeçalho
+    StringGrid.ColCount := 4;
+    StringGrid.FixedRows := 1;
+
+    // Configurar cabeçalhos
+    StringGrid.Cells[0, 0] := 'ID';
+    StringGrid.Cells[1, 0] := 'Título';
+    StringGrid.Cells[2, 0] := 'Artista';
+    StringGrid.Cells[3, 0] := 'Data de ' + #013 + 'Lançamento';
+
+    // Adicionar os dados à grid
+    for I := 0 to StoreList.Count -1 do
+    begin
+      Store := StoreList[I];
+      StringGrid.Cells[0, I + 1] := IntToStr(Store.ID);
+      StringGrid.Cells[1, I + 1] := Store.Titulo;
+      StringGrid.Cells[2, I + 1] := Store.Artista;
+      StringGrid.Cells[3, I + 1] := DateToStr(Store.DataLancamento);
+    end;
+  finally
+    StoreList.Free;
+  end;
+end;
+
+procedure TfrmStore.StringGridDrawCell(Sender: TObject; ACol, ARow: LongInt;
+  Rect: TRect; State: TGridDrawState);
+begin
+  inherited;
+  with TStringGrid(Sender).Canvas do
+  begin
+    // Configurar fundo alternado para linhas
+    if ARow > 0 then
+    begin
+      if ARow mod 2 = 0 then
+        Brush.Color := clSilver
+      else
+        Brush.Color := clWhite;
+    end
+    else
+      Brush.Color := clGray; // Fundo do cabeçalho
+
+    FillRect(Rect); // Preencher célula com a cor
+
+    // Estilizar o texto
+    Font.Color := clBlack;
+    if gdSelected in State then
+    begin
+      Brush.Color := clHighlight;
+      Font.Color := clWhite;
+      FillRect(Rect);
+    end;
+
+    // Escrever o texto na célula
+    TextRect(Rect, Rect.Left + 5, Rect.Top + 5, TStringGrid(Sender).Cells[ACol, ARow]);
   end;
 end;
 

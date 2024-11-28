@@ -74,7 +74,7 @@ end;
 
 procedure TfrmModel.btnExcluirClick(Sender: TObject);
 begin
-  if MessageDlg('Deseja excluir o registro atual.' + #13 +
+  if MessageDlg('Deseja excluir o registro atual?' + #13 +
       'Depois de excluído, o registro não poderá ser recuperado.',
       mtConfirmation, [mbYes, mbNo], 0) = mrNo then
     Exit

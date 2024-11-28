@@ -1,15 +1,15 @@
 inherited frmStore: TfrmStore
   Caption = 'Store'
-  ClientHeight = 278
-  ExplicitHeight = 317
+  ClientHeight = 620
+  ExplicitHeight = 659
   TextHeight = 15
   inherited pnlCampos: TPanel
     Top = 71
     Width = 721
-    Height = 170
+    Height = 154
     ExplicitTop = 71
     ExplicitWidth = 721
-    ExplicitHeight = 170
+    ExplicitHeight = 154
     inherited Label1: TLabel
       Left = 96
       Top = 14
@@ -100,5 +100,13 @@ inherited frmStore: TfrmStore
       ParentFont = False
       TabOrder = 3
     end
+  end
+  object StringGrid: TStringGrid
+    Left = 200
+    Top = 248
+    Width = 751
+    Height = 329
+    TabOrder = 2
+    OnDrawCell = StringGridDrawCell
   end
 end

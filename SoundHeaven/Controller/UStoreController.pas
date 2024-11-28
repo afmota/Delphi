@@ -2,7 +2,7 @@ unit UStoreController;
 
 interface
 
-uses UStore, SysUtils, UStoreDAO;
+uses UStore, SysUtils, UStoreDAO, System.Generics.Collections;
 
 type
   TStoreController = class
@@ -16,6 +16,7 @@ type
     function AtualizarEntradaStore(const Store: TStore): Boolean;
     function LocalizarEntradaStorePorId(const StoreID: Integer): TStore;
     function LocalizarEntradaStorePorNome(const Nome: string): TStore;
+    function StoreListarEntradas: TList<TStore>;
   end;
 
 implementation
@@ -73,6 +74,11 @@ function TStoreController.LocalizarEntradaStorePorNome(
   const Nome: string): TStore;
 begin
   Result := FDAO.LocalizarEntrada(Nome);
+end;
+
+function TStoreController.StoreListarEntradas: TList<TStore>;
+begin
+  Result := FDAO.ListarStore;
 end;
 
 end.
