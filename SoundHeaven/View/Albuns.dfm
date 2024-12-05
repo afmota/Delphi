@@ -182,11 +182,13 @@ inherited frmAlbuns: TfrmAlbuns
       Left = 138
       Top = 50
       Width = 543
+      Height = 27
       OnKeyDown = FormKeyDown
       OnKeyPress = edtIDKeyPress
       ExplicitLeft = 138
       ExplicitTop = 50
       ExplicitWidth = 543
+      ExplicitHeight = 27
     end
     object cbArtista: TComboBox
       Tag = 3

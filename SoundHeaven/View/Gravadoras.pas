@@ -47,7 +47,7 @@ begin
   GravadoraController := TGravadoraController.Create;
 
   try
-    if GravadoraController.AtualizarGravadora(Gravadora) then
+    if GravadoraController.ExcluirGravadora(Gravadora) then
       MessageDlg('Registro excluído com sucesso.', mtInformation, [mbOk], 0);
   finally
     GravadoraController.Free;

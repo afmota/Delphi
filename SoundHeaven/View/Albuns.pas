@@ -46,6 +46,7 @@ type
     procedure edtIDKeyPress(Sender: TObject; var Key: Char);
     procedure btnAtualizarClick(Sender: TObject);
     procedure btnUpArtistaClick(Sender: TObject);
+    procedure btnLocalizarClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -228,6 +229,12 @@ begin
   pnlCampos.Enabled := True;
   EnableComponentsByTag(Self, '0101111111101');
   edtNome.SetFocus;
+end;
+
+procedure TfrmAlbuns.btnLocalizarClick(Sender: TObject);
+begin
+  inherited;
+  EnableComponentsByTag(Self, '1100000000010');
 end;
 
 procedure TfrmAlbuns.btnSalvarClick(Sender: TObject);

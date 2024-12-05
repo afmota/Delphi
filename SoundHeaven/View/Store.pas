@@ -6,7 +6,8 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Model,
   Vcl.ButtonStylesAttributes, Vcl.StdCtrls, Vcl.StyledButton, Vcl.ExtCtrls,
-  Vcl.ComCtrls, Vcl.Grids, System.Generics.Collections;
+  Vcl.ComCtrls, Vcl.Grids, System.Generics.Collections, System.ImageList,
+  Vcl.ImgList;
 
 type
   TfrmStore = class(TfrmModel)
@@ -15,6 +16,7 @@ type
     dtpDataLancamento: TDateTimePicker;
     Label4: TLabel;
     StringGrid: TStringGrid;
+    ImageList: TImageList;
     procedure btnIncluirClick(Sender: TObject);
     procedure btnExcluirClick(Sender: TObject);
     procedure btnAtualizarClick(Sender: TObject);
@@ -26,6 +28,9 @@ type
       Rect: TRect; State: TGridDrawState);
     procedure FormShow(Sender: TObject);
     procedure FormResize(Sender: TObject);
+    procedure StringGridSelectCell(Sender: TObject; ACol, ARow: LongInt;
+      var CanSelect: Boolean);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -173,6 +178,19 @@ begin
   end;
 end;
 
+procedure TfrmStore.FormCreate(Sender: TObject);
+begin
+  inherited;
+
+  //StringGrid.FixedColor := clGray;
+  StringGrid.Color := clWhite;
+  //StringGrid.Font.Color := clBlack;
+  StringGrid.GridLineWidth := 1;
+  StringGrid.Options := StringGrid.Options + [goRowSelect]; // Destaca linha inteira
+
+
+end;
+
 procedure TfrmStore.FormResize(Sender: TObject);
 begin
   inherited;
@@ -197,12 +215,14 @@ begin
   // Obter os dados através do Controller
   StoreController := TStoreController.Create;
   StoreList := StoreController.StoreListarEntradas;
+
   try
     StringGrid.ColWidths[0] := 50;
-    StringGrid.ColWidths[1] := 350;
-    StringGrid.ColWidths[2] := 250;
-    StringGrid.ColWidths[3] := 100;
-    StringGrid.DefaultRowHeight := 50;
+    StringGrid.ColWidths[1] := 340;
+    StringGrid.ColWidths[2] := 230;
+    StringGrid.ColWidths[3] := 170;
+    //StringGrid.ColWidths[4] := 120;
+    StringGrid.DefaultRowHeight := 30;
 
     // Configurar o TStringGrid
     StringGrid.RowCount := StoreList.Count + 1; // +1 para o cabeçalho
@@ -213,7 +233,8 @@ begin
     StringGrid.Cells[0, 0] := 'ID';
     StringGrid.Cells[1, 0] := 'Título';
     StringGrid.Cells[2, 0] := 'Artista';
-    StringGrid.Cells[3, 0] := 'Data de ' + #013 + 'Lançamento';
+    StringGrid.Cells[3, 0] := 'Data de Lançamento';
+    //StringGrid.Cells[4, 0] := 'Ações';
 
     // Adicionar os dados à grid
     for I := 0 to StoreList.Count -1 do
@@ -233,32 +254,75 @@ procedure TfrmStore.StringGridDrawCell(Sender: TObject; ACol, ARow: LongInt;
   Rect: TRect; State: TGridDrawState);
 begin
   inherited;
-  with TStringGrid(Sender).Canvas do
+
+  // destaca os títulos das colunas
+  if ARow = 0 then
   begin
-    // Configurar fundo alternado para linhas
-    if ARow > 0 then
+    with TStringGrid(Sender).Canvas do
     begin
-      if ARow mod 2 = 0 then
-        Brush.Color := clSilver
-      else
-        Brush.Color := clWhite;
-    end
-    else
-      Brush.Color := clGray; // Fundo do cabeçalho
+      Brush.Color := $00FF3535;
+      FillRect(Rect); // preenche o fundo da célula
 
-    FillRect(Rect); // Preencher célula com a cor
-
-    // Estilizar o texto
-    Font.Color := clBlack;
-    if gdSelected in State then
-    begin
-      Brush.Color := clHighlight;
+      // define a cor e o estilo da fonte
       Font.Color := clWhite;
-      FillRect(Rect);
-    end;
+      Font.Style := [fsBold];
 
-    // Escrever o texto na célula
-    TextRect(Rect, Rect.Left + 5, Rect.Top + 5, TStringGrid(Sender).Cells[ACol, ARow]);
+      // escreve o texto na célula
+      TextOut(Rect.Left + 5, Rect.Top + 2, TStringGrid(Sender).Cells[ACol, ARow]);
+    end;
+  end
+  else
+  begin
+    // Mantém o comportamento padrão para as outras linhas
+    with TStringGrid(Sender).Canvas do
+    begin
+      // Define a cor de fundo
+      if gdSelected in State then
+      begin
+        Brush.Color := clGray; // Fundo para célula selecionada
+        Font.Color := clWhite;
+      end
+      else
+      begin
+        Brush.Color := TStringGrid(Sender).Color; // Fundo padrão
+        // Define a fonte padrão
+        Font.Color := $00FF3535; //TStringGrid(Sender).Font.Color;
+        Font.Style := TStringGrid(Sender).Font.Style;
+      end;
+
+      FillRect(Rect); // Preenche o fundo
+
+      // Escreve o texto
+      TextOut(Rect.Left + 5, Rect.Top + 2, TStringGrid(Sender).Cells[ACol, ARow]);
+    end;
+  end;
+
+  {if ACol = 4 then // coluna Ações
+  begin
+    if ARow > 0 then // apenas para dados
+    begin
+      // ícone de edição
+      ImageList.Draw(StringGrid.Canvas, Rect.Left + 5, Rect.Top + 2, 0);
+
+      // ícone de exclusão
+      ImageList.Draw(StringGrid.Canvas, Rect.Left + 25, Rect.Top + 2, 1);
+    end;
+  end;}
+
+end;
+
+procedure TfrmStore.StringGridSelectCell(Sender: TObject; ACol, ARow: LongInt;
+  var CanSelect: Boolean);
+begin
+  inherited;
+  if ARow > 0 then // ignora o cabeçalho
+  begin
+    edtId.Text := StringGrid.Cells[0, ARow];
+    edtNome.Text := StringGrid.Cells[1, ARow];
+    edtArtista.Text := StringGrid.Cells[2, ARow];
+    dtpDataLancamento.Date := StrToDate(StringGrid.Cells[3, ARow]);
+
+    EnableButtons(Self, '0111100');
   end;
 end;
 

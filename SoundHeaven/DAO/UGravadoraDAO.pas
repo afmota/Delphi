@@ -37,7 +37,7 @@ var
   StoredProc: TADOStoredProc;
 begin
   try
-    StoredProc := TADOStoredProc(nil);
+    StoredProc := TADOStoredProc.Create(nil);
     try
       with StoredProc do
       begin
